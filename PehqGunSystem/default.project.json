@@ -23,6 +23,15 @@
       }
     },
 
+    "StarterPack":{
+      "PehqGun":{
+        "$className":"Tool",
+        "GunDataTemplate":{
+          "$path": "src/GunDataTemplate"
+        }
+      }
+    },
+
     "Workspace": {
       "$properties": {
         "FilteringEnabled": true
