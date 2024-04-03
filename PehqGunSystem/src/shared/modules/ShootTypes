@@ -1,0 +1,41 @@
+local ShootType = {}
+local RunService = game:GetService("RunService")
+local Debris = game:GetService("Debris")
+local CollectionService = game:GetService("CollectionService")
+
+function HitScan(Start:Vector3, Target:Vector3, RaycastParams: RaycastParams) --requires to be initialized
+    --RayOrigin + RayDirection = RayDestination
+
+    if not RaycastParams then
+        RaycastParams = RaycastParams.new()
+    end
+
+    local RayDirection = Target - Start
+
+    local RayResult = workspace:RayCast(Start, RayDirection, RaycastParams)
+
+    return RayResult
+end
+
+function Step(Bullet: any?, Start: CFrame, speed, lifetime)
+    --dist = speed * time so it's studs per second
+    if not speed then
+        speed = 16
+    end
+    if not lifetime then
+        lifetime = 60
+    end
+
+    Bullet:SetAttribute("Speed", speed)
+    Bullet:SetAttribute("LifeTime", lifetime)
+
+
+
+    Debris:AddItem(Bullet, lifetime)
+end
+
+function RobloxProjectile()
+    -- body
+end
+
+return ShootType
