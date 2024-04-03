@@ -18,9 +18,11 @@ local function onGunEquip(child)
     local curViewmodel:Model = Viewmodels:FindFirstChild(gunData.Viewmodel):Clone()
 
     curViewmodel.Parent = cam
+    ViewmodelOffest = gunAnim.ViewmodelOffest ~= nil and gunAnim.ViewmodelOffest or CFrame.new(0,0,0)
+
 
     local function RenderBeforeCamera(delta)
-        curViewmodel.PrimaryPart.CFrame = cam.CFrame * gunAnim.Offset
+        curViewmodel.PrimaryPart.CFrame = cam.CFrame * ViewmodelOffest
     end
 
     RunService:BindToRenderStep("PehqGunBeforeCamera", Enum.RenderPriority.Camera.Value - 1, RenderBeforeCamera)
@@ -29,6 +31,7 @@ local function onGunEquip(child)
     removing = character.ChildRemoved:Connect(function(childremoved)
         if child ~= childremoved then return end
         
+        RunService:UnBindToRenderStep("PehqGunBeforeCamera")
         gunData = nil
         gunAnim = nil
         curViewmodel:Destroy()
