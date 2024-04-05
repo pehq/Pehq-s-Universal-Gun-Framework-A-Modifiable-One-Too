@@ -1,20 +1,25 @@
+local UserInputService = game:GetService("UserInputService")
 local Actions = {}
 
 --Actions are done from the client
 
-function Actions.Shoot()
+--TODO: let keybinds to be changed
+Actions.Keybinds = {
+} 
+
+function Actions.Shoot(Viewmodel)
     --TODO:insert something
 end
 
-function Actions.Reload()
+function Actions.Reload(Viewmodel)
     
 end
 
-function Actions.Aim()
+function Actions.Aim(Viewmodel)
     
 end
 
-function Actions.Emote()
+function Actions.Emote(Viewmodel)
     
 end
 
