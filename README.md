@@ -1,6 +1,10 @@
+# Pehq's Universal Gun Framework, A Modifiable One Too
+
+you can say P.A.G.F.A.M.1.2 for short; Pag Fam works too.
+
 The main point of this gun framework is that it aims to meet all conditions in Roblox's sub-genre shooter games
 
-Some examples of sub-genres are:
+## Some examples of sub-genres are:
 
 https://en.wikipedia.org/wiki/Shooter_game
 Shoot 'em Up - Players could move up, down, left, or right shooting enemies in front of them
@@ -15,7 +19,7 @@ Looter Shooter - Looting on loot to increase odds of survival
 
 These sub-genres are prominant in the game development field. However, Roblox has some sort of cultural background with it leading to new sub-genres usually done en-mass.
 
-Roblox's Sub-Genres include:
+## Roblox's Sub-Genres include:
 Roblox Clanning League (RCL) - It uses laser beams as weapons and requires a team-based effort (hence the name clanning since it's done in organized events)
 ACS - Guns that uses the ACS gun framework, the reason this counts as a sub-genre is because a lot of games uses acs.
 Arena Fighters (I call them...) - Start with a base weapon then slowly upgrade stats with buying the next gun. Some variations include having abilities for rewarding kills. Other variations uses PvE.
