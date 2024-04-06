@@ -4,6 +4,8 @@ you can say P.A.G.F.A.M.1.2 for short; Pag Fam works too.
 
 The main point of this gun framework is that it aims to meet all conditions in Roblox's sub-genre shooter games
 
+Right now this is a WIP so stuff isn't finished... You could create a merge request if you want to contribute to this project
+
 https://en.wikipedia.org/wiki/Shooter_game
 ## Some examples of sub-genres are:
 
