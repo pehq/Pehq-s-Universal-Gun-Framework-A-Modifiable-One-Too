@@ -7,6 +7,11 @@ local Actions = {}
 Actions.Keybinds = {
 } 
 
+function Actions.Equip(Viewmodel)
+    -- body
+    print("Equipped")
+end
+
 function Actions.Shoot(Viewmodel)
     --TODO:insert something
 end
