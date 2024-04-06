@@ -1,3 +1,4 @@
+--Note: this simply stores the animation file and is meant to played on another script
 local Anim = {}
 
 --REQUIRED VARIABLES

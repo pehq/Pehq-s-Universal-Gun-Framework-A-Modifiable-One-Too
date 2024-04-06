@@ -1,32 +1,59 @@
 local UserInputService = game:GetService("UserInputService")
+local Tool = script.Parent
+local PagfamAnimData = require(Tool.PagfamAnimData)
+local PagfamGunData = require(Tool.PagfamGunData)
 local Actions = {}
-
---Actions are done from the client
 
 --TODO: let keybinds to be changed
 Actions.Keybinds = {
+    ["Mouse1"] = "Shoot"
 } 
 
-function Actions.Equip(Viewmodel)
+--functions called by client
+function Actions.Equip(actionName, actionName, inputState, inputObject)
     -- body
     print("Equipped")
 end
 
-function Actions.Shoot(Viewmodel)
-    --TODO:insert something
+function Actions.UnEquip(actionName, actionName, inputState, inputObject)
+
 end
 
-function Actions.Reload(Viewmodel)
+--Functions binded by keybinds using ContextActionService. These functions will be called through another script
+local function Shoot(actionName, inputState, inputObject)
+    if actionName ~= "Shoot" then
+        return
+    end
+
+end
+
+local function Reload(actionName, inputState, inputObject)
+    if actionName ~= "Reload" then
+        return
+    end
     
 end
 
-function Actions.Aim(Viewmodel)
-    
+local function Aim(actionName, inputState, inputObject)
+    if actionName ~= "Aim" then
+        return
+    end
+
 end
 
-function Actions.Emote(Viewmodel)
-    
+local function Emote(actionName, inputState, inputObject)
+    if actionName ~= "Emote" then
+        return
+    end
+
 end
 
+
+--Actions are done from the client
+Actions.ContextActions = {
+    {["Action"] = "Shoot", ["Function"] = Shoot},
+    {["Action"] = "Reload", ["Function"] = Reload},
+    
+}
 
 return Actions
