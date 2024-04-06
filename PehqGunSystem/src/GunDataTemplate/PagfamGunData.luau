@@ -11,5 +11,6 @@ local ClientGunModel = nil --TODO
 local Viewmodel = "Roblox"
 local Actions = nil --TODO
 local Bullet = nil --TODO
+local CameraMode = Enum.CameraMode.LockFirstPerson
 
 return Data

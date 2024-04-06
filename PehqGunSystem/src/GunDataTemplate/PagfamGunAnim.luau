@@ -2,7 +2,10 @@ local Anim = {}
 
 --REQUIRED VARIABLES
 Anim.ViewmodelOffest = CFrame.new(0,0,0)
-Anim.ServerGunWeld = nil --Motor6d.Part1 = Torso
+
+Anim.ServerGunPartMotor6d = "BodyAttach" --the gun part you want to weld to 
+Anim.ServerCharGunWeldR15= "UpperTorso" --you could choose to only set up r15, it'll autofill the r6 one
+Anim.ServerCharGunWeldR6 = "Torso"
 
 --NOTE: animations aren't played here, they will be played on the client... This only lists the animations for the gun
 

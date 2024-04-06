@@ -12,8 +12,8 @@ local function onGunEquip(child)
         return
     end
 
-    local gunData = require(child.PehqGunData)
-    local gunAnim = require(child.PehqAnimData)
+    local GunData = require(child.PagfamGunData)
+    local GunAnim = require(child.PagfamAnimData)
 
     local curViewmodel:Model = Viewmodels:FindFirstChild(gunData.Viewmodel):Clone()
 
