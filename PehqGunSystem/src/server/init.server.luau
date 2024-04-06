@@ -50,7 +50,7 @@ Players.PlayerAdded:Connect(function(plr)
         CharGunMotor6D.Part1 = child[GunAnim.ServerGunPartMotor6d]
         CharGunMotor6D.Parent = child[GunAnim.ServerGunPartMotor6d]
 
-        --TODO:Add to client script
+        --TODO:Add #1 to client script
         -- local function ChangeModelsTransparency( num )
             -- for i, v in pairs(child:GetDescendants()) do
                 -- if v:IsA("BasePart") then
