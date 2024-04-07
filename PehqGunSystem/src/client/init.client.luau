@@ -71,6 +71,8 @@ local function onGunEquip(child)
         end 
     end
     
+    GunActions.Equip() --Run equip
+    
     --Bind Actions
     for i, ActionValues in pairs(GunActions.ContextActions) do
         ContextActionService:BindActionAtPriority(ActionValues.actionName, ActionValues.functionToBind, ActionValues.MobileButtons ~= nil and ActionValues.MobileButtons.createTouchButton == true and true or false, ActionValues.priorityLevel, table.unpack(ActionValues.inputTypes))
@@ -86,7 +88,6 @@ local function onGunEquip(child)
         end
     end
 
-    GunActions.Equip()
 
     --Run additional functions
     if GunActions.AdditionalFunctions ~= nil then
