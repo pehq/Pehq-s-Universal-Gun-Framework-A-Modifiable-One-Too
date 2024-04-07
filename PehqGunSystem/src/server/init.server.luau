@@ -1,8 +1,8 @@
 --Pehq's Amazing Gun Framework, A Moddable 1
-
 local CollectionService = game:GetService("CollectionService")
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 --ShootTypes
 
