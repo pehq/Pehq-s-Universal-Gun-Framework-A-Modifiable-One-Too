@@ -26,7 +26,7 @@ local function ChangeLocalTransparancyOfModelBasedOnFP(model)
     end
 end
 
-local function SetCharacterViewmodel(bodypartstoshowinfp)
+local function SetCharacterViewmodel(bodypartstoshowinfp) --TODO: #3 Make it so the arms move with the camera
     for i, v in pairs(bodypartstoshowinfp) do
         character[v].LocalTransparencyModifier = 0 --TODO: #2 test if character's limbs will be visisble on respawn
     end
@@ -71,6 +71,20 @@ local function onGunEquip(child)
         end 
     end
     
+    --Bind Actions
+    for i, ActionValues in pairs(GunActions.ContextActions) do
+        ContextActionService:BindActionAtPriority(ActionValues.actionName, ActionValues.functionToBind, ActionValues.MobileButtons ~= nil and ActionValues.MobileButtons.createTouchButton == true and true or false, ActionValues.priorityLevel, table.unpack(ActionValues.inputTypes))
+        if ActionValues.MobileButtons ~= nil then --if THE MOBILE SUPPORT IS REAAAALLLLL
+            --Mobile base info
+            local MobileButtons = ActionValues.MobileButtons
+            ContextActionService:SetDescription(ActionValues.actionName, MobileButtons.description ~= nil and MobileButtons.description or "")
+            ContextActionService:SetTitle(ActionValues.actionName, MobileButtons.title ~= nil and MobileButtons.title or "")
+            ContextActionService:SetImage(ActionValues.actionName, MobileButtons.image ~= nil and MobileButtons.image or nil)
+            if MobileButtons.position ~= nil then --using if statement here because position has a default value idk of
+                ContextActionService:SetPosition(ActionValues.actionName, MobileButtons.position)
+            end
+        end
+    end
 
     local removing
     removing = character.ChildRemoved:Connect(function(childremoved)
@@ -78,6 +92,10 @@ local function onGunEquip(child)
         
         for i, v in pairs(ConnectionsToDisconnectOnUnequip) do
             v:Disconnect()
+        end
+
+        for i, ActionValues in pairs(GunActions.ContextActions) do
+            ContextActionService:UnbindAction(ActionValues.actionName)
         end
         
         RunService:UnBindToRenderStep("PUGFAM12ViewmodelRender")
