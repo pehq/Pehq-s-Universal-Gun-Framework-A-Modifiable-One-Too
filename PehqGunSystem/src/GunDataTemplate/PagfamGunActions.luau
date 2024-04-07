@@ -5,6 +5,9 @@ local Tool = script.Parent
 local PagfamAnimData = require(Tool.PagfamAnimData)
 local PagfamGunData = require(Tool.PagfamGunData)
 local Actions = {}
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
 
 --functions called by the framework, they are called by name 
 local ConnectionsToDisconnectOnUnequip = {}
@@ -20,8 +23,9 @@ function Actions.UnEquip()
 end
 
 --Additional functions that will run after contextactionservice finishes setting up keybinds, could be used for events
-function Actions.AdditionalFunctions.Something()
-
+function Actions.AdditionalFunctions.OnSit()
+    local sitConnection
+    sitConnection = character.Humnaoid
 end
 
 --Functions binded by keybinds using ContextActionService. These functions will be called through another script.
