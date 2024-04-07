@@ -11,7 +11,7 @@ local function Step()
     local StepConnections = {}
 
     local function StepBulletsAdded(obj)
-        local StepBulletSpeed = obj:GetAttribute("Speed") * -1
+        local StepBulletSpeed = obj:GetAttribute("Speed") * -1 --Multiplied by -1 here to save resources
         if obj:IsA("BasePart") then
             local LastCFrame = obj.CFrame
     
@@ -29,7 +29,7 @@ local function Step()
         end
     end
     
-    local function StepBulletsRemoved(obj)
+    local function StepBulletsRemoved(obj) --Finds obj by Instance.UniqueId
         if StepConnections[obj] then
             StepConnections[obj]:Disconnect()
             StepConnections[obj] = nil
@@ -45,6 +45,8 @@ local function Step()
         Bullet:SetAttribute("Speed", speed)
         Bullet:SetAttribute("LifeTime", lifetime)
         Debris:AddItem(Bullet, lifetime)
+
+        CollectionService:AddTag("StepBullets")
     end)
 end
 
