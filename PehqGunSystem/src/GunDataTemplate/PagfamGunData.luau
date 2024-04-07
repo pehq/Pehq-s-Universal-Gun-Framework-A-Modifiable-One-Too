@@ -13,6 +13,10 @@ Data.Actions = nil --TODO
 Data.Bullet = nil --TODO
 Data.CameraMode = Enum.CameraMode.LockFirstPerson
 
+--Animation
+Data.ClientAnimationType = "Roblox" --Options include Roblox (Roblox animation from assetid), tweening (similar to acs, exists for acs port), MoonAnimator (Uses Moonlite), and Joint (Similar to how animations were done before animations were a thing)
+Data.ServerAnimationType = "Roblox" --Options include Roblox and Joint. (Some options were excluded since they are incapable of running on the server)
+
 --Viewmodel
 Data.ViewmodelEnabled = false 
 Data.FPViewmodelType = "Viewmodel" --Either a "Viewmodel" or the "Roblox"'s character. The custom Viewmodel requires it's own animation on the client while Roblox could let you reuse animations run on the  leave blank if you don't want a viewmodel
