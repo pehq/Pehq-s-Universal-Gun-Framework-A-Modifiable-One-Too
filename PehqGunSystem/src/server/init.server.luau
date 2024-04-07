@@ -9,9 +9,21 @@ local StepConnections = {}
 
 local function StepBulletsAdded(obj)
     local StepBulletSpeed = obj:GetAttribute("Speed") * -1
-    StepConnections[obj] = RunService.Renderstepped:Connect(function(deltatime)
-        obj.CFrame *= CFrame.new(0, 0, StepBulletSpeed)
-    end)
+    if obj:IsA("BasePart") then
+        local LastCFrame = obj.CFrame
+
+        StepConnections[obj] = RunService.Renderstepped:Connect(function(deltatime)
+            obj.CFrame *= CFrame.new(0, 0, StepBulletSpeed) * deltatime
+            LastCFrame = obj.CFrame
+        end)
+    elseif obj:IsA("Model") then
+        local LastCFrame = obj:GetPivot
+
+        StepConnections[obj] = RunService.Renderstepped:Connect(function(deltatime)
+            obj:TranslateBy(Vector3.new(0, 0, StepBulletSpeed) * deltatime)
+            LastCFrame = obj.CFrame
+        end)
+    end
 end
 
 function StepBulletsRemoved(obj)
