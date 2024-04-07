@@ -1,17 +1,26 @@
 local UserInputService = game:GetService("UserInputService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ShootTypes = require(ReplicatedStorage.Modules.ShootTypes)
 local Tool = script.Parent
 local PagfamAnimData = require(Tool.PagfamAnimData)
 local PagfamGunData = require(Tool.PagfamGunData)
 local Actions = {}
 
---functions called by client
-function Actions.Equip(actionName, actionName, inputState, inputObject)
-    -- body
-    print("Equipped")
+--functions called by the framework, they are called by name 
+local ConnectionsToDisconnectOnUnequip = {}
 
+function Actions.Equip()
+    print("Equipped")
 end
 
-function Actions.UnEquip(actionName, actionName, inputState, inputObject)
+function Actions.UnEquip()
+    for i, v in pairs(ConnectionsToDisconnectOnUnequip) do
+        v:Disconnect()
+    end
+end
+
+--Additional functions that will run after contextactionservice finishes setting up keybinds, could be used for events
+function Actions.AdditionalFunctions.Something()
 
 end
 

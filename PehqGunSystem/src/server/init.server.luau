@@ -5,36 +5,7 @@ local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 
 --ShootTypes
-local StepConnections = {}
 
-local function StepBulletsAdded(obj)
-    local StepBulletSpeed = obj:GetAttribute("Speed") * -1
-    if obj:IsA("BasePart") then
-        local LastCFrame = obj.CFrame
-
-        StepConnections[obj] = RunService.Renderstepped:Connect(function(deltatime)
-            obj.CFrame *= CFrame.new(0, 0, StepBulletSpeed) * deltatime
-            LastCFrame = obj.CFrame
-        end)
-    elseif obj:IsA("Model") then
-        local LastCFrame = obj:GetPivot
-
-        StepConnections[obj] = RunService.Renderstepped:Connect(function(deltatime)
-            obj:TranslateBy(Vector3.new(0, 0, StepBulletSpeed) * deltatime)
-            LastCFrame = obj.CFrame
-        end)
-    end
-end
-
-function StepBulletsRemoved(obj)
-    if StepConnections[obj] then
-        StepConnections[obj]:Disconnect()
-        StepConnections[obj] = nil
-    end
-end
-
-CollectionService:GetInstanceAddedSignal("StepBullets"):Connect(onInstanceAdded)
-CollectionService:GetInstanceRemovedSignal("StepBullets"):Connect(onInstanceRemoved)
 
 --when plr joins
 local gunEquippedConnections = {}
@@ -43,7 +14,7 @@ Players.PlayerAdded:Connect(function(plr)
 
     --Gun equipped
     char.ChildAdded:Connect(function(child)
-        if not child:IsA("Tool") or not child:GetAttribute("PehqGun") then
+        if not child:IsA("Tool") or not child:GetAttribute("PAGFAM12") then
             return
         end
 
