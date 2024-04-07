@@ -53,7 +53,7 @@ local function CreateModelViewmodel(viewmodel: Model)
 end
 
 local function onGunEquip(child)
-    if not child:GetAttribute("PAGFAM12") then --Returns if it doesn't have PAGFAM12 property
+    if not child:GetAttribute("PAGFAM12") then --Returns if it doesn't have PAGFAM12 property or if it's false
         return
     end
 
@@ -86,9 +86,20 @@ local function onGunEquip(child)
         end
     end
 
+    GunActions.Equip()
+
+    --Run additional functions
+    if GunActions.AdditionalFunctions ~= nil then
+        for i, v in pairs(AdditionalFunctions) do
+            v()
+        end
+    end
+
     local removing
     removing = character.ChildRemoved:Connect(function(childremoved)
         if child ~= childremoved then return end
+
+        GunActions.UnEquip()
         
         for i, v in pairs(ConnectionsToDisconnectOnUnequip) do
             v:Disconnect()
