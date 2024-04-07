@@ -4,27 +4,23 @@ local PagfamAnimData = require(Tool.PagfamAnimData)
 local PagfamGunData = require(Tool.PagfamGunData)
 local Actions = {}
 
---TODO: let keybinds to be changed
-Actions.Keybinds = {
-    ["Mouse1"] = "Shoot"
-} 
-
 --functions called by client
 function Actions.Equip(actionName, actionName, inputState, inputObject)
     -- body
     print("Equipped")
+
 end
 
 function Actions.UnEquip(actionName, actionName, inputState, inputObject)
 
 end
 
---Functions binded by keybinds using ContextActionService. These functions will be called through another script
+--Functions binded by keybinds using ContextActionService. These functions will be called through another script.
 local function Shoot(actionName, inputState, inputObject)
     if actionName ~= "Shoot" then
         return
     end
-
+    
 end
 
 local function Reload(actionName, inputState, inputObject)
@@ -51,8 +47,75 @@ end
 
 --Actions are done from the client
 Actions.ContextActions = {
-    {["Action"] = "Shoot", ["Function"] = Shoot},
-    {["Action"] = "Reload", ["Function"] = Reload},
+    {
+        ["actionName"] = "Shoot",
+        ["functionToBind"] = Shoot,
+        ["inputTypes"] = { --Multiple keybinds, you can add controller support here
+            Enum.UserInputType.MouseButton1,
+            Enum.KeyCode.ButtonR2,
+        }
+        ["priorityLevel"] = 2000,
+        ["MobileButtons"] = { --Mobile support, you can set this to nil if you don't want to implement mobile support
+            ["createTouchButton"] = true,
+            ["stackOrder"] = 1,
+            ["description"] = "Shoot the gun" --literally does nothing Rofl
+            ["title"] = "Shoot",
+            ["image"] = "" --rbxassetid//00000000
+            ["position"] = Udim2.new(1, -20, 0.2, 0) --shoot button position. Set it to nil for the default position (idk what position, im scripting from vscode)
+        }
+    },
+    {
+        ["actionName"] = "Reload",
+        ["functionToBind"] = Reload,
+        ["inputTypes"] = { 
+            Enum.KeyCode.R,
+            Enum.KeyCode.ButtonX,
+        }
+        ["priorityLevel"] = 2000,
+        ["MobileButtons"] = { 
+            ["createTouchButton"] = true,
+            ["stackOrder"] = 1,
+            ["description"] = "Reload the gun",
+            ["title"] = "Reload",
+            ["image"] = "",
+            ["position"] = Udim2.new(1, -20, 0.4, 0),
+        }
+    },
+    {
+        ["actionName"] = "Aim",
+        ["functionToBind"] = Aim,
+        ["inputTypes"] = { 
+            Enum.UserInputType.MouseButton2,
+            Enum.KeyCode.ButtonL2,
+        }
+        ["priorityLevel"] = 2000,
+        ["MobileButtons"] = { 
+            ["createTouchButton"] = true,
+            ["stackOrder"] = 1,
+            ["description"] = "Aim the gun",
+            ["title"] = "Aim",
+            ["image"] = "",
+            ["position"] = Udim2.new(1, -20, 0.6, 0),
+        }
+    },
+    {
+        ["actionName"] = "Emote",
+        ["functionToBind"] = Shoot,
+        ["inputTypes"] = { 
+            Enum.UserInputType.MouseButton1,
+            Enum.KeyCode.ButtonR2,
+        }
+        ["priorityLevel"] = 2000,
+        ["MobileButtons"] = { 
+            ["createTouchButton"] = true,
+            ["stackOrder"] = 1,
+            ["description"] = "Shoot the gun", 
+            ["title"] = "Shoot",
+            ["image"] = "",
+            ["position"] = Udim2.new(1, -20, 0.8, 0), 
+        }
+    },
+    
     
 }
 
