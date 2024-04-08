@@ -6,14 +6,17 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 Data.GunName = "Pistol" --will use the gun name for default paths if the path isn't present
 Data.ShootType = "Step" --Multiple shoot types, they are Step (the bullet Steps fowards), Hitscan (uses mouse.hit, good for rcl), Raycast (casts a ray and see what was hit)
 Data.ShootOrigin = "Head" --from what part does the bullet spawn at. Will look for part in the character
+Data.CameraMode = Enum.CameraMode.LockFirstPerson
+Data.Firerate = 0.1
+Data.EquipTime = 1
 
 
 --Model (if paths are nil then it'll attempt to use the gunname)
 Data.ServerGunModel = nil --TODO
 Data.ClientGunModel = nil --TODO
 Data.Actions = nil --Testing Note: might remove
-Data.Bullet = nil --TODO
-Data.CameraMode = Enum.CameraMode.LockFirstPerson
+Data.Bullet = nil --Path to bullet model, can be put in table for multiple different bullets
+Data.BulletSpeed = 64 --In studs per second
 
 --Animation
 Data.ClientAnimationType = "Roblox" --Options include Roblox (Roblox animation from assetid), tweening (similar to acs, exists for acs port), MoonAnimator (Uses Moonlite), and Joint (Similar to how animations were done before animations were a thing)
