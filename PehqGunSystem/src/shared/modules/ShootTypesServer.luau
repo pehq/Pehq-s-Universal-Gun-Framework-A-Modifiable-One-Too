@@ -1,11 +1,11 @@
 local ShootTypesServer = {}
 
-local Players = game:game:GetService("Players")
+local Players = game:GetService("Players") --haha
 local CollectionService = game:GetService("CollectionService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Events = ReplicatedStorage.RemoteEvents
 local Debris = game:GetService("Debris")
-
+local RunService = game:GetService("RunService")
 
 local function Step()
     local StepConnections = {}
@@ -20,7 +20,7 @@ local function Step()
                 LastCFrame = obj.CFrame
             end)
         elseif obj:IsA("Model") then
-            local LastCFrame = obj:GetPivot
+            local LastCFrame = obj:GetPivot()
     
             StepConnections[obj] = RunService.Renderstepped:Connect(function(deltatime)
                 obj:TranslateBy(Vector3.new(0, 0, StepBulletSpeed) * deltatime)
@@ -36,8 +36,8 @@ local function Step()
         end
     end
     
-    CollectionService:GetInstanceAddedSignal("StepBullets"):Connect(onInstanceAdded)
-    CollectionService:GetInstanceRemovedSignal("StepBullets"):Connect(onInstanceRemoved)
+    CollectionService:GetInstanceAddedSignal("StepBullets"):Connect(StepBulletsAdded)
+    CollectionService:GetInstanceRemovedSignal("StepBullets"):Connect(StepBulletsRemoved)
 
     --creates the bullet
     Events.ShootTypes.Step.OnServerEvent:Connect(function(plr, Bullet: any?, speed, lifetime)

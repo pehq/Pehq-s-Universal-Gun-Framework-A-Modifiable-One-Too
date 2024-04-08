@@ -24,12 +24,12 @@ local ConnectionsToDisconnectOnUnequip = {}
 
 function Actions.Equip()
     Equipping = true
-    task.Wait(PagfamAnimData.EquipTime)
+    task.wait(PagfamAnimData.EquipTime)
     Equipping = false
 end
 
 function Actions.UnEquip()
-    for i, v in pairs(ConnectionsToDisconnectOnUnequip) do
+    for _, v in pairs(ConnectionsToDisconnectOnUnequip) do
         v:Disconnect()
     end
 end
@@ -37,7 +37,9 @@ end
 --Additional functions that will run after contextactionservice finishes setting up keybinds, could be used for events
 function Actions.AdditionalFunctions.OnSit()
     local sitConnection
-    sitConnection = character.Humnaoid
+    sitConnection = character.Humanoid.Seated:Connect(function(active, currentSeatPart)
+        
+    end)
 end
 
 --Functions binded by keybinds using ContextActionService. These functions will be called through another script.
@@ -53,7 +55,7 @@ local function Shoot(actionName, inputState, inputObject)
         FireRateCoolDown = true
         ShootTypes.Functions[PagfamGunData.ShootType](Tool, PagfamGunData.Bullet, PagfamGunData.Bullet, 60)
         task.spawn(function()
-            task.Wait(PagfamGunData.Firerate)
+            task.wait(PagfamGunData.Firerate)
             FireRateCoolDown = false
         end)
     end
@@ -68,9 +70,9 @@ local function Shoot(actionName, inputState, inputObject)
             end
             if CheckConditions() then
                 ShootTypes.Functions[PagfamGunData.ShootType](Tool, PagfamGunData.Bullet, PagfamGunData.Bullet, 60)
-                task.Wait(PagfamAnimData)
+                task.wait(PagfamAnimData)
             else
-                task.Wait()
+                task.wait()
             end
         end
     elseif inputState == Enum.UserInputState.End then
@@ -108,16 +110,16 @@ Actions.ContextActions = {
         ["inputTypes"] = { --Multiple keybinds, you can add controller support here
             Enum.UserInputType.MouseButton1,
             Enum.KeyCode.ButtonR2,
-        }
+        },
         ["priorityLevel"] = 2000,
         ["MobileButtons"] = { --Mobile support, you can set this to nil if you don't want to implement mobile support
             ["createTouchButton"] = true,
             ["stackOrder"] = 1,
-            ["description"] = "Shoot the gun" --literally does nothing Rofl
+            ["description"] = "Shoot the gun", --literally does nothing Rofl
             ["title"] = "Shoot",
-            ["image"] = "" --rbxassetid//00000000
-            ["position"] = Udim2.new(1, -20, 0.2, 0) --shoot button position. Set it to nil for the default position (idk what position, im scripting from vscode)
-        }
+            ["image"] = "", --rbxassetid//00000000
+            ["position"] = {-20, 1, 0.2, 0}, --shoot button position. Stored as Udim2.new(position) Set it to nil for the default position (idk what position, im scripting from vscode). 
+        },
     },
     {
         ["actionName"] = "Reload",
@@ -125,7 +127,7 @@ Actions.ContextActions = {
         ["inputTypes"] = { 
             Enum.KeyCode.R,
             Enum.KeyCode.ButtonX,
-        }
+        },
         ["priorityLevel"] = 2000,
         ["MobileButtons"] = { 
             ["createTouchButton"] = true,
@@ -133,7 +135,7 @@ Actions.ContextActions = {
             ["description"] = "Reload the gun",
             ["title"] = "Reload",
             ["image"] = "",
-            ["position"] = Udim2.new(1, -20, 0.4, 0),
+            ["position"] = {1, -20, 0.4, 0},
         }
     },
     {
@@ -142,7 +144,7 @@ Actions.ContextActions = {
         ["inputTypes"] = { 
             Enum.UserInputType.MouseButton2,
             Enum.KeyCode.ButtonL2,
-        }
+        },
         ["priorityLevel"] = 2000,
         ["MobileButtons"] = { 
             ["createTouchButton"] = true,
@@ -150,7 +152,7 @@ Actions.ContextActions = {
             ["description"] = "Aim the gun",
             ["title"] = "Aim",
             ["image"] = "",
-            ["position"] = Udim2.new(1, -20, 0.6, 0),
+            ["position"] = {1, -20, 0.6, 0},
         }
     },
     {
@@ -159,7 +161,7 @@ Actions.ContextActions = {
         ["inputTypes"] = { 
             Enum.UserInputType.MouseButton1,
             Enum.KeyCode.ButtonR2,
-        }
+        },
         ["priorityLevel"] = 2000,
         ["MobileButtons"] = { 
             ["createTouchButton"] = true,
@@ -167,7 +169,7 @@ Actions.ContextActions = {
             ["description"] = "Shoot the gun", 
             ["title"] = "Shoot",
             ["image"] = "",
-            ["position"] = Udim2.new(1, -20, 0.8, 0), 
+            ["position"] = {1, -20, 0.8, 0}, 
         }
     },
     

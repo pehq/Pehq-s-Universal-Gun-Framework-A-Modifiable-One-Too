@@ -15,7 +15,7 @@ local function Raycast(Tool, Bullet, origin, orientation, RayCastParams)
         RayCastParams = {}
     end
     
-    local RaycastResult = workspace:Raycast(origin, orientation, RaycastResult)
+    local RaycastResult = workspace:Raycast(origin, orientation, RayCastParams)
 
     
 end
@@ -31,14 +31,14 @@ function ShootTypes.Step(Tool, Bullet: any?, speed, lifetime)
         lifetime = 30
     end
 
-    Events.ShootTypes.Step:Fire(Bullet, Speed, LifeTime)
+    Events.ShootTypes.Step:Fire(Bullet, speed, lifetime)
     -- Bullet:SetAttribute("Owner", )
     -- Bullet:SetAttribute("Speed", speed)
     -- Bullet:SetAttribute("LifeTime", lifetime)
     -- Debris:AddItem(Bullet, lifetime)
 end
 
-local function ShootTypes.RobloxProjectile()
+function ShootTypes.RobloxProjectile()
     -- body
 end
 
@@ -47,4 +47,4 @@ ShootTypes.Functions = {
     {["ShootType"] = "Step", ["Function"] = Step},
 }
 ]]
-return ShootType
+return ShootTypes

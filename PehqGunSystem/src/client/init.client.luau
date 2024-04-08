@@ -1,4 +1,4 @@
-local Players = game:GetService("Players")
+local Players = game:GetService("Players") --HAHAHAW
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local Mouse = player:GetMouse()
@@ -15,7 +15,7 @@ local lastViewmodel = nil
 local ConnectionsToDisconnectOnUnequip = {}
 
 local function ChangeLocalTransparancyOfModelBasedOnFP(model)
-    for i, v in pairs(viewmodel:GetDescendants()) do
+    for i, v in pairs(model:GetDescendants()) do
         if v:IsA("BasePart") then
             if character.Head.LocalTransparencyModifier == 1 then --fully transparent
                 v.LocalTransparencyModifier = 0 --Makes it visible while preserving base transparency
@@ -27,24 +27,21 @@ local function ChangeLocalTransparancyOfModelBasedOnFP(model)
 end
 
 local function SetCharacterViewmodel(bodypartstoshowinfp) --TODO: #3 Make it so the arms move with the camera
-    for i, v in pairs(bodypartstoshowinfp) do
+    for _, v in pairs(bodypartstoshowinfp) do
         character[v].LocalTransparencyModifier = 0 --TODO: #2 test if character's limbs will be visisble on respawn
     end
 end
 
-local function CreateModelViewmodel(viewmodel: Model)
+local function CreateModelViewmodel(viewmodel: Model, gunanim)
     viewmodel.Parent = cam
 
-    local ViewmodelOffest = gunAnim.ViewmodelOffest ~= nil and gunAnim.ViewmodelOffest or CFrame.new(0,0,0)
+    local ViewmodelOffest = gunanim.ViewmodelOffest ~= nil and gunanim.ViewmodelOffest or CFrame.new(0,0,0)
 
-    local function RenderBeforeCamera(delta)
+    local function RenderBeforeCamera()
         viewmodel.PrimaryPart.CFrame = cam.CFrame * ViewmodelOffest
     end
 
-    character.Head:GetPropertyChangedSignal:Connect(function(property) --check if player is in first person by seeing if the head becomes transparent
-        if property ~= "LocalTransparencyModifier" then
-            return
-        end
+    character.Head:GetPropertyChangedSignal("LocalTransparencyModifier"):Connect(function() --check if player is in first person by seeing if the head becomes transparent
 
         ChangeLocalTransparancyOfModelBasedOnFP(viewmodel)
     end)
@@ -65,15 +62,16 @@ local function onGunEquip(child)
 
     --initialize data
     if GunData.CameraMode then
-        player.CameraMode = CameraMode
+        player.CameraMode = GunData.CameraMode
     end
 
     --create viewmodel
+    local curViewmodel = nil
     if GunData.ViewmodelEnabled == true then
         if GunData.FPViewmodelType == "Viewmodel" then
-            local curViewmodel = Viewmodels[gunData.ViewmodelName]:Clone()
-            CreateModelViewmodel(curViewmodel)
-        elseif gunData.FPViewmodelType == "Roblox" then
+            curViewmodel = Viewmodels[GunData.ViewmodelName]:Clone()
+            CreateModelViewmodel(curViewmodel, GunAnim)
+        elseif GunData.FPViewmodelType == "Roblox" then
             SetCharacterViewmodel(GunData.BodyPartsToShowInFPS)
         end 
     end
@@ -81,7 +79,7 @@ local function onGunEquip(child)
     GunActions.Equip() --Run equip
     
     --Bind Actions
-    for i, ActionValues in pairs(GunActions.ContextActions) do
+    for _, ActionValues in pairs(GunActions.ContextActions) do
         ContextActionService:BindActionAtPriority(ActionValues.actionName, ActionValues.functionToBind, ActionValues.MobileButtons ~= nil and ActionValues.MobileButtons.createTouchButton == true and true or false, ActionValues.priorityLevel, table.unpack(ActionValues.inputTypes))
         if ActionValues.MobileButtons ~= nil then --if THE MOBILE SUPPORT IS REAAAALLLLL
             --Mobile base info
@@ -98,7 +96,7 @@ local function onGunEquip(child)
 
     --Run additional functions
     if GunActions.AdditionalFunctions ~= nil then
-        for i, v in pairs(AdditionalFunctions) do
+        for _, v in pairs(GunActions.AdditionalFunctions) do
             v()
         end
     end
@@ -111,20 +109,28 @@ local function onGunEquip(child)
 
         GunActions.UnEquip()
         
-        for i, v in pairs(ConnectionsToDisconnectOnUnequip) do
+        for _, v in pairs(ConnectionsToDisconnectOnUnequip) do
             v:Disconnect()
         end
 
-        for i, ActionValues in pairs(GunActions.ContextActions) do
+        for _, ActionValues in pairs(GunActions.ContextActions) do
             ContextActionService:UnbindAction(ActionValues.actionName)
         end
         
         RunService:UnBindToRenderStep("PUGFAM12ViewmodelRender")
-        gunData = nil
-        gunAnim = nil
-        curViewmodel:Destroy()
+        GunData = nil
+        GunAnim = nil
+        if curViewmodel then
+            if curViewmodel then
+                if lastViewmodel then
+                    lastViewmodel:Destroy()
+                end
+                lastViewmodel = curViewmodel:Clone()
+                curViewmodel:Destroy()
+            end
         removing:Disconnect()
+        end
     end)
 end
 
-character.ChildAdded:connect(onGunEquip)
+character.ChildAdded:Connect(onGunEquip)
