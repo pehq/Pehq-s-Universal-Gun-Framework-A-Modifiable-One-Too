@@ -29,7 +29,7 @@ Players.PlayerAdded:Connect(function(plr)
 
         --Attach gun to character
         local CharGunMotor6D = Instance.new("Motor6D")
-        CharGunMotor6D.Part0 = Character.Humanoid.RigType == Enum.HumanoidRigTypeR15 and GunAnim.ServerCharGunWeldR15 or Character.Humanoid.RigType == Enum.HumanoidRigTypeR6 and GunAnim.ServerCharGunWeldR6 or error("Unknown Humanoid Rig Type")
+        CharGunMotor6D.Part0 = char.Humanoid.RigType == Enum.HumanoidRigType.R15 and GunAnim.ServerCharGunWeldR15 or char.Humanoid.RigType == Enum.HumanoidRigType.R6 and GunAnim.ServerCharGunWeldR6 or error("Unknown Humanoid Rig Type")
         CharGunMotor6D.Part1 = child[GunAnim.ServerGunPartMotor6d]
         CharGunMotor6D.Parent = child[GunAnim.ServerGunPartMotor6d]
 
