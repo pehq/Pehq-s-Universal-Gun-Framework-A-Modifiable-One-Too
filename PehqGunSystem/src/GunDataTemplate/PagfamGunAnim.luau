@@ -63,10 +63,6 @@ function Anim.Reload()
 
 end
 
-function Anim.Aim()
-
-end
-
 
 function Anim.Salute() --not inserted cause this ain't a larp gun engine... instead it's up to you!
 
