@@ -1,6 +1,6 @@
 local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local ShootTypes = require(ReplicatedStorage.Modules.ShootTypes)
+local ShootTypes = require(ReplicatedStorage.Modules.ShootTypesClient)
 local Tool = script.Parent
 local PagfamAnimData = require(Tool.PagfamAnimData)
 local PagfamGunData = require(Tool.PagfamGunData)
@@ -9,11 +9,23 @@ local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
+local Equipping = false
+local FireRateCoolDown = false
+
+local function CheckConditions()
+    if Equipping == true or FireRateCoolDown == true then
+        return false
+    end
+    return true
+end
+
 --functions called by the framework, they are called by name 
 local ConnectionsToDisconnectOnUnequip = {}
 
 function Actions.Equip()
-    print("Equipped")
+    Equipping = true
+    task.Wait(PagfamAnimData.EquipTime)
+    Equipping = false
 end
 
 function Actions.UnEquip()
@@ -29,11 +41,41 @@ function Actions.AdditionalFunctions.OnSit()
 end
 
 --Functions binded by keybinds using ContextActionService. These functions will be called through another script.
+local MouseDown = false
+
 local function Shoot(actionName, inputState, inputObject)
     if actionName ~= "Shoot" then
         return
     end
+
+    --Semi
+    if inputState == Enum.UserInputState.Begin and CheckConditions() then
+        FireRateCoolDown = true
+        ShootTypes.Functions[PagfamGunData.ShootType](Tool, PagfamGunData.Bullet, PagfamGunData.Bullet, 60)
+        task.spawn(function()
+            task.Wait(PagfamGunData.Firerate)
+            FireRateCoolDown = false
+        end)
+    end
     
+    --Auto
+    if inputState == Enum.UserInputState.Begin then
+        MouseDown = true
+        
+        while true do
+            if MouseDown == false then
+                break
+            end
+            if CheckConditions() then
+                ShootTypes.Functions[PagfamGunData.ShootType](Tool, PagfamGunData.Bullet, PagfamGunData.Bullet, 60)
+                task.Wait(PagfamAnimData)
+            else
+                task.Wait()
+            end
+        end
+    elseif inputState == Enum.UserInputState.End then
+        MouseDown = false
+    end
 end
 
 local function Reload(actionName, inputState, inputObject)
