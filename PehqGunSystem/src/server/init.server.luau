@@ -36,4 +36,4 @@ Players.PlayerAdded:Connect(function(plr)
         -- TODO:Add #1 to client script
 
     end)    
-)
+end)
