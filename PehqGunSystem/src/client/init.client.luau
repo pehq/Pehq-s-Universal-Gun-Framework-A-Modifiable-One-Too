@@ -57,9 +57,16 @@ local function onGunEquip(child)
         return
     end
 
+    local SavedCameraMode = player.CameraMode
+
     local GunData = require(child.PagfamGunData)
     local GunAnim = require(child.PagfamAnimData)
     local GunActions = require(child.PagfamGunActions)
+
+    --initialize data
+    if GunData.CameraMode then
+        player.CameraMode = CameraMode
+    end
 
     --create viewmodel
     if GunData.ViewmodelEnabled == true then
@@ -99,6 +106,8 @@ local function onGunEquip(child)
     local removing
     removing = character.ChildRemoved:Connect(function(childremoved)
         if child ~= childremoved then return end
+
+        player.CameraMode = SavedCameraMode
 
         GunActions.UnEquip()
         
