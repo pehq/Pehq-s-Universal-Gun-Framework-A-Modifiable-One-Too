@@ -2,7 +2,7 @@
 local Anim = {}
 
 --REQUIRED VARIABLES
-Anim.ViewmodelOffest = CFrame.new(0,0,0)
+Anim.ViewmodelOffest = CFrame.new(0,0, -0.5) -- -0.5 is the distance between camera and player in fp mode
 
 Anim.ServerGunPartMotor6d = "BodyAttach" --the gun part you want to weld to 
 Anim.ServerCharGunWeldR15= "UpperTorso" --you could choose to only set up r15, it'll autofill the r6 one

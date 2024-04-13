@@ -76,7 +76,8 @@ local RunService = game:GetService("RunService")
 
 local function Step(plr, Tool)
     local function createBullet()
-        local Bullet = require(Tool.PagfamGunData).Bullet:Clone()
+        local GunData = require(Tool.PagfamGunData)
+        local Bullet = GunData.Bullet:Clone()
         Bullet:SetAttribute("Owner", plr)
         Bullet:SetAttribute("Speed", speed)
         Bullet:SetAttribute("LifeTime", lifetime)
@@ -122,7 +123,7 @@ local function Step(plr, Tool)
 
     --creates the bullet (deprecated)
     Events.ShootTypes.Step.OnServerEvent:Connect(function(plr, Tool)
-        createBullet
+        createBullet()
     end)
 end
 
@@ -134,33 +135,38 @@ return ShootTypesServer</string>
           </Properties>
         </Item>
       </Item>
-    </Item>
-    <Item class="Folder" referent="6">
-      <Properties>
-        <string name="Name">PlayerData</string>
-      </Properties>
-    </Item>
-    <Item class="Folder" referent="7">
-      <Properties>
-        <string name="Name">RemoteEvents</string>
-      </Properties>
-      <Item class="Folder" referent="8">
+      <Item class="Folder" referent="6">
         <Properties>
-          <string name="Name">ShootTypes</string>
+          <string name="Name">PlayerData</string>
         </Properties>
-        <Item class="RemoteEvent" referent="9">
+      </Item>
+      <Item class="Folder" referent="7">
+        <Properties>
+          <string name="Name">RemoteEvents</string>
+        </Properties>
+        <Item class="Folder" referent="8">
           <Properties>
-            <string name="Name">Step</string>
+            <string name="Name">ShootTypes</string>
           </Properties>
+          <Item class="RemoteEvent" referent="9">
+            <Properties>
+              <string name="Name">Step</string>
+            </Properties>
+          </Item>
         </Item>
+      </Item>
+      <Item class="Folder" referent="10">
+        <Properties>
+          <string name="Name">Viewmodels</string>
+        </Properties>
       </Item>
     </Item>
   </Item>
-  <Item class="ServerScriptService" referent="10">
+  <Item class="ServerScriptService" referent="11">
     <Properties>
       <string name="Name">ServerScriptService</string>
     </Properties>
-    <Item class="Script" referent="11">
+    <Item class="Script" referent="12">
       <Properties>
         <string name="Name">Server</string>
         <token name="RunContext">0</token>
@@ -172,10 +178,10 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local function createPlrContainer(plr: Player) --Might store a template somewhere
     local container = Instance.new("Folder")
-    container.name = plr.UserId
+    container.Name = plr.UserId
 
     local settings = Instance.new("Folder") --Mutable values that could be changed from the server and read by the client
-    settings.name = "Settings"
+    settings.Name = "Settings"
     settings.Parent = container
 
     container.Parent = ReplicatedStorage.PlayerData
@@ -222,29 +228,25 @@ end)</string>
       </Properties>
     </Item>
   </Item>
-  <Item class="SoundService" referent="12">
+  <Item class="SoundService" referent="13">
     <Properties>
       <string name="Name">SoundService</string>
       <bool name="RespectFilteringEnabled">true</bool>
     </Properties>
   </Item>
-  <Item class="StarterPack" referent="13">
+  <Item class="StarterPack" referent="14">
     <Properties>
       <string name="Name">StarterPack</string>
     </Properties>
-    <Item class="Tool" referent="14">
+    <Item class="Tool" referent="15">
       <Properties>
         <string name="Name">PehqGun</string>
         <bool name="NeedsPivotMigration">false</bool>
       </Properties>
-      <Item class="Folder" referent="15">
+      <Item class="ModuleScript" referent="16">
         <Properties>
-          <string name="Name">GunDataTemplate</string>
-        </Properties>
-        <Item class="ModuleScript" referent="16">
-          <Properties>
-            <string name="Name">PagFamGunActions</string>
-            <string name="Source">local UserInputService = game:GetService("UserInputService")
+          <string name="Name">PagfamGunActions</string>
+          <string name="Source">local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Events = ReplicatedStorage.RemoteEvents
 local ShootTypes = require(ReplicatedStorage.Modules.ShootTypesClient)
@@ -261,7 +263,7 @@ local FireRateCoolDown = false
 local Reloading = false
 local isAiming = false
 
-local function CheckConditions()
+local function CheckConditions() 
     if Equipping == true or FireRateCoolDown == true or Reloading == true then
         return false
     end
@@ -342,10 +344,11 @@ local function Reload(actionName, inputState, inputObject)
     --Play anim
 
     local UnequipToolConnection
-    unequippedgun = Tool.Unequipped:Connect(
-        unequippedgun = true
+    UnequipToolConnection = Tool.Unequipped:Connect(
+        function()
+            
+            unequippedgun = true
     end)
-
     task.wait(PagfamGunData.ReloadTime)
 
     UnequipToolConnection:Disconnect()
@@ -450,12 +453,12 @@ Actions.ContextActions = {
 }
 
 return Actions</string>
-          </Properties>
-        </Item>
-        <Item class="ModuleScript" referent="17">
-          <Properties>
-            <string name="Name">PagFamGunAnimations</string>
-            <string name="Source">--Note: this simply stores the animation file and is meant to played on another script
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="17">
+        <Properties>
+          <string name="Name">PagfamGunAnimations</string>
+          <string name="Source">--Note: this simply stores the animation file and is meant to played on another script
 local Anim = {}
 
 --REQUIRED VARIABLES
@@ -541,12 +544,12 @@ newJoint.__index = newJoint
 --Server
 
 return Anim</string>
-          </Properties>
-        </Item>
-        <Item class="ModuleScript" referent="18">
-          <Properties>
-            <string name="Name">PagFamGunData</string>
-            <string name="Source">local Data = {}
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="18">
+        <Properties>
+          <string name="Name">PagfamGunData</string>
+          <string name="Source">local Data = {}
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
@@ -591,8 +594,7 @@ Data.ConsoleSupport = false
 Data.VRSupport = false
 
 return Data</string>
-          </Properties>
-        </Item>
+        </Properties>
       </Item>
     </Item>
   </Item>
@@ -612,7 +614,7 @@ local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local Mouse = player:GetMouse()
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Modules = ReplicatedStorage.Shared.Modules
+local Modules = ReplicatedStorage.Pagfam12RS.Modules
 local Viewmodels = ReplicatedStorage.Viewmodels
 local RunService = game:GetService("RunService")
 local cam = workspace.CurrentCamera

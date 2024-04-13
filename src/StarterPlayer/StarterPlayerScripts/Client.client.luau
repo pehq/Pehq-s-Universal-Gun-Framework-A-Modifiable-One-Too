@@ -3,12 +3,13 @@ local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local Mouse = player:GetMouse()
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Modules = ReplicatedStorage.Pagfam12RS.Modules
-local Viewmodels = ReplicatedStorage.Viewmodels
+local Modules = ReplicatedStorage.Pagfam12ReplicatedStorage.Modules
+local Viewmodels = ReplicatedStorage.Pagfam12ReplicatedStorage.Viewmodels
 local RunService = game:GetService("RunService")
 local cam = workspace.CurrentCamera
 local UserInputService = game:GetService("UserInputService")
 local ContextActionService = game:GetService("ContextActionService")
+local PhysicsService = game:GetService("PhysicsService")
 
 --in-scope variables
 local lastViewmodel = nil
@@ -27,8 +28,11 @@ local function ChangeLocalTransparancyOfModelBasedOnFP(model)
 end
 
 local function SetCharacterViewmodel(bodypartstoshowinfp) --TODO: #3 Make it so the arms move with the camera
-    for _, v in pairs(bodypartstoshowinfp) do
-        character[v].LocalTransparencyModifier = 0 --TODO: #2 test if character's limbs will be visisble on respawn
+	for _, v in pairs(bodypartstoshowinfp) do
+		if character:FindFirstChild(v) then
+			print(v)
+        	character[v].LocalTransparencyModifier = 0 --TODO: #2 test if character's limbs will be visisble on respawn
+		end
     end
 end
 
@@ -37,17 +41,25 @@ local function CreateModelViewmodel(viewmodel: Model, gunanim)
 
     local ViewmodelOffest = gunanim.ViewmodelOffest ~= nil and gunanim.ViewmodelOffest or CFrame.new(0,0,0)
 
-    local function RenderBeforeCamera()
-        viewmodel.PrimaryPart.CFrame = cam.CFrame * ViewmodelOffest
+    local function RenderBeforeCamera(dt)
+		viewmodel.HumanoidRootPart.CFrame = cam.CFrame * ViewmodelOffest
     end
 
     character.Head:GetPropertyChangedSignal("LocalTransparencyModifier"):Connect(function() --check if player is in first person by seeing if the head becomes transparent
-
         ChangeLocalTransparancyOfModelBasedOnFP(viewmodel)
-    end)
+	end)
+	
+	--Collisions
+	for _, v:BasePart in pairs(viewmodel:GetDescendants()) do
+		if v:IsA("BasePart") then
+			v.CanCollide = false
+			v.CollisionGroup = "ViewmodelCollisions"
+		end
+	end
 
-    RunService:BindToRenderStep("PUGFAM12ViewmodelRender", Enum.RenderPriority.Camera.Value - 1, RenderBeforeCamera)
+	table.insert(ConnectionsToDisconnectOnUnequip, RunService.RenderStepped:Connect(RenderBeforeCamera))
 end
+
 
 local function onGunEquip(child)
     if not child:GetAttribute("PAGFAM12") then --Returns if it doesn't have PAGFAM12 property or if it's false
@@ -56,9 +68,9 @@ local function onGunEquip(child)
 
     local SavedCameraMode = player.CameraMode
 
-    local GunData = require(child.PagfamGunData)
-    local GunAnim = require(child.PagfamAnimData)
-    local GunActions = require(child.PagfamGunActions)
+	local GunData = require(child.PagfamGunData)
+	local GunAnim = require(child.PagfamGunAnimations)
+	local GunActions = require(child.PagfamGunActions) 
 
     --initialize data
     if GunData.CameraMode then
@@ -70,11 +82,11 @@ local function onGunEquip(child)
     if GunData.ViewmodelEnabled == true then
         if GunData.FPViewmodelType == "Viewmodel" then
             curViewmodel = Viewmodels[GunData.ViewmodelName]:Clone()
-            CreateModelViewmodel(curViewmodel, GunAnim)
+			CreateModelViewmodel(curViewmodel, GunAnim)
         elseif GunData.FPViewmodelType == "Roblox" then
-            SetCharacterViewmodel(GunData.BodyPartsToShowInFPS)
+			SetCharacterViewmodel(GunData.BodyPartsToShowInFPS)			
         end 
-    end
+	end
     
     GunActions.Equip() --Run equip
     
@@ -88,14 +100,15 @@ local function onGunEquip(child)
             ContextActionService:SetTitle(ActionValues.actionName, MobileButtons.title ~= nil and MobileButtons.title or "")
             ContextActionService:SetImage(ActionValues.actionName, MobileButtons.image ~= nil and MobileButtons.image or nil)
             if MobileButtons.position ~= nil then --using if statement here because position has a default value idk of
-                ContextActionService:SetPosition(ActionValues.actionName, MobileButtons.position)
+				ContextActionService:SetPosition(ActionValues.actionName, UDim2.new(table.unpack(MobileButtons.position)))
             end
         end
     end
 
 
     --Run additional functions
-    if GunActions.AdditionalFunctions ~= nil then
+	print(GunActions)
+	if GunActions.AdditionalFunctions ~= nil then
         for _, v in pairs(GunActions.AdditionalFunctions) do
             v()
         end
@@ -116,8 +129,7 @@ local function onGunEquip(child)
         for _, ActionValues in pairs(GunActions.ContextActions) do
             ContextActionService:UnbindAction(ActionValues.actionName)
         end
-        
-        RunService:UnBindToRenderStep("PUGFAM12ViewmodelRender")
+		
         GunData = nil
         GunAnim = nil
         if curViewmodel then
@@ -128,8 +140,8 @@ local function onGunEquip(child)
                 lastViewmodel = curViewmodel:Clone()
                 curViewmodel:Destroy()
             end
-        removing:Disconnect()
         end
+        removing:Disconnect()
     end)
 end
 

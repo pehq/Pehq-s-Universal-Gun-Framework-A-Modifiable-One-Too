@@ -3,16 +3,33 @@ local CollectionService = game:GetService("CollectionService")
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local PhysicsService = game:GetService("PhysicsService")
+
+PhysicsService:RegisterCollisionGroup("ViewmodelCollisions")
+
+for _, v in pairs(PhysicsService:GetRegisteredCollisionGroups()) do
+	if v.name ~= "ViewmodelCollisions" then
+		PhysicsService:CollisionGroupSetCollidable(v.name, "ViewmodelCollisions", false)
+	end
+end
 
 local function createPlrContainer(plr: Player) --Might store a template somewhere
     local container = Instance.new("Folder")
     container.Name = plr.UserId
 
-    local settings = Instance.new("Folder") --Mutable values that could be changed from the server and read by the client
-    settings.Name = "Settings"
-    settings.Parent = container
+    local settingsContainer = Instance.new("Folder") --Mutable values that could be changed from the server and read by the client
+	settingsContainer.Name = "Settings"
+	settingsContainer.Parent = container
 
-    container.Parent = ReplicatedStorage.PlayerData
+	local RemoteEventsContainer = Instance.new("Folder")
+	RemoteEventsContainer.Name = "RemoteEvents"
+	RemoteEventsContainer.Parent = container
+
+	local ShootEvent = Instance.new("RemoteEvent")
+	ShootEvent.Name = "Shoot"
+	ShootEvent.Parent = RemoteEventsContainer
+
+    container.Parent = ReplicatedStorage.Pagfam12ReplicatedStorage.PlayerData
 
     return container
 end
@@ -35,7 +52,7 @@ Players.PlayerAdded:Connect(function(plr)
         end
 
         local GunData = require(child.PagfamGunData)
-        local GunAnim = require(child.PagfamAnimData)
+		local GunAnim = require(child.PagfamGunAnimations)
 
         for i, v in pairs(child:GetDescendants()) do --Unanchors all parts
             if v:IsA("BasePart") then
@@ -43,11 +60,8 @@ Players.PlayerAdded:Connect(function(plr)
             end
         end
 
-        --Attach gun to character
-        local CharGunMotor6D = Instance.new("Motor6D")
-        CharGunMotor6D.Part0 = char.Humanoid.RigType == Enum.HumanoidRigType.R15 and GunAnim.ServerCharGunWeldR15 or char.Humanoid.RigType == Enum.HumanoidRigType.R6 and GunAnim.ServerCharGunWeldR6 or error("Unknown Humanoid Rig Type")
-        CharGunMotor6D.Part1 = child[GunAnim.ServerGunPartMotor6d]
-        CharGunMotor6D.Parent = child[GunAnim.ServerGunPartMotor6d]
+        --TODO Attach gun to character
+
 
         -- TODO:Add #1 to client script
 

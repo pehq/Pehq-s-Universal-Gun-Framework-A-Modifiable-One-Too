@@ -1,21 +1,21 @@
 local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Events = ReplicatedStorage.RemoteEvents
-local ShootTypes = require(ReplicatedStorage.Modules.ShootTypesClient)
+local ShootTypes = require(ReplicatedStorage.Pagfam12ReplicatedStorage.Modules.ShootTypes)
 local Tool = script.Parent
-local PagfamAnimData = require(Tool.PagfamAnimData)
+local PagfamAnimData = require(Tool.PagfamGunAnimations)
 local PagfamGunData = require(Tool.PagfamGunData)
 local Actions = {}
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
+local PlayerEvents = ReplicatedStorage.Pagfam12ReplicatedStorage.PlayerData[player.UserId].RemoteEvents
 
 local Equipping = false
 local FireRateCoolDown = false
 local Reloading = false
 local isAiming = false
 
-local function CheckConditions()
+local function CheckConditions() 
     if Equipping == true or FireRateCoolDown == true or Reloading == true then
         return false
     end
@@ -37,8 +37,10 @@ function Actions.UnEquip()
     end
 end
 
---Additional functions that will run after contextactionservice finishes setting up keybinds, could be used for events
-function Actions.AdditionalFunctions.OnSit()
+--Additional functions that will run after contextactionservice finishes setting up keybinds, could be used for PlayerEvents
+Actions.AdditionalFunctions = {}
+
+function Actions.AdditionalFunctions.Onsit()
     local sitConnection
     sitConnection = character.Humanoid.Seated:Connect(function(active, currentSeatPart)
         sitConnection:Disconnect()
@@ -49,14 +51,16 @@ end
 local MouseDown = false
 
 local function Shoot(actionName, inputState, inputObject)
-    if actionName ~= "Shoot" then
+	if actionName ~= "Shoot" or inputState == Enum.UserInputState.Cancel then
         return
-    end
+	end
+	
+	print("Shoot")
 
     --Semi (shoot once then let go)
     if inputState == Enum.UserInputState.Begin and CheckConditions() then
         FireRateCoolDown = true
-        Events.ShootTypes.Step:FireServer(Tool, "Semi") --use remote function to yield?
+        PlayerEvents.Shoot:FireServer(Tool, "Semi") --use remote function to yield?
         task.spawn(function()
             task.wait(PagfamGunData.Firerate)
             FireRateCoolDown = false
@@ -65,10 +69,10 @@ local function Shoot(actionName, inputState, inputObject)
     
     --Auto (continous shooting)
     if inputState == Enum.UserInputState.Begin and CheckConditions() then
-        Events.ShootTypes.Step:FireServer(Tool, "Auto", true)
+		PlayerEvents.Shoot:FireServer(Tool, "Auto", true)
     elseif inputState == Enum.UserInputState.End then
         MouseDown = false
-        Events.ShootTypes.Step:FireServer(Tool, "Auto", false)
+        PlayerEvents.Shoot:FireServer(Tool, "Auto", false)
         FireRateCoolDown = true
         task.spawn(function()
             task.wait(PagfamGunData.Firerate)
@@ -79,7 +83,7 @@ local function Shoot(actionName, inputState, inputObject)
     --Burst (number of shots per trigger pulled)
     if inputState == Enum.UserInputState.Begin and CheckConditions() then
         FireRateCoolDown = true
-        Events.ShootTypes.Step:FireServer(Tool, "Burst") --use remote function to yield?
+        PlayerEvents.Shoot:FireServer(Tool, "Burst") --use remote function to yield?
         task.spawn(function()
             task.wait(PagfamGunData.Firerate)
             FireRateCoolDown = false
@@ -88,9 +92,12 @@ local function Shoot(actionName, inputState, inputObject)
 end
 
 local function Reload(actionName, inputState, inputObject)
-    if actionName ~= "Reload" then
+	if actionName ~= "Reload" or inputState == Enum.UserInputState.Cancel or inputState ~= Enum.UserInputState.Begin then
         return
-    end
+	end
+	
+	
+	
     local unequippedgun = false
     Reloading = true
     --Play anim
@@ -111,7 +118,7 @@ local function Reload(actionName, inputState, inputObject)
 end
 
 local function Aim(actionName, inputState, inputObject)
-    if actionName ~= "Aim" then
+	if actionName ~= "Aim" or inputState == Enum.UserInputState.Cancel then
         return
     end
 
@@ -123,7 +130,7 @@ local function Aim(actionName, inputState, inputObject)
 end
 
 local function Emote(actionName, inputState, inputObject)
-    if actionName ~= "Emote" then
+	if actionName ~= "Emote" or inputState == Enum.UserInputState.Cancel then
         return
     end
 
@@ -146,7 +153,7 @@ Actions.ContextActions = {
             ["description"] = "Shoot the gun", --literally does nothing Rofl
             ["title"] = "Shoot",
             ["image"] = "", --rbxassetid//00000000
-            ["position"] = {-20, 1, 0.2, 0}, --shoot button position. Stored as Udim2.new(position) Set it to nil for the default position (idk what position, im scripting from vscode). 
+			["position"] = {0, 0, 0, 0}, --shoot button position. Stored as Udim2.new(position) Set it to nil for the default position (idk what position, im scripting from vscode). 
         },
     },
     {
@@ -163,7 +170,7 @@ Actions.ContextActions = {
             ["description"] = "Reload the gun",
             ["title"] = "Reload",
             ["image"] = "",
-            ["position"] = {1, -20, 0.4, 0},
+			["position"] = {0.2, 0, 0, 0},
         }
     },
     {
@@ -180,24 +187,24 @@ Actions.ContextActions = {
             ["description"] = "Aim the gun",
             ["title"] = "Aim",
             ["image"] = "",
-            ["position"] = {1, -20, 0.6, 0},
+			["position"] = {0.4, 0, 0, 0},
         }
     },
     {
         ["actionName"] = "Emote",
-        ["functionToBind"] = Shoot,
+        ["functionToBind"] = Emote,
         ["inputTypes"] = { 
-            Enum.UserInputType.MouseButton1,
-            Enum.KeyCode.ButtonR2,
+            Enum.KeyCode.G,
+            Enum.KeyCode.ButtonR3,
         },
         ["priorityLevel"] = 2000,
         ["MobileButtons"] = { 
             ["createTouchButton"] = true,
             ["stackOrder"] = 1,
             ["description"] = "Shoot the gun", 
-            ["title"] = "Shoot",
+            ["title"] = "Emote",
             ["image"] = "",
-            ["position"] = {1, -20, 0.8, 0}, 
+			["position"] = {0.6, 0, 0, 0}, 
         }
     },
     
