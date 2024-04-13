@@ -1,5 +1,5 @@
 --Shoot types will be called by fire types
-local ShootTypesServer = {}
+local ShootTypes = {}
 
 local Players = game:GetService("Players") --haha
 local CollectionService = game:GetService("CollectionService")
@@ -10,6 +10,7 @@ local Debris = game:GetService("Debris")
 local RunService = game:GetService("RunService")
 
 local function Step(plr, Tool)
+	
     local function createBullet()
         local GunData = require(Tool.PagfamGunData)
         local Bullet = GunData.Bullet:Clone()
@@ -57,8 +58,9 @@ local function Step(plr, Tool)
     CollectionService:GetInstanceRemovedSignal("StepBullets"):Connect(StepBulletsRemoved)
 end
 
-ShootTypesServer.Functions = {
+
+ShootTypes.Functions = {
     {["ShootType"] = "Step", ["Function"] = Step}
 }
 
-return ShootTypesServer
+return ShootTypes
