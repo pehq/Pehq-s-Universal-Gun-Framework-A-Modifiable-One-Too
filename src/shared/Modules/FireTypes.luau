@@ -3,7 +3,7 @@ local FireType = {}
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Modules = ReplicatedStorage.Modules
 local Events = ReplicatedStorage.RemoteEvents
-local ShootTypes = require(Modules.ShootTypesServer)
+local ShootTypes = require(Modules.ShootTypesServer) --nuh uh
 
 local autoDebounce = false
 function FireType.Automatic(isShooting)
