@@ -39,7 +39,7 @@
       "PehqGun":{
         "$className":"Tool",
         "GunDataTemplate":{
-          "$path": "src/GunToolTemplate"
+          "$path": "src/GunDataTemplate"
         }
       }
     },
