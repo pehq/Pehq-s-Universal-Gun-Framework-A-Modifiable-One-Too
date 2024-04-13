@@ -1,5 +1,6 @@
 local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Events = ReplicatedStorage.RemoteEvents
 local ShootTypes = require(ReplicatedStorage.Modules.ShootTypesClient)
 local Tool = script.Parent
 local PagfamAnimData = require(Tool.PagfamAnimData)
@@ -11,9 +12,11 @@ local character = player.Character or player.CharacterAdded:Wait()
 
 local Equipping = false
 local FireRateCoolDown = false
+local Reloading = false
+local isAiming = false
 
 local function CheckConditions()
-    if Equipping == true or FireRateCoolDown == true then
+    if Equipping == true or FireRateCoolDown == true or Reloading == true then
         return false
     end
     return true
@@ -38,7 +41,7 @@ end
 function Actions.AdditionalFunctions.OnSit()
     local sitConnection
     sitConnection = character.Humanoid.Seated:Connect(function(active, currentSeatPart)
-        
+        sitConnection:Disconnect()
     end)
 end
 
@@ -50,33 +53,37 @@ local function Shoot(actionName, inputState, inputObject)
         return
     end
 
-    --Semi
+    --Semi (shoot once then let go)
     if inputState == Enum.UserInputState.Begin and CheckConditions() then
         FireRateCoolDown = true
-        ShootTypes.Functions[PagfamGunData.ShootType](Tool, PagfamGunData.Bullet, PagfamGunData.Bullet, 60)
+        Events.ShootTypes.Step:FireServer(Tool, "Semi") --use remote function to yield?
         task.spawn(function()
             task.wait(PagfamGunData.Firerate)
             FireRateCoolDown = false
         end)
     end
     
-    --Auto
-    if inputState == Enum.UserInputState.Begin then
-        MouseDown = true
-        
-        while true do
-            if MouseDown == false then
-                break
-            end
-            if CheckConditions() then
-                ShootTypes.Functions[PagfamGunData.ShootType](Tool, PagfamGunData.Bullet, PagfamGunData.Bullet, 60)
-                task.wait(PagfamAnimData)
-            else
-                task.wait()
-            end
-        end
+    --Auto (continous shooting)
+    if inputState == Enum.UserInputState.Begin and CheckConditions() then
+        Events.ShootTypes.Step:FireServer(Tool, "Auto", true)
     elseif inputState == Enum.UserInputState.End then
         MouseDown = false
+        Events.ShootTypes.Step:FireServer(Tool, "Auto", false)
+        FireRateCoolDown = true
+        task.spawn(function()
+            task.wait(PagfamGunData.Firerate)
+            FireRateCoolDown = false
+        end)
+    end
+
+    --Burst (number of shots per trigger pulled)
+    if inputState == Enum.UserInputState.Begin and CheckConditions() then
+        FireRateCoolDown = true
+        Events.ShootTypes.Step:FireServer(Tool, "Burst") --use remote function to yield?
+        task.spawn(function()
+            task.wait(PagfamGunData.Firerate)
+            FireRateCoolDown = false
+        end)
     end
 end
 
@@ -84,7 +91,22 @@ local function Reload(actionName, inputState, inputObject)
     if actionName ~= "Reload" then
         return
     end
-    
+    local unequippedgun = false
+    Reloading = true
+    --Play anim
+
+    local UnequipToolConnection
+    unequippedgun = Tool.Unequipped:Connect(
+        unequippedgun = true
+    end)
+
+    task.wait(PagfamGunData.ReloadTime)
+
+    UnequipToolConnection:Disconnect()
+
+    if PagfamGunData.OffHandReloading == true or not unequippedgun then
+        --reload function
+    end
 end
 
 local function Aim(actionName, inputState, inputObject)
@@ -92,6 +114,11 @@ local function Aim(actionName, inputState, inputObject)
         return
     end
 
+    if not isAiming then
+        isAiming = true
+    else
+
+    end
 end
 
 local function Emote(actionName, inputState, inputObject)

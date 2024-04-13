@@ -4,13 +4,29 @@ local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
+local function createPlrContainer(plr: Player) --Might store a template somewhere
+    local container = Instance.new("Folder")
+    container.name = plr.UserId
+
+    local settings = Instance.new("Folder") --Mutable values that could be changed from the server and read by the client
+    settings.name = "Settings"
+    settings.Parent = container
+
+    container.Parent = ReplicatedStorage.PlayerData
+
+    return container
+end
+
 --ShootTypes
 
 
 --when plr joins
 local gunEquippedConnections = {}
 Players.PlayerAdded:Connect(function(plr)
+    createPlrContainer(plr)
+    
     local char = plr.Character or plr.CharacterAdded:Wait()
+
 
     --Gun equipped
     char.ChildAdded:Connect(function(child)

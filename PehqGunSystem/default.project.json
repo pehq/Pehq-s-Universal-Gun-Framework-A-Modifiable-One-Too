@@ -15,6 +15,9 @@
             "$className": "RemoteEvent"
           }
         }
+      },
+      "PlayerData": {
+        "$className": "Folder"
       }
     },
 

@@ -29,7 +29,7 @@ function Anim.RobloxAnim(animcontroller, action) --humanoid will also work... TH
 end
 
 --Tween Anims (pain)
---does not uses Anim.Actions (optional)
+--does not uses Anim.Actions (optional) (or maybe it does...)
 --Actions will be tied to name.
 --[[
 
@@ -70,7 +70,7 @@ end
 
 --Moon anim: very exciting yet it causes LAG... only use for cinematic shots or very complex animations but try to minimize using this (like the nerf doominator, it's a 4 barreled gun with 6 ammon slots that's pump actioned. It has another trigger to switch barrels.)
 --Uses Anim.Animation to reference the Moon animation save file
---Downsides are not being able to manipulate the speed and other stuff as well as being CLIENT ONLY... womp womp
+--Downsides are not being able to manipulate the speed, only one could be played at a time, and other stuff as well as being CLIENT ONLY... womp womp
 --Credits for Moonlite module: MaximumADHD, 
 
 function Anim.PlayMoonAnim()

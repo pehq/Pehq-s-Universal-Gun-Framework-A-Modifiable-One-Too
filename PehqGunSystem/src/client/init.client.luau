@@ -80,7 +80,7 @@ local function onGunEquip(child)
     
     --Bind Actions
     for _, ActionValues in pairs(GunActions.ContextActions) do
-        ContextActionService:BindActionAtPriority(ActionValues.actionName, ActionValues.functionToBind, ActionValues.MobileButtons ~= nil and ActionValues.MobileButtons.createTouchButton == true and true or false, ActionValues.priorityLevel, table.unpack(ActionValues.inputTypes))
+        ContextActionService:BindActionAtPriority(ActionValues.actionName, ActionValues.functionToBind, (ActionValues.MobileButtons ~= nil and ActionValues.MobileButtons.createTouchButton == true) and true or false, ActionValues.priorityLevel, table.unpack(ActionValues.inputTypes))
         if ActionValues.MobileButtons ~= nil then --if THE MOBILE SUPPORT IS REAAAALLLLL
             --Mobile base info
             local MobileButtons = ActionValues.MobileButtons

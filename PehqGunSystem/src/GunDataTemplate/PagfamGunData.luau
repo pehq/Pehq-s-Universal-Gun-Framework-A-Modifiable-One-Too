@@ -9,7 +9,11 @@ Data.ShootOrigin = "Head" --from what part does the bullet spawn at. Will look f
 Data.CameraMode = Enum.CameraMode.LockFirstPerson
 Data.Firerate = 0.1
 Data.EquipTime = 1
-
+Data.ReloadTime = 3
+Data.OffHandReloading = false
+Data.AimEnabled = true
+Data.AimToggle = true --if false then aim will need to be held down
+Data.AimDownSightTime = 0 --time it takes for player to be able to shoot after toggling aim
 
 --Model (if paths are nil then it'll attempt to use the gunname)
 Data.ServerGunModel = nil --TODO

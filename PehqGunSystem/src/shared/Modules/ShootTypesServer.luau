@@ -1,13 +1,29 @@
+--Shoot types will be called by fire types
 local ShootTypesServer = {}
 
 local Players = game:GetService("Players") --haha
 local CollectionService = game:GetService("CollectionService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Modules = ReplicatedStorage.Modules
 local Events = ReplicatedStorage.RemoteEvents
 local Debris = game:GetService("Debris")
 local RunService = game:GetService("RunService")
 
-local function Step()
+local function Step(plr, Tool)
+    local function createBullet()
+        local Bullet = require(Tool.PagfamGunData).Bullet:Clone()
+        Bullet:SetAttribute("Owner", plr)
+        Bullet:SetAttribute("Speed", speed)
+        Bullet:SetAttribute("LifeTime", lifetime)
+        Debris:AddItem(Bullet, lifetime)
+
+        Bullet.Parent = workspace
+
+        CollectionService:AddTag("StepBullets")
+    end
+
+    createBullet()
+    
     local StepConnections = {}
 
     local function StepBulletsAdded(obj)
@@ -39,14 +55,9 @@ local function Step()
     CollectionService:GetInstanceAddedSignal("StepBullets"):Connect(StepBulletsAdded)
     CollectionService:GetInstanceRemovedSignal("StepBullets"):Connect(StepBulletsRemoved)
 
-    --creates the bullet
-    Events.ShootTypes.Step.OnServerEvent:Connect(function(plr, Bullet: any?, speed, lifetime)
-        Bullet:SetAttribute("Owner", plr)
-        Bullet:SetAttribute("Speed", speed)
-        Bullet:SetAttribute("LifeTime", lifetime)
-        Debris:AddItem(Bullet, lifetime)
-
-        CollectionService:AddTag("StepBullets")
+    --creates the bullet (deprecated)
+    Events.ShootTypes.Step.OnServerEvent:Connect(function(plr, Tool)
+        createBullet
     end)
 end
 
