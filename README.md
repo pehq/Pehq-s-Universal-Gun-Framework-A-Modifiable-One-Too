@@ -1,12 +1,24 @@
 # Pehq's Universal Gun Framework, A Modifiable One Too
 
+##Set-up
+
+You can simply open the place file in RBLX File
+
+or... 
+
+if that's outdated then you could use Argon to update the place with code from this repository.
+
+
+# Information
 you can say P.A.G.F.A.M.1.2 for short; Pag Fam works too.
 
 The main point of this gun framework is that it aims to meet all conditions in Roblox's sub-genre shooter games
 
+https://en.wikipedia.org/wiki/Shooter_game
+
 Right now this is a WIP so stuff isn't finished... You could create a pull request if you want to contribute to this project
 
-https://en.wikipedia.org/wiki/Shooter_game
+
 ## Some examples of sub-genres are:
 
 + Shoot 'em Up - Players could move up, down, left, or right shooting enemies in front of them
