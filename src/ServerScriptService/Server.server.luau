@@ -3,6 +3,9 @@ local CollectionService = game:GetService("CollectionService")
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Modules = ReplicatedStorage.Pagfam12ReplicatedStorage.Modules
+local FireTypes = require(Modules.FireTypes)
+local ShootTypes = require(Modules.ShootTypes)
 local PhysicsService = game:GetService("PhysicsService")
 
 PhysicsService:RegisterCollisionGroup("ViewmodelCollisions")
@@ -45,11 +48,14 @@ Players.PlayerAdded:Connect(function(plr)
     local char = plr.Character or plr.CharacterAdded:Wait()
 
 
-    --Gun equipped
-    char.ChildAdded:Connect(function(child)
+	--Gun equipped
+	local ToolEquipped
+    ToolEquipped = char.ChildAdded:Connect(function(child)
         if not child:IsA("Tool") or not child:GetAttribute("PAGFAM12") then
             return
-        end
+		end
+		
+		local PlayerData = ReplicatedStorage.Pagfam12ReplicatedStorage.PlayerData[plr.UserId]
 
         local GunData = require(child.PagfamGunData)
 		local GunAnim = require(child.PagfamGunAnimations)
@@ -63,7 +69,27 @@ Players.PlayerAdded:Connect(function(plr)
         --TODO Attach gun to character
 
 
-        -- TODO:Add #1 to client script
-
-    end)    
+		-- TODO:Add #1 to client script
+		
+		--Shoot Event
+		local ShootEvent 
+		ShootEvent = PlayerData.RemoteEvents.Shoot.OnClientEvent:Connect(function(eventplr, FireType, ShootType, isHeld)
+			if eventplr ~= plr then
+				return
+			end
+			
+			
+			
+		end)
+		
+		local ToolUnequip
+		ToolUnequip = char.ChildRemoved:Connect(function()
+			if child ~= ToolUnequip then
+				return
+			end
+			ShootEvent:Disconnect()
+			ToolEquipped:Disconnect()
+			ToolUnequip:Disconnect()
+		end)
+    end)
 end)
