@@ -6,10 +6,10 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local function createPlrContainer(plr: Player) --Might store a template somewhere
     local container = Instance.new("Folder")
-    container.name = plr.UserId
+    container.Name = plr.UserId
 
     local settings = Instance.new("Folder") --Mutable values that could be changed from the server and read by the client
-    settings.name = "Settings"
+    settings.Name = "Settings"
     settings.Parent = container
 
     container.Parent = ReplicatedStorage.PlayerData

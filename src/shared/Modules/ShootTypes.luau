@@ -11,7 +11,8 @@ local RunService = game:GetService("RunService")
 
 local function Step(plr, Tool)
     local function createBullet()
-        local Bullet = require(Tool.PagfamGunData).Bullet:Clone()
+        local GunData = require(Tool.PagfamGunData)
+        local Bullet = GunData.Bullet:Clone()
         Bullet:SetAttribute("Owner", plr)
         Bullet:SetAttribute("Speed", speed)
         Bullet:SetAttribute("LifeTime", lifetime)
@@ -57,7 +58,7 @@ local function Step(plr, Tool)
 
     --creates the bullet (deprecated)
     Events.ShootTypes.Step.OnServerEvent:Connect(function(plr, Tool)
-        createBullet
+        createBullet()
     end)
 end
 

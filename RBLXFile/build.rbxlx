@@ -1,0 +1,775 @@
+<roblox version="4">
+  <Item class="Lighting" referent="0">
+    <Properties>
+      <string name="Name">Lighting</string>
+      <Color3 name="Ambient">
+        <R>0</R>
+        <G>0</G>
+        <B>0</B>
+      </Color3>
+      <float name="Brightness">2</float>
+      <bool name="GlobalShadows">true</bool>
+      <bool name="Outlines">false</bool>
+      <token name="Technology">1</token>
+    </Properties>
+  </Item>
+  <Item class="ReplicatedStorage" referent="1">
+    <Properties>
+      <string name="Name">ReplicatedStorage</string>
+    </Properties>
+    <Item class="Folder" referent="2">
+      <Properties>
+        <string name="Name">Pagfam12RS</string>
+      </Properties>
+      <Item class="Folder" referent="3">
+        <Properties>
+          <string name="Name">Modules</string>
+        </Properties>
+        <Item class="ModuleScript" referent="4">
+          <Properties>
+            <string name="Name">FireTypes</string>
+            <string name="Source">--Firetype, derived from rate of fire. Called on the server?
+local FireType = {}
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Modules = ReplicatedStorage.Modules
+local Events = ReplicatedStorage.RemoteEvents
+local ShootTypes = require(Modules.ShootTypesServer) --nuh uh
+
+local autoDebounce = false
+function FireType.Automatic(isShooting)
+    if isShooting == true then
+        
+    else
+        return
+    end
+end
+
+function FireType.SemiAutomatic()
+
+end
+
+local function Init()
+    Events.Shoot.OnClientEvent:Connect(function(plr, Tool, FireType, held)
+        --maybe i should do this on the server
+    end)
+end
+
+return {
+    ["Initialize"] = Init,
+    ["FireTypes"] = FireType
+}</string>
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="5">
+          <Properties>
+            <string name="Name">ShootTypes</string>
+            <string name="Source">--Shoot types will be called by fire types
+local ShootTypesServer = {}
+
+local Players = game:GetService("Players") --haha
+local CollectionService = game:GetService("CollectionService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Modules = ReplicatedStorage.Modules
+local Events = ReplicatedStorage.RemoteEvents
+local Debris = game:GetService("Debris")
+local RunService = game:GetService("RunService")
+
+local function Step(plr, Tool)
+    local function createBullet()
+        local Bullet = require(Tool.PagfamGunData).Bullet:Clone()
+        Bullet:SetAttribute("Owner", plr)
+        Bullet:SetAttribute("Speed", speed)
+        Bullet:SetAttribute("LifeTime", lifetime)
+        Debris:AddItem(Bullet, lifetime)
+
+        Bullet.Parent = workspace
+
+        CollectionService:AddTag("StepBullets")
+    end
+
+    createBullet()
+    
+    local StepConnections = {}
+
+    local function StepBulletsAdded(obj)
+        local StepBulletSpeed = obj:GetAttribute("Speed") * -1 --Multiplied by -1 here to save resources
+        if obj:IsA("BasePart") then
+            local LastCFrame = obj.CFrame
+    
+            StepConnections[obj] = RunService.Renderstepped:Connect(function(deltatime)
+                obj.CFrame *= CFrame.new(0, 0, StepBulletSpeed) * deltatime
+                LastCFrame = obj.CFrame
+            end)
+        elseif obj:IsA("Model") then
+            local LastCFrame = obj:GetPivot()
+    
+            StepConnections[obj] = RunService.Renderstepped:Connect(function(deltatime)
+                obj:TranslateBy(Vector3.new(0, 0, StepBulletSpeed) * deltatime)
+                LastCFrame = obj.CFrame
+            end)
+        end
+    end
+    
+    local function StepBulletsRemoved(obj) --Finds obj by Instance.UniqueId
+        if StepConnections[obj] then
+            StepConnections[obj]:Disconnect()
+            StepConnections[obj] = nil
+        end
+    end
+    
+    CollectionService:GetInstanceAddedSignal("StepBullets"):Connect(StepBulletsAdded)
+    CollectionService:GetInstanceRemovedSignal("StepBullets"):Connect(StepBulletsRemoved)
+
+    --creates the bullet (deprecated)
+    Events.ShootTypes.Step.OnServerEvent:Connect(function(plr, Tool)
+        createBullet
+    end)
+end
+
+ShootTypesServer.Functions = {
+    {["ShootType"] = "Step", ["Function"] = Step}
+}
+
+return ShootTypesServer</string>
+          </Properties>
+        </Item>
+      </Item>
+    </Item>
+    <Item class="Folder" referent="6">
+      <Properties>
+        <string name="Name">PlayerData</string>
+      </Properties>
+    </Item>
+    <Item class="Folder" referent="7">
+      <Properties>
+        <string name="Name">RemoteEvents</string>
+      </Properties>
+      <Item class="Folder" referent="8">
+        <Properties>
+          <string name="Name">ShootTypes</string>
+        </Properties>
+        <Item class="RemoteEvent" referent="9">
+          <Properties>
+            <string name="Name">Step</string>
+          </Properties>
+        </Item>
+      </Item>
+    </Item>
+  </Item>
+  <Item class="ServerScriptService" referent="10">
+    <Properties>
+      <string name="Name">ServerScriptService</string>
+    </Properties>
+    <Item class="Script" referent="11">
+      <Properties>
+        <string name="Name">Server</string>
+        <token name="RunContext">0</token>
+        <string name="Source">--Pehq's Amazing Gun Framework, A Moddable 1
+local CollectionService = game:GetService("CollectionService")
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local function createPlrContainer(plr: Player) --Might store a template somewhere
+    local container = Instance.new("Folder")
+    container.name = plr.UserId
+
+    local settings = Instance.new("Folder") --Mutable values that could be changed from the server and read by the client
+    settings.name = "Settings"
+    settings.Parent = container
+
+    container.Parent = ReplicatedStorage.PlayerData
+
+    return container
+end
+
+--ShootTypes
+
+
+--when plr joins
+local gunEquippedConnections = {}
+Players.PlayerAdded:Connect(function(plr)
+    createPlrContainer(plr)
+    
+    local char = plr.Character or plr.CharacterAdded:Wait()
+
+
+    --Gun equipped
+    char.ChildAdded:Connect(function(child)
+        if not child:IsA("Tool") or not child:GetAttribute("PAGFAM12") then
+            return
+        end
+
+        local GunData = require(child.PagfamGunData)
+        local GunAnim = require(child.PagfamAnimData)
+
+        for i, v in pairs(child:GetDescendants()) do --Unanchors all parts
+            if v:IsA("BasePart") then
+                v.Anchored = false
+            end
+        end
+
+        --Attach gun to character
+        local CharGunMotor6D = Instance.new("Motor6D")
+        CharGunMotor6D.Part0 = char.Humanoid.RigType == Enum.HumanoidRigType.R15 and GunAnim.ServerCharGunWeldR15 or char.Humanoid.RigType == Enum.HumanoidRigType.R6 and GunAnim.ServerCharGunWeldR6 or error("Unknown Humanoid Rig Type")
+        CharGunMotor6D.Part1 = child[GunAnim.ServerGunPartMotor6d]
+        CharGunMotor6D.Parent = child[GunAnim.ServerGunPartMotor6d]
+
+        -- TODO:Add #1 to client script
+
+    end)    
+end)</string>
+      </Properties>
+    </Item>
+  </Item>
+  <Item class="SoundService" referent="12">
+    <Properties>
+      <string name="Name">SoundService</string>
+      <bool name="RespectFilteringEnabled">true</bool>
+    </Properties>
+  </Item>
+  <Item class="StarterPack" referent="13">
+    <Properties>
+      <string name="Name">StarterPack</string>
+    </Properties>
+    <Item class="Tool" referent="14">
+      <Properties>
+        <string name="Name">PehqGun</string>
+        <bool name="NeedsPivotMigration">false</bool>
+      </Properties>
+      <Item class="Folder" referent="15">
+        <Properties>
+          <string name="Name">GunDataTemplate</string>
+        </Properties>
+        <Item class="ModuleScript" referent="16">
+          <Properties>
+            <string name="Name">PagFamGunActions</string>
+            <string name="Source">local UserInputService = game:GetService("UserInputService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Events = ReplicatedStorage.RemoteEvents
+local ShootTypes = require(ReplicatedStorage.Modules.ShootTypesClient)
+local Tool = script.Parent
+local PagfamAnimData = require(Tool.PagfamAnimData)
+local PagfamGunData = require(Tool.PagfamGunData)
+local Actions = {}
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+local Equipping = false
+local FireRateCoolDown = false
+local Reloading = false
+local isAiming = false
+
+local function CheckConditions()
+    if Equipping == true or FireRateCoolDown == true or Reloading == true then
+        return false
+    end
+    return true
+end
+
+--functions called by the framework, they are called by name 
+local ConnectionsToDisconnectOnUnequip = {}
+
+function Actions.Equip()
+    Equipping = true
+    task.wait(PagfamAnimData.EquipTime)
+    Equipping = false
+end
+
+function Actions.UnEquip()
+    for _, v in pairs(ConnectionsToDisconnectOnUnequip) do
+        v:Disconnect()
+    end
+end
+
+--Additional functions that will run after contextactionservice finishes setting up keybinds, could be used for events
+function Actions.AdditionalFunctions.OnSit()
+    local sitConnection
+    sitConnection = character.Humanoid.Seated:Connect(function(active, currentSeatPart)
+        sitConnection:Disconnect()
+    end)
+end
+
+--Functions binded by keybinds using ContextActionService. These functions will be called through another script.
+local MouseDown = false
+
+local function Shoot(actionName, inputState, inputObject)
+    if actionName ~= "Shoot" then
+        return
+    end
+
+    --Semi (shoot once then let go)
+    if inputState == Enum.UserInputState.Begin and CheckConditions() then
+        FireRateCoolDown = true
+        Events.ShootTypes.Step:FireServer(Tool, "Semi") --use remote function to yield?
+        task.spawn(function()
+            task.wait(PagfamGunData.Firerate)
+            FireRateCoolDown = false
+        end)
+    end
+    
+    --Auto (continous shooting)
+    if inputState == Enum.UserInputState.Begin and CheckConditions() then
+        Events.ShootTypes.Step:FireServer(Tool, "Auto", true)
+    elseif inputState == Enum.UserInputState.End then
+        MouseDown = false
+        Events.ShootTypes.Step:FireServer(Tool, "Auto", false)
+        FireRateCoolDown = true
+        task.spawn(function()
+            task.wait(PagfamGunData.Firerate)
+            FireRateCoolDown = false
+        end)
+    end
+
+    --Burst (number of shots per trigger pulled)
+    if inputState == Enum.UserInputState.Begin and CheckConditions() then
+        FireRateCoolDown = true
+        Events.ShootTypes.Step:FireServer(Tool, "Burst") --use remote function to yield?
+        task.spawn(function()
+            task.wait(PagfamGunData.Firerate)
+            FireRateCoolDown = false
+        end)
+    end
+end
+
+local function Reload(actionName, inputState, inputObject)
+    if actionName ~= "Reload" then
+        return
+    end
+    local unequippedgun = false
+    Reloading = true
+    --Play anim
+
+    local UnequipToolConnection
+    unequippedgun = Tool.Unequipped:Connect(
+        unequippedgun = true
+    end)
+
+    task.wait(PagfamGunData.ReloadTime)
+
+    UnequipToolConnection:Disconnect()
+
+    if PagfamGunData.OffHandReloading == true or not unequippedgun then
+        --reload function
+    end
+end
+
+local function Aim(actionName, inputState, inputObject)
+    if actionName ~= "Aim" then
+        return
+    end
+
+    if not isAiming then
+        isAiming = true
+    else
+
+    end
+end
+
+local function Emote(actionName, inputState, inputObject)
+    if actionName ~= "Emote" then
+        return
+    end
+
+end
+
+
+--Actions are done from the client
+Actions.ContextActions = {
+    {
+        ["actionName"] = "Shoot",
+        ["functionToBind"] = Shoot,
+        ["inputTypes"] = { --Multiple keybinds, you can add controller support here
+            Enum.UserInputType.MouseButton1,
+            Enum.KeyCode.ButtonR2,
+        },
+        ["priorityLevel"] = 2000,
+        ["MobileButtons"] = { --Mobile support, you can set this to nil if you don't want to implement mobile support
+            ["createTouchButton"] = true,
+            ["stackOrder"] = 1,
+            ["description"] = "Shoot the gun", --literally does nothing Rofl
+            ["title"] = "Shoot",
+            ["image"] = "", --rbxassetid//00000000
+            ["position"] = {-20, 1, 0.2, 0}, --shoot button position. Stored as Udim2.new(position) Set it to nil for the default position (idk what position, im scripting from vscode). 
+        },
+    },
+    {
+        ["actionName"] = "Reload",
+        ["functionToBind"] = Reload,
+        ["inputTypes"] = { 
+            Enum.KeyCode.R,
+            Enum.KeyCode.ButtonX,
+        },
+        ["priorityLevel"] = 2000,
+        ["MobileButtons"] = { 
+            ["createTouchButton"] = true,
+            ["stackOrder"] = 1,
+            ["description"] = "Reload the gun",
+            ["title"] = "Reload",
+            ["image"] = "",
+            ["position"] = {1, -20, 0.4, 0},
+        }
+    },
+    {
+        ["actionName"] = "Aim",
+        ["functionToBind"] = Aim,
+        ["inputTypes"] = { 
+            Enum.UserInputType.MouseButton2,
+            Enum.KeyCode.ButtonL2,
+        },
+        ["priorityLevel"] = 2000,
+        ["MobileButtons"] = { 
+            ["createTouchButton"] = true,
+            ["stackOrder"] = 1,
+            ["description"] = "Aim the gun",
+            ["title"] = "Aim",
+            ["image"] = "",
+            ["position"] = {1, -20, 0.6, 0},
+        }
+    },
+    {
+        ["actionName"] = "Emote",
+        ["functionToBind"] = Shoot,
+        ["inputTypes"] = { 
+            Enum.UserInputType.MouseButton1,
+            Enum.KeyCode.ButtonR2,
+        },
+        ["priorityLevel"] = 2000,
+        ["MobileButtons"] = { 
+            ["createTouchButton"] = true,
+            ["stackOrder"] = 1,
+            ["description"] = "Shoot the gun", 
+            ["title"] = "Shoot",
+            ["image"] = "",
+            ["position"] = {1, -20, 0.8, 0}, 
+        }
+    },
+    
+    
+}
+
+return Actions</string>
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="17">
+          <Properties>
+            <string name="Name">PagFamGunAnimations</string>
+            <string name="Source">--Note: this simply stores the animation file and is meant to played on another script
+local Anim = {}
+
+--REQUIRED VARIABLES
+Anim.ViewmodelOffest = CFrame.new(0,0,0)
+
+Anim.ServerGunPartMotor6d = "BodyAttach" --the gun part you want to weld to 
+Anim.ServerCharGunWeldR15= "UpperTorso" --you could choose to only set up r15, it'll autofill the r6 one
+Anim.ServerCharGunWeldR6 = "Torso"
+
+--NOTE: animations aren't played here, they will be played on the client... This only lists the animations for the gun
+
+Anim.Actions = {
+    ["Equip"] = ""
+}
+
+--Client
+
+--Roblox Animation (must be dedicated to the viewmodel and gun)
+--Uses Anim.Actions to store animationIds
+
+function Anim.RobloxAnim(animcontroller, action) --humanoid will also work... THEY MUST HAVE AN ANIMATION TRACK
+    local anim = Instance.new("Animation")
+    anim.AnimationId = Anim.Animations[action]
+    
+    local AnimationTrack = animcontroller:LoadAnimation(anim)
+
+    return AnimationTrack
+end
+
+--Tween Anims (pain)
+--does not uses Anim.Actions (optional) (or maybe it does...)
+--Actions will be tied to name.
+--[[
+
+  Actions---> Equip
+          |-> Idle
+          |-> Aim
+          |-> Shoot
+          |-> Reload
+          |-> etc...
+
+    you can add your own in place of etc
+]]
+
+function Anim.Equip()
+
+end
+
+function Anim.Idle()
+
+end
+
+function Anim.Aim()
+
+end
+
+function Anim.Shoot()
+
+end
+
+function Anim.Reload()
+
+end
+
+
+function Anim.Salute() --not inserted cause this ain't a larp gun engine... instead it's up to you!
+
+end
+
+--Moon anim: very exciting yet it causes LAG... only use for cinematic shots or very complex animations but try to minimize using this (like the nerf doominator, it's a 4 barreled gun with 6 ammon slots that's pump actioned. It has another trigger to switch barrels.)
+--Uses Anim.Animation to reference the Moon animation save file
+--Downsides are not being able to manipulate the speed, only one could be played at a time, and other stuff as well as being CLIENT ONLY... womp womp
+--Credits for Moonlite module: MaximumADHD, 
+
+function Anim.PlayMoonAnim()
+    --wip
+end
+
+--Joint anim (wip but idea is that parts revolves around joints and can)
+local newJoint = {} --uses oop... maybe...
+newJoint.__index = newJoint
+
+--Server
+
+return Anim</string>
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="18">
+          <Properties>
+            <string name="Name">PagFamGunData</string>
+            <string name="Source">local Data = {}
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+--Basic data (or unsorted)
+Data.GunName = "Pistol" --will use the gun name for default paths if the path isn't present
+Data.ShootType = "Step" --Multiple shoot types, they are Step (the bullet Steps fowards), Hitscan (uses mouse.hit, good for rcl), Raycast (casts a ray and see what was hit)
+Data.ShootOrigin = "Head" --from what part does the bullet spawn at. Will look for part in the character
+Data.CameraMode = Enum.CameraMode.LockFirstPerson
+Data.Firerate = 0.1
+Data.EquipTime = 1
+Data.ReloadTime = 3
+Data.OffHandReloading = false
+Data.AimEnabled = true
+Data.AimToggle = true --if false then aim will need to be held down
+Data.AimDownSightTime = 0 --time it takes for player to be able to shoot after toggling aim
+
+--Model (if paths are nil then it'll attempt to use the gunname)
+Data.ServerGunModel = nil --TODO
+Data.ClientGunModel = nil --TODO
+Data.Actions = nil --Testing Note: might remove
+Data.Bullet = nil --Path to bullet model, can be put in table for multiple different bullets
+Data.BulletSpeed = 64 --In studs per second
+
+--Animation
+Data.ClientAnimationType = "Roblox" --Options include Roblox (Roblox animation from assetid), tweening (similar to acs, exists for acs port), MoonAnimator (Uses Moonlite), and Joint (Similar to how animations were done before animations were a thing)
+Data.ServerAnimationType = "Roblox" --Options include Roblox and Joint. (Some options were excluded since they are incapable of running on the server)
+
+--Viewmodel
+Data.ViewmodelEnabled = false 
+Data.FPViewmodelType = "Viewmodel" --Either a "Viewmodel" or the "Roblox"'s character. The custom Viewmodel requires it's own animation on the client while Roblox could let you reuse animations run on the  leave blank if you don't want a viewmodel
+Data.ViewmodelName = "Roblox" --custom Viewmodel to look for in ReplicatedStorage. Will only work if FPViewmodelType is "Viewmodel"
+Data.BodyPartsToShowInFPS = {"LeftHand", "LeftLowerArm", "LeftUpperArm", "RightHand", "RightLowerArm", "RightUpperArm", "LeftArm", "RightArm"} --Enter both R6 and R15 parts, will apply nevertheless
+
+--Mouse
+Data.CustomMouseIcon = false
+Data.MouseIconType = "Image" --Either an Image or Gui
+Data.MouseImageId = "" --If MouseIconType is an Image
+
+--Cross-Platform Support (PC support is the base that these platforms will be built on (obviously))
+Data.MobileSupport = false
+Data.ConsoleSupport = false
+Data.VRSupport = false
+
+return Data</string>
+          </Properties>
+        </Item>
+      </Item>
+    </Item>
+  </Item>
+  <Item class="StarterPlayer" referent="19">
+    <Properties>
+      <string name="Name">StarterPlayer</string>
+    </Properties>
+    <Item class="StarterPlayerScripts" referent="20">
+      <Properties>
+        <string name="Name">StarterPlayerScripts</string>
+      </Properties>
+      <Item class="LocalScript" referent="21">
+        <Properties>
+          <string name="Name">Client</string>
+          <string name="Source">local Players = game:GetService("Players") --HAHAHAW
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local Mouse = player:GetMouse()
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Modules = ReplicatedStorage.Shared.Modules
+local Viewmodels = ReplicatedStorage.Viewmodels
+local RunService = game:GetService("RunService")
+local cam = workspace.CurrentCamera
+local UserInputService = game:GetService("UserInputService")
+local ContextActionService = game:GetService("ContextActionService")
+
+--in-scope variables
+local lastViewmodel = nil
+local ConnectionsToDisconnectOnUnequip = {}
+
+local function ChangeLocalTransparancyOfModelBasedOnFP(model)
+    for i, v in pairs(model:GetDescendants()) do
+        if v:IsA("BasePart") then
+            if character.Head.LocalTransparencyModifier == 1 then --fully transparent
+                v.LocalTransparencyModifier = 0 --Makes it visible while preserving base transparency
+            else
+               v.LocalTransparencyModifier = 1 
+            end
+        end
+    end
+end
+
+local function SetCharacterViewmodel(bodypartstoshowinfp) --TODO: #3 Make it so the arms move with the camera
+    for _, v in pairs(bodypartstoshowinfp) do
+        character[v].LocalTransparencyModifier = 0 --TODO: #2 test if character's limbs will be visisble on respawn
+    end
+end
+
+local function CreateModelViewmodel(viewmodel: Model, gunanim)
+    viewmodel.Parent = cam
+
+    local ViewmodelOffest = gunanim.ViewmodelOffest ~= nil and gunanim.ViewmodelOffest or CFrame.new(0,0,0)
+
+    local function RenderBeforeCamera()
+        viewmodel.PrimaryPart.CFrame = cam.CFrame * ViewmodelOffest
+    end
+
+    character.Head:GetPropertyChangedSignal("LocalTransparencyModifier"):Connect(function() --check if player is in first person by seeing if the head becomes transparent
+
+        ChangeLocalTransparancyOfModelBasedOnFP(viewmodel)
+    end)
+
+    RunService:BindToRenderStep("PUGFAM12ViewmodelRender", Enum.RenderPriority.Camera.Value - 1, RenderBeforeCamera)
+end
+
+local function onGunEquip(child)
+    if not child:GetAttribute("PAGFAM12") then --Returns if it doesn't have PAGFAM12 property or if it's false
+        return
+    end
+
+    local SavedCameraMode = player.CameraMode
+
+    local GunData = require(child.PagfamGunData)
+    local GunAnim = require(child.PagfamAnimData)
+    local GunActions = require(child.PagfamGunActions)
+
+    --initialize data
+    if GunData.CameraMode then
+        player.CameraMode = GunData.CameraMode
+    end
+
+    --create viewmodel
+    local curViewmodel = nil
+    if GunData.ViewmodelEnabled == true then
+        if GunData.FPViewmodelType == "Viewmodel" then
+            curViewmodel = Viewmodels[GunData.ViewmodelName]:Clone()
+            CreateModelViewmodel(curViewmodel, GunAnim)
+        elseif GunData.FPViewmodelType == "Roblox" then
+            SetCharacterViewmodel(GunData.BodyPartsToShowInFPS)
+        end 
+    end
+    
+    GunActions.Equip() --Run equip
+    
+    --Bind Actions
+    for _, ActionValues in pairs(GunActions.ContextActions) do
+        ContextActionService:BindActionAtPriority(ActionValues.actionName, ActionValues.functionToBind, (ActionValues.MobileButtons ~= nil and ActionValues.MobileButtons.createTouchButton == true) and true or false, ActionValues.priorityLevel, table.unpack(ActionValues.inputTypes))
+        if ActionValues.MobileButtons ~= nil then --if THE MOBILE SUPPORT IS REAAAALLLLL
+            --Mobile base info
+            local MobileButtons = ActionValues.MobileButtons
+            ContextActionService:SetDescription(ActionValues.actionName, MobileButtons.description ~= nil and MobileButtons.description or "")
+            ContextActionService:SetTitle(ActionValues.actionName, MobileButtons.title ~= nil and MobileButtons.title or "")
+            ContextActionService:SetImage(ActionValues.actionName, MobileButtons.image ~= nil and MobileButtons.image or nil)
+            if MobileButtons.position ~= nil then --using if statement here because position has a default value idk of
+                ContextActionService:SetPosition(ActionValues.actionName, MobileButtons.position)
+            end
+        end
+    end
+
+
+    --Run additional functions
+    if GunActions.AdditionalFunctions ~= nil then
+        for _, v in pairs(GunActions.AdditionalFunctions) do
+            v()
+        end
+    end
+
+    local removing
+    removing = character.ChildRemoved:Connect(function(childremoved)
+        if child ~= childremoved then return end
+
+        player.CameraMode = SavedCameraMode
+
+        GunActions.UnEquip()
+        
+        for _, v in pairs(ConnectionsToDisconnectOnUnequip) do
+            v:Disconnect()
+        end
+
+        for _, ActionValues in pairs(GunActions.ContextActions) do
+            ContextActionService:UnbindAction(ActionValues.actionName)
+        end
+        
+        RunService:UnBindToRenderStep("PUGFAM12ViewmodelRender")
+        GunData = nil
+        GunAnim = nil
+        if curViewmodel then
+            if curViewmodel then
+                if lastViewmodel then
+                    lastViewmodel:Destroy()
+                end
+                lastViewmodel = curViewmodel:Clone()
+                curViewmodel:Destroy()
+            end
+        removing:Disconnect()
+        end
+    end)
+end
+
+character.ChildAdded:Connect(onGunEquip)</string>
+        </Properties>
+      </Item>
+    </Item>
+  </Item>
+  <Item class="Workspace" referent="22">
+    <Properties>
+      <string name="Name">Workspace</string>
+      <bool name="FilteringEnabled">true</bool>
+      <bool name="NeedsPivotMigration">false</bool>
+    </Properties>
+    <Item class="Part" referent="23">
+      <Properties>
+        <string name="Name">Baseplate</string>
+        <bool name="Anchored">true</bool>
+        <Color3uint8 name="Color3uint8">6512483</Color3uint8>
+        <bool name="Locked">true</bool>
+        <Vector3 name="Position">
+          <X>0</X>
+          <Y>-10</Y>
+          <Z>0</Z>
+        </Vector3>
+        <Vector3 name="size">
+          <X>512</X>
+          <Y>20</Y>
+          <Z>512</Z>
+        </Vector3>
+      </Properties>
+    </Item>
+  </Item>
+</roblox>

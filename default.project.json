@@ -1,11 +1,23 @@
 {
-  "name": "Pehq-s-Universal-Gun-Framework-A-Modifiable-One-Too",
+  "name": "PehqGunSystem",
   "tree": {
     "$className": "DataModel",
 
     "ReplicatedStorage": {
-      "Shared": {
+      "Pagfam12RS": {
         "$path": "src/shared"
+      },
+      "RemoteEvents": {
+        "$className":"Folder",
+        "ShootTypes": {
+          "$className":"Folder",
+          "Step": {
+            "$className": "RemoteEvent"
+          }
+        }
+      },
+      "PlayerData": {
+        "$className": "Folder"
       }
     },
 
@@ -19,6 +31,15 @@
       "StarterPlayerScripts": {
         "Client": {
           "$path": "src/client"
+        }
+      }
+    },
+
+    "StarterPack":{
+      "PehqGun":{
+        "$className":"Tool",
+        "GunDataTemplate":{
+          "$path": "src/GunToolTemplate"
         }
       }
     },
