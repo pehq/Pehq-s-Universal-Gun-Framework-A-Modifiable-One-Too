@@ -96,10 +96,11 @@ local function Reload(actionName, inputState, inputObject)
     --Play anim
 
     local UnequipToolConnection
-    unequippedgun = Tool.Unequipped:Connect(
-        unequippedgun = true
+    UnequipToolConnection = Tool.Unequipped:Connect(
+        function()
+            
+            unequippedgun = true
     end)
-
     task.wait(PagfamGunData.ReloadTime)
 
     UnequipToolConnection:Disconnect()
