@@ -57,7 +57,7 @@ local function Shoot(actionName, inputState, inputObject)
 	
 	print("Shoot")
 
-    --Semi (shoot once then let go)
+    --Single (shoot once then let go)
     if inputState == Enum.UserInputState.Begin and CheckConditions() then
         FireRateCoolDown = true
         PlayerEvents.Shoot:FireServer(Tool, "Semi") --use remote function to yield?
@@ -67,7 +67,7 @@ local function Shoot(actionName, inputState, inputObject)
         end)
     end
     
-    --Auto (continous shooting)
+    --Constant (continous shooting)
     if inputState == Enum.UserInputState.Begin and CheckConditions() then
 		PlayerEvents.Shoot:FireServer(Tool, "Auto", true)
     elseif inputState == Enum.UserInputState.End then
@@ -80,7 +80,7 @@ local function Shoot(actionName, inputState, inputObject)
         end)
     end
 
-    --Burst (number of shots per trigger pulled)
+    --Multi (number of shots per trigger pulled)
     if inputState == Enum.UserInputState.Begin and CheckConditions() then
         FireRateCoolDown = true
         PlayerEvents.Shoot:FireServer(Tool, "Burst") --use remote function to yield?
