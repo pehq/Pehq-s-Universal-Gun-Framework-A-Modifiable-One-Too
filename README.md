@@ -31,7 +31,7 @@ Right now this is a WIP so stuff isn't finished... You could create a pull reque
 + Tactical Shooter - Rewards strategy as well as having *realistic* guns
 + Looter Shooter - Looting on loot to increase odds of survival
 
-These sub-genres are prominant in the game development field. However, Roblox has some sort of cultural background with it leading to new sub-genres usually done en-mass.
+These sub-genres are prominant in the game development field. However, Roblox has some sort of cultural background with it leading to new sub-genres; usually done en masse.
 
 ## Roblox's Sub-Genres include:
 + Roblox Clanning League (RCL) - It uses laser beams as weapons and requires a team-based effort (hence the name clanning since it's done in organized events)
