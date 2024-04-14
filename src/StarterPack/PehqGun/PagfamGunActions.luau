@@ -9,6 +9,7 @@ local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local PlayerEvents = ReplicatedStorage.Pagfam12ReplicatedStorage.PlayerData[player.UserId].RemoteEvents
+local Camera = workspace.CurrentCamera
 
 local Equipping = false
 local FireRateCoolDown = false
@@ -20,6 +21,20 @@ local function CheckConditions()
         return false
     end
     return true
+end
+
+local function getMouse3dPos(inputObject: InputObject) --similar to mouse.hit.p but better
+    local mousepos = inputObject.Position
+
+    local cameraRay = Camera:ScreenPointToRay(mousepos.X, mousepos.Y)
+---@diagnostic disable-next-line: redundant-parameter
+    local RaycastParams = RaycastParams.new(PagfamGunData.RaycastPartFilter, Enum.RaycastFilterType.Exclude, PagfamGunData.FilterWater)
+
+    local raycastResult = workspace:Raycast(cameraRay.Origin, cameraRay.Direction * PagfamGunData.RayLength, RaycastParams)
+
+    raycastResult = raycastResult ~= nil and raycastResult.Position or cameraRay.Origin + cameraRay.Direction * PagfamGunData.RayLength --if there wasn't any instance to hit then it will simply return the destination's position
+
+    return raycastResult
 end
 
 --functions called by the framework, they are called by name 
@@ -60,7 +75,7 @@ local function Shoot(actionName, inputState, inputObject)
     --Single (shoot once then let go)
     if inputState == Enum.UserInputState.Begin and CheckConditions() then
         FireRateCoolDown = true
-        PlayerEvents.Shoot:FireServer(Tool, "Semi") --use remote function to yield?
+        PlayerEvents.Shoot:FireServer(Tool, "Single", getMouse3dPos(inputObject)) --use remote function to yield?
         task.spawn(function()
             task.wait(PagfamGunData.Firerate)
             FireRateCoolDown = false
@@ -69,10 +84,10 @@ local function Shoot(actionName, inputState, inputObject)
     
     --Constant (continous shooting)
     if inputState == Enum.UserInputState.Begin and CheckConditions() then
-		PlayerEvents.Shoot:FireServer(Tool, "Auto", true)
+		PlayerEvents.Shoot:FireServer(Tool, "Constant", getMouse3dPos(inputObject), true)
     elseif inputState == Enum.UserInputState.End then
         MouseDown = false
-        PlayerEvents.Shoot:FireServer(Tool, "Auto", false)
+        PlayerEvents.Shoot:FireServer(Tool, "Constant", getMouse3dPos(inputObject), false)
         FireRateCoolDown = true
         task.spawn(function()
             task.wait(PagfamGunData.Firerate)
@@ -83,7 +98,7 @@ local function Shoot(actionName, inputState, inputObject)
     --Multi (number of shots per trigger pulled)
     if inputState == Enum.UserInputState.Begin and CheckConditions() then
         FireRateCoolDown = true
-        PlayerEvents.Shoot:FireServer(Tool, "Burst") --use remote function to yield?
+        PlayerEvents.Shoot:FireServer(Tool, "Multi") --use remote function to yield?
         task.spawn(function()
             task.wait(PagfamGunData.Firerate)
             FireRateCoolDown = false

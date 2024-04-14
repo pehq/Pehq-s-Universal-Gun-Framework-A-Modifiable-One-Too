@@ -73,7 +73,7 @@ Players.PlayerAdded:Connect(function(plr)
 		
 		--Shoot Event
 		local ShootEvent 
-		ShootEvent = PlayerData.RemoteEvents.Shoot.OnClientEvent:Connect(function(eventplr, FireType, ShootType, isHeld)
+		ShootEvent = PlayerData.RemoteEvents.Shoot.OnClientEvent:Connect(function(eventplr, FireType, ShootType, TargetPos, isHeld)
 			if eventplr ~= plr then
 				return
 			end
