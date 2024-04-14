@@ -6,7 +6,7 @@ You can simply open the place file in RBLX File
 
 or... 
 
-if that's outdated then you could use Argon to update the place with code from this repository.
+if the place file is outdated then you could use [Argon](https://github.com/argon-rbx/argon) to update the place file with code from this repository. 
 
 
 # Information
