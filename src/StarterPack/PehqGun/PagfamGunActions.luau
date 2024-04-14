@@ -37,6 +37,18 @@ local function getMouse3dPos(inputObject: InputObject) --similar to mouse.hit.p 
     return raycastResult
 end
 
+--[[
+    Each action should fire to the server using PlayerEvents.Action in this format: ActionName, ActionProperties
+      ActionName --> The string that is the Action Name
+      ActionProperties --> The table that houses each actions' properties
+
+    Any action that gets it's data updated would have to fire to PlayerEvents.Update in this format: ActionName, PropertyToUpdate
+        ActionName --> A string. Referencing which property to replace.
+        PropertiesToUpdate --> a table with the updated properties. It will only replace the properties that were listed rather than all properties.
+
+        (Note that tool isn't referenced here since tool is already referenced in the PlayerEvents.Action event)
+]]
+
 --functions called by the framework, they are called by name 
 local ConnectionsToDisconnectOnUnequip = {}
 
@@ -58,8 +70,10 @@ Actions.AdditionalFunctions = {}
 function Actions.AdditionalFunctions.Onsit()
     local sitConnection
     sitConnection = character.Humanoid.Seated:Connect(function(active, currentSeatPart)
-        sitConnection:Disconnect()
+        
     end)
+
+    table.insert(ConnectionsToDisconnectOnUnequip, sitConnection)
 end
 
 --Functions binded by keybinds using ContextActionService. These functions will be called through another script.
@@ -75,7 +89,9 @@ local function Shoot(actionName, inputState, inputObject)
     --Single (shoot once then let go)
     if inputState == Enum.UserInputState.Begin and CheckConditions() then
         FireRateCoolDown = true
-        PlayerEvents.Shoot:FireServer(Tool, "Single", getMouse3dPos(inputObject)) --use remote function to yield?
+        
+        PlayerEvents.Shoot:FireServer(Tool, actionName, {["FireType"] = "Constant",["TargetPos"] = getMouse3dPos(inputObject)}) --use remote function to yield?
+        
         task.spawn(function()
             task.wait(PagfamGunData.Firerate)
             FireRateCoolDown = false
@@ -84,10 +100,14 @@ local function Shoot(actionName, inputState, inputObject)
     
     --Constant (continous shooting)
     if inputState == Enum.UserInputState.Begin and CheckConditions() then
-		PlayerEvents.Shoot:FireServer(Tool, "Constant", getMouse3dPos(inputObject), true)
+		PlayerEvents.Action:FireServer(Tool, actionName, {["FireType"] = "Constant",["TargetPos"] = getMouse3dPos(inputObject), ["isHeld"] = true})
+    elseif inputState == Enum.UserInputState.Change then
+        PlayerEvents.Update:FireServer(actionName, {["TargetPos"] = getMouse3dPos(inputObject)}) --Update Mouse Position
     elseif inputState == Enum.UserInputState.End then
         MouseDown = false
+
         PlayerEvents.Shoot:FireServer(Tool, "Constant", getMouse3dPos(inputObject), false)
+        
         FireRateCoolDown = true
         task.spawn(function()
             task.wait(PagfamGunData.Firerate)
@@ -104,6 +124,14 @@ local function Shoot(actionName, inputState, inputObject)
             FireRateCoolDown = false
         end)
     end
+end
+
+local function UpdateMousePos(actionName, inputState, inputObject)
+    if actionName ~= "UpdateMousePos" or inputState == Enum.UserInputState.Cancel then
+        return
+    end
+
+    PlayerEvents.Update:FireServer(actionName, {})
 end
 
 local function Reload(actionName, inputState, inputObject)
@@ -127,7 +155,7 @@ local function Reload(actionName, inputState, inputObject)
 
     UnequipToolConnection:Disconnect()
 
-    if PagfamGunData.OffHandReloading == true or not unequippedgun then
+    if PagfamGunData.OffHandReloading == true or not unequippedgun then --check if gun was unequipped
         --reload function
     end
 end
@@ -170,6 +198,17 @@ Actions.ContextActions = {
             ["image"] = "", --rbxassetid//00000000
 			["position"] = {0, 0, 0, 0}, --shoot button position. Stored as Udim2.new(position) Set it to nil for the default position (idk what position, im scripting from vscode). 
         },
+    },
+    {
+        ["actionName"] = "UpdateMousePos",
+        ["functionToBind"] = UpdateMousePos,
+        ["inputTypes"] = { 
+            Enum.UserInputType.MouseMovement,
+            Enum.KeyCode.Thumbstick2,
+            --Enum.UserInputType.Touch --idk how to implement this atm
+        },
+        ["priorityLevel"] = 2000,
+        ["MobileButtons"] = nil
     },
     {
         ["actionName"] = "Reload",
@@ -222,8 +261,6 @@ Actions.ContextActions = {
 			["position"] = {0.6, 0, 0, 0}, 
         }
     },
-    
-    
 }
 
 return Actions
