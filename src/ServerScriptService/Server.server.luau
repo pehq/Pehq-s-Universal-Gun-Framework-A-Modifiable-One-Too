@@ -7,6 +7,7 @@ local Modules = ReplicatedStorage.Pagfam12ReplicatedStorage.Modules
 local FireTypes = require(Modules.FireTypes)
 local ShootTypes = require(Modules.ShootTypes)
 local PhysicsService = game:GetService("PhysicsService")
+local ActionHandler
 
 PhysicsService:RegisterCollisionGroup("ViewmodelCollisions")
 
@@ -28,9 +29,14 @@ local function createPlrContainer(plr: Player) --Might store a template somewher
 	RemoteEventsContainer.Name = "RemoteEvents"
 	RemoteEventsContainer.Parent = container
 
-	local ShootEvent = Instance.new("RemoteEvent")
-	ShootEvent.Name = "Shoot"
-	ShootEvent.Parent = RemoteEventsContainer
+	local ActionEvent = Instance.new("RemoteEvent") --when action is committed
+	ActionEvent.Name = "Action"
+	ActionEvent.Parent = RemoteEventsContainer
+
+	local UpdateEvent = Instance.new("RemoteEvent") --when the action committed needs to be updated (like mouse pos)
+	UpdateEvent.Name = "Update"
+	UpdateEvent.Parent = RemoteEventsContainer
+
 
     container.Parent = ReplicatedStorage.Pagfam12ReplicatedStorage.PlayerData
 
@@ -66,28 +72,51 @@ Players.PlayerAdded:Connect(function(plr)
             end
         end
 
-        --TODO Attach gun to character
+        --TODO: Attach gun to character
 
 
 		-- TODO:Add #1 to client script
 		
+		local ActionEvent
+
+		ActionEvent = PlayerData.RemoteEvents.Action.OnClientEvent:Connect(function(eventplr, actionName, actionProperties)
+			if plr ~= eventplr then
+				return 
+			end
+
+			
+
+			PlayerData.RemoteEvents.Update.OnClientEvent:Connect(function(updateplr, updateactionname, updateactionProperties)
+				if plr ~= updateplr or actionName ~= updateactionname then
+					return
+				end
+
+				for prop, v in pairs(updateactionProperties) do
+					actionProperties[prop] = v
+				end 
+			end)
+		end)
+		
+
+		--[[
 		--Shoot Event
 		local ShootEvent 
-		ShootEvent = PlayerData.RemoteEvents.Shoot.OnClientEvent:Connect(function(eventplr, FireType, ShootType, TargetPos, isHeld)
+		ShootEvent = PlayerData.RemoteEvents.Shoot.OnClientEvent:Connect(function(eventplr: Player, tool:Tool, firetype: string, shoottype: string, shoottypeprop, ...)
 			if eventplr ~= plr then
 				return
 			end
 			
+			FireTypes[firetype](plr, tool, {shoottype, shoottypeprop}, ...)
 			
-			
-		end)
+		end)]]
 		
 		local ToolUnequip
 		ToolUnequip = char.ChildRemoved:Connect(function()
 			if child ~= ToolUnequip then
 				return
 			end
-			ShootEvent:Disconnect()
+			ActionEvent:Disconnect()
+			UpdateEvent:Disconnect()
 			ToolEquipped:Disconnect()
 			ToolUnequip:Disconnect()
 		end)
