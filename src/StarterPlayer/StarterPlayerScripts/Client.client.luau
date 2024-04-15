@@ -71,21 +71,48 @@ local function onGunEquip(child)
 	local GunData = require(child.PagfamGunData)
 	local GunAnim = require(child.PagfamGunAnimations)
 	local GunActions = require(child.PagfamGunActions) 
-
+	
+	local GunModelClient:Model = GunData.ClientGunModel:Clone()
+	
     --initialize data
     if GunData.CameraMode then
         player.CameraMode = GunData.CameraMode
     end
 
     --create viewmodel
-    local curViewmodel = nil
+    local curViewmodel:Model = nil
     if GunData.ViewmodelEnabled == true then
         if GunData.FPViewmodelType == "Viewmodel" then
             curViewmodel = Viewmodels[GunData.ViewmodelName]:Clone()
 			CreateModelViewmodel(curViewmodel, GunAnim)
-        elseif GunData.FPViewmodelType == "Roblox" then
+			
+			--Attach gun to viewmodel
+			local Motor6D:Motor6D = GunModelClient.PrimaryPart.Handle
+			Motor6D.Part0 = GunModelClient.PrimaryPart
+			Motor6D.Part1 = curViewmodel.PrimaryPart
+			
+			Motor6D.C1 = GunData.ClientGunModelHandleOffset
+			
+			GunModelClient.Parent = curViewmodel
+			
+			if GunData.ApplyHumanoidDescriptionToViewmodel == true then --TODO: Rehaul this
+				local Humanoid:Humanoid = curViewmodel:FindFirstChild("Humanoid")
+				
+				local PlrHumanDesc = Players:GetHumanoidDescriptionFromUserId(player.UserId)
+				
+				local HumanDesc = Instance.new("HumanoidDescription")
+				HumanDesc.Shirt = PlrHumanDesc.Shirt
+				HumanDesc.RightArm = PlrHumanDesc.RightArm
+				HumanDesc.LeftArm = PlrHumanDesc.LeftArm
+				
+				Humanoid:ApplyDescription(HumanDesc)
+			end
+			
+			
+		elseif GunData.FPViewmodelType == "Roblox" then
 			SetCharacterViewmodel(GunData.BodyPartsToShowInFPS)			
-        end 
+			
+		end 
 	end
     
     GunActions.Equip() --Run equip

@@ -25,9 +25,13 @@ end
 function ShootTypes.Step(plr, Tool, TargetPos:Vector3)
     local GunData = require(Tool.PagfamGunData)
 	
-    local Bullet:Instance = GunData.Bullet:Clone()
+	local Bullet:Instance = GunData.Bullet:Clone()
+	
+	if Bullet:IsA("Model") then
+		Bullet = Bullet.PrimaryPart
+	end
 
-    Bullet:SetAttribute("Owner", plr)
+    --Bullet:SetAttribute("Owner", plr)
     Bullet:SetAttribute("Speed", GunData.BulletSpeed)
     Bullet:SetAttribute("LifeTime", GunData.BulletLifeTime)
     Debris:AddItem(Bullet, GunData.BulletLifeTime)
@@ -71,7 +75,7 @@ function ShootTypes.Step(plr, Tool, TargetPos:Vector3)
     if Bullet:IsA("BasePart") then
         Bullet.CFrame = StartCFrame
 
-        RenderStep = RunService.RenderStepped:Connect(function(deltaTime)
+        RenderStep = RunService.Stepped:Connect(function(deltaTime)
             lastPos = Bullet.CFrame.Position
             Bullet.CFrame *= CFrame.new(0, 0, StepBulletSpeed * deltaTime)
                 
@@ -80,7 +84,7 @@ function ShootTypes.Step(plr, Tool, TargetPos:Vector3)
     elseif Bullet:IsA("Model") then
         Bullet:PivotTo(StartCFrame)
         
-        RenderStep = RunService.RenderStepped:Connect(function(deltaTime)
+        RenderStep = RunService.Stepped:Connect(function(deltaTime)
             lastPos = Bullet.CFrame.Position
             Bullet:PivotTo(Bullet:GetPivot() * CFrame.new(0, 0, StepBulletSpeed * deltaTime))
             

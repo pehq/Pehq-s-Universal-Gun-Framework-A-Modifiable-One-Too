@@ -1,6 +1,5 @@
 local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local ShootTypes = require(ReplicatedStorage.Pagfam12ReplicatedStorage.Modules.ShootTypes)
 local Tool = script.Parent
 local PagfamAnimData = require(Tool.PagfamGunAnimations)
 local PagfamGunData = require(Tool.PagfamGunData)
@@ -15,6 +14,7 @@ local Equipping = false
 local FireRateCoolDown = false
 local Reloading = false
 local isAiming = false
+
 
 local function CheckConditions()
     if Equipping == true or FireRateCoolDown == true or Reloading == true then
@@ -84,29 +84,29 @@ local function Shoot(actionName, inputState, inputObject)
         return
 	end
 
-	print("Shoot")
-
     --Single (shoot once then let go)
-    if inputState == Enum.UserInputState.Begin and CheckConditions() then
+    if PagfamGunData.FireType == "Single" and inputState == Enum.UserInputState.Begin and CheckConditions() then
         FireRateCoolDown = true
 
-        PlayerEvents.Shoot:FireServer(Tool, actionName, {["FireType"] = "Constant",["TargetPos"] = getMouse3dPos(inputObject)}) --use remote function to yield?
+        PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Constant",["TargetPos"] = getMouse3dPos(inputObject)}) --use remote function to yield?
 
         task.spawn(function()
             task.wait(PagfamGunData.Firerate)
             FireRateCoolDown = false
         end)
     end
+	
 
     --Constant (continous shooting)
-    if inputState == Enum.UserInputState.Begin and CheckConditions() then
-		PlayerEvents.Action:FireServer(Tool, actionName, {["FireType"] = "Constant",["TargetPos"] = getMouse3dPos(inputObject), ["isHeld"] = true})
-    elseif inputState == Enum.UserInputState.Change then
-        PlayerEvents.Update:FireServer(actionName, {["TargetPos"] = getMouse3dPos(inputObject)}) --Update Mouse Position
+    if PagfamGunData.FireType == "Constant" and inputState == Enum.UserInputState.Begin and CheckConditions() then
+		print("Started")
+		PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Constant",["TargetPos"] = getMouse3dPos(inputObject), ["isHeld"] = true})
     elseif inputState == Enum.UserInputState.End then
-        MouseDown = false
+		MouseDown = false
+		
+		print("Ended")
 
-        PlayerEvents.Shoot:FireServer(Tool, "Constant", getMouse3dPos(inputObject), false)
+        PlayerEvents.Action:FireServer(actionName, "Constant", getMouse3dPos(inputObject), false)
 
         FireRateCoolDown = true
         task.spawn(function()
@@ -115,15 +115,17 @@ local function Shoot(actionName, inputState, inputObject)
         end)
     end
 
+	
     --Multi (number of shots per trigger pulled)
-    if inputState == Enum.UserInputState.Begin and CheckConditions() then
+	if PagfamGunData.FireType == "Multi" and inputState == Enum.UserInputState.Begin and CheckConditions() then
         FireRateCoolDown = true
-        PlayerEvents.Shoot:FireServer(Tool, "Multi") --use remote function to yield?
+		PlayerEvents.Action:FireServer(actionName, "Multi") --use remote function to yield?
         task.spawn(function()
             task.wait(PagfamGunData.Firerate)
             FireRateCoolDown = false
         end)
     end
+    
 end
 
 local function UpdateMousePos(actionName, inputState, inputObject)
@@ -167,7 +169,9 @@ local function Aim(actionName, inputState, inputObject)
         isAiming = true
     else
 
-    end
+	end
+	
+	return Enum.ContextActionResult.Pass
 end
 
 local function Emote(actionName, inputState, inputObject)

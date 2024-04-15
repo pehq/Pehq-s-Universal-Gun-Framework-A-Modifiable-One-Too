@@ -18,11 +18,13 @@ Data.AimToggle = true --if false then aim will need to be held down
 Data.AimDownSightTime = 0 --time it takes for player to be able to shoot after toggling aim
 
 --Model (if paths are nil then it'll attempt to use the gunname)
-Data.ServerGunModel = nil --TODO
-Data.ClientGunModel = nil --TODO
+Data.ServerGunModel = ReplicatedStorage.Pagfam12ReplicatedStorage.GunModels.TestGunModel
+Data.ClientGunModel = ReplicatedStorage.Pagfam12ReplicatedStorage.GunModels.TestGunModel
+Data.ClientGunModelHandleOffset = CFrame.new(1.5, -1, -1) --CFrame value
 Data.Actions = nil --Testing Note: might remove
-Data.Bullet = nil --Path to bullet model, can be put in table for multiple different bullets
-Data.BulletBase = nil --path to the bullet base (uses ServerGunModel)
+Data.Bullet = ReplicatedStorage.Pagfam12ReplicatedStorage.Bullets.Orb --Path to bullet model, can be put in table for multiple different bullets
+Data.BulletBase = ReplicatedStorage.Pagfam12ReplicatedStorage.Bullets.Orb.PrimaryPart --path to the bullet base (uses ServerGunModel) WHY DOES THIS EXISTS?!?!?!!?!
+Data.CharacterHandleAttachPart = "Torso" --Part to attach to the tool
 
 --Animation
 Data.ClientAnimationType = "Roblox" --Options include Roblox (Roblox animation from assetid), tweening (similar to acs, exists for acs port), MoonAnimator (Uses Moonlite), and Joint (Similar to how animations were done before animations were a thing)
@@ -33,6 +35,7 @@ Data.ViewmodelEnabled = true
 Data.FPViewmodelType = "Viewmodel" --Either a "Viewmodel" or the "Roblox"'s character. The custom Viewmodel requires it's own animation on the client while Roblox could let you reuse animations run on the  leave blank if you don't want a viewmodel
 Data.ViewmodelName = "Roblox" --custom Viewmodel to look for in ReplicatedStorage. Will only work if FPViewmodelType is "Viewmodel"
 Data.BodyPartsToShowInFPS = {"Left Hand", "Left Lower Arm", "Left Upper Arm", "Right Hand", "Right Lower Arm", "Right Upper Arm", "Left Arm", "Right Arm"} --Enter both R6 and R15 parts, will apply nevertheless
+Data.ApplyHumanoidDescriptionToViewmodel = true --Applies the player's avatar to the viewmodel
 
 --Mouse
 Data.CustomMouseIcon = false
