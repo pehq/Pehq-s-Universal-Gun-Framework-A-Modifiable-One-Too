@@ -25,7 +25,7 @@ end
 function ShootTypes.Step(plr, Tool, TargetPos:Vector3)
     local GunData = require(Tool.PagfamGunData)
 	
-    local Bullet = GunData.Bullet:Clone()
+    local Bullet:Instance = GunData.Bullet:Clone()
 
     Bullet:SetAttribute("Owner", plr)
     Bullet:SetAttribute("Speed", GunData.BulletSpeed)
@@ -48,91 +48,45 @@ function ShootTypes.Step(plr, Tool, TargetPos:Vector3)
 
     local lastPos = StartCFrame.Position
 
-    local function CheckForCollisions(startPos) :RaycastResult --TODO: Add shapecasting to Shoot type step
-        local RaycastParams = RaycastParams.new(GunData.RaycastPartFilter, Enum.RaycastFilterType.Exclude, GunData.FilterWater)
+    local function CheckForCollisions(connection:RBXScriptConnection, startPos) :RaycastResult --TODO: Add shapecasting to Shoot type step
+        local params = RaycastParams.new(GunData.RaycastPartFilter, Enum.RaycastFilterType.Exclude, GunData.FilterWater)
+        
+        local Result:RaycastResult = workspace:Raycast(startPos, lastPos - startPos, params)
 
+        if not Result then
+            return
+        end
+        
+        --This part runs when an object has been hit
 
-        local Result:RaycastResult = workspace:Raycast(startPos, lastPos - startPos, RaycastParams)
+        if Result.Instance:IsA("BasePart") and Result.Instance.Parent:FindFirstChild("Humanoid") then --If part hit is a character limb
+            CreateHitMarker(plr, {["RaycastResult"] = Result})
+        end
 
-        return Result
+        Bullet:Destroy()
+        connection:Disconnect()
     end
 
     local RenderStep
     if Bullet:IsA("BasePart") then
         Bullet.CFrame = StartCFrame
-        local NewPos = Bullet.CFrame.Position
 
         RenderStep = RunService.RenderStepped:Connect(function(deltaTime)
             lastPos = Bullet.CFrame.Position
             Bullet.CFrame *= CFrame.new(0, 0, StepBulletSpeed * deltaTime)
                 
-            local result = CheckForCollisions(NewPos)
+            CheckForCollisions(RenderStep, Bullet.CFrame.Position)
         end)
     elseif Bullet:IsA("Model") then
         Bullet:PivotTo(StartCFrame)
-        local NewPos = Bullet:GetPivot().Position
+        
         RenderStep = RunService.RenderStepped:Connect(function(deltaTime)
             lastPos = Bullet.CFrame.Position
             Bullet:PivotTo(Bullet:GetPivot() * CFrame.new(0, 0, StepBulletSpeed * deltaTime))
-            NewPos = Bullet:GetPivot().Position
             
-            local result = CheckForCollisions(NewPos)
-            if result ~= nil then
-                
-            end
+            CheckForCollisions(RenderStep, Bullet:GetPivot().Position)
         end)
     end
-
-    local RenderStep
-    RenderStep = RunService.RenderStepped:Connect(function(deltaTime)
-        
-    end)
-
-    --[[
-    local function createBullet()
-        local Bullet = GunData.Bullet:Clone()
-        Bullet:SetAttribute("Owner", plr)
-		Bullet:SetAttribute("Speed", GunData.BulletSpeed)
-        Bullet:SetAttribute("LifeTime", GunData.BulletLifeTime)
-		Debris:AddItem(Bullet, GunData.BulletLifeTime)
-
-        Bullet.Parent = workspace
-
-        CollectionService:AddTag("StepBullets")
-    end
-
-    createBullet()
-    
-    local StepConnections = {}
-
-    local function StepBulletsAdded(obj)
-        local StepBulletSpeed = obj:GetAttribute("Speed") * -1 --Multiplied by -1 here to save resources
-        if obj:IsA("BasePart") then
-            local LastCFrame = obj.CFrame
-    
-            StepConnections[obj] = RunService.Renderstepped:Connect(function(deltatime)
-                obj.CFrame *= CFrame.new(0, 0, StepBulletSpeed) * deltatime
-                LastCFrame = obj.CFrame
-            end)
-        elseif obj:IsA("Model") then
-            local LastCFrame = obj:GetPivot()
-    
-            StepConnections[obj] = RunService.Renderstepped:Connect(function(deltatime)
-                obj:TranslateBy(Vector3.new(0, 0, StepBulletSpeed) * deltatime)
-                LastCFrame = obj.CFrame
-            end)
-        end)
-    end
-    
-    local function StepBulletsRemoved(obj) --Finds obj by Instance.UniqueId
-        if StepConnections[obj] then
-            StepConnections[obj]:Disconnect()
-            StepConnections[obj] = nil
-        end
-    end
-    
-    CollectionService:GetInstanceAddedSignal("StepBullets"):Connect(StepBulletsAdded)
-    CollectionService:GetInstanceRemovedSignal("StepBullets"):Connect(StepBulletsRemoved)]]
 end
 
 function ShootTypes.Hitscan(plr, Tool, Target:Vector3) --rcl, uses special bullets where it connects at two different positions but also will directly raycast at the target
@@ -145,7 +99,14 @@ function ShootTypes.Hitscan(plr, Tool, Target:Vector3) --rcl, uses special bulle
 
     local Result:RaycastResult = workspace:Raycast(Start, Orientation * GunData.RayLength, RaycastParams)
 
+end
+
+function ShootTypes.Raycast(plr, Tool, Target) --Acs, bullet follows a ray
     
+end
+
+function ShootTypes.Projectile(plr, Tool, Start) --Creates a projectile
+
 end
 
 return ShootTypes

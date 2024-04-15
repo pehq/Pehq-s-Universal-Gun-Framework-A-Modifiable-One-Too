@@ -1,14 +1,16 @@
 --Firetype, derived from rate of fire. Called on the server?
 local FireType = {}
+local ServerScriptService = game:GetService("ServerScriptService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Modules = ReplicatedStorage.Pagfam12ReplicatedStorage.Modules
 local Events = ReplicatedStorage.Pagfam12ReplicatedStorage.RemoteEvents
-local ShootTypes = require(Modules.FireTypes) --nuh uh
+local ServerModules = ServerScriptService.ServerModules
+local ShootTypes = require(ServerModules.ShootTypes)
 
-local Shooting = false
+
 function FireType.Constant(functable:{["FunctionName"]:string, ["FunctionParams"]:table}, firetypeparams)
     if not firetypeparams.IsHeld then
-        warn("IsHeld value doesn't exists, have proper handling!")
+        warn("IsHeld value doesn't exists for constant firetype, have proper handling!")
         return
     end
     
