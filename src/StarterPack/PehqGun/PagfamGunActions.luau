@@ -16,7 +16,7 @@ local FireRateCoolDown = false
 local Reloading = false
 local isAiming = false
 
-local function CheckConditions() 
+local function CheckConditions()
     if Equipping == true or FireRateCoolDown == true or Reloading == true then
         return false
     end
@@ -49,7 +49,7 @@ end
         (Note that tool isn't referenced here since tool is already referenced in the PlayerEvents.Action event)
 ]]
 
---functions called by the framework, they are called by name 
+--functions called by the framework, they are called by name
 local ConnectionsToDisconnectOnUnequip = {}
 
 function Actions.Equip()
@@ -70,7 +70,7 @@ Actions.AdditionalFunctions = {}
 function Actions.AdditionalFunctions.Onsit()
     local sitConnection
     sitConnection = character.Humanoid.Seated:Connect(function(active, currentSeatPart)
-        
+
     end)
 
     table.insert(ConnectionsToDisconnectOnUnequip, sitConnection)
@@ -83,21 +83,21 @@ local function Shoot(actionName, inputState, inputObject)
 	if actionName ~= "Shoot" or inputState == Enum.UserInputState.Cancel then
         return
 	end
-	
+
 	print("Shoot")
 
     --Single (shoot once then let go)
     if inputState == Enum.UserInputState.Begin and CheckConditions() then
         FireRateCoolDown = true
-        
+
         PlayerEvents.Shoot:FireServer(Tool, actionName, {["FireType"] = "Constant",["TargetPos"] = getMouse3dPos(inputObject)}) --use remote function to yield?
-        
+
         task.spawn(function()
             task.wait(PagfamGunData.Firerate)
             FireRateCoolDown = false
         end)
     end
-    
+
     --Constant (continous shooting)
     if inputState == Enum.UserInputState.Begin and CheckConditions() then
 		PlayerEvents.Action:FireServer(Tool, actionName, {["FireType"] = "Constant",["TargetPos"] = getMouse3dPos(inputObject), ["isHeld"] = true})
@@ -107,7 +107,7 @@ local function Shoot(actionName, inputState, inputObject)
         MouseDown = false
 
         PlayerEvents.Shoot:FireServer(Tool, "Constant", getMouse3dPos(inputObject), false)
-        
+
         FireRateCoolDown = true
         task.spawn(function()
             task.wait(PagfamGunData.Firerate)
@@ -131,16 +131,14 @@ local function UpdateMousePos(actionName, inputState, inputObject)
         return
     end
 
-    PlayerEvents.Update:FireServer(actionName, {})
+    PlayerEvents.Update:FireServer(actionName, {["TargetPos"] = getMouse3dPos(inputObject)})
 end
 
 local function Reload(actionName, inputState, inputObject)
 	if actionName ~= "Reload" or inputState == Enum.UserInputState.Cancel or inputState ~= Enum.UserInputState.Begin then
         return
 	end
-	
-	
-	
+
     local unequippedgun = false
     Reloading = true
     --Play anim
@@ -148,7 +146,7 @@ local function Reload(actionName, inputState, inputObject)
     local UnequipToolConnection
     UnequipToolConnection = Tool.Unequipped:Connect(
         function()
-            
+
             unequippedgun = true
     end)
     task.wait(PagfamGunData.ReloadTime)
@@ -196,13 +194,13 @@ Actions.ContextActions = {
             ["description"] = "Shoot the gun", --literally does nothing Rofl
             ["title"] = "Shoot",
             ["image"] = "", --rbxassetid//00000000
-			["position"] = {0, 0, 0, 0}, --shoot button position. Stored as Udim2.new(position) Set it to nil for the default position (idk what position, im scripting from vscode). 
+			["position"] = {0, 0, 0, 0}, --shoot button position. Stored as Udim2.new(position) Set it to nil for the default position (idk what position, im scripting from vscode).
         },
     },
     {
         ["actionName"] = "UpdateMousePos",
         ["functionToBind"] = UpdateMousePos,
-        ["inputTypes"] = { 
+        ["inputTypes"] = {
             Enum.UserInputType.MouseMovement,
             Enum.KeyCode.Thumbstick2,
             --Enum.UserInputType.Touch --idk how to implement this atm
@@ -213,12 +211,12 @@ Actions.ContextActions = {
     {
         ["actionName"] = "Reload",
         ["functionToBind"] = Reload,
-        ["inputTypes"] = { 
+        ["inputTypes"] = {
             Enum.KeyCode.R,
             Enum.KeyCode.ButtonX,
         },
         ["priorityLevel"] = 2000,
-        ["MobileButtons"] = { 
+        ["MobileButtons"] = {
             ["createTouchButton"] = true,
             ["stackOrder"] = 1,
             ["description"] = "Reload the gun",
@@ -230,12 +228,12 @@ Actions.ContextActions = {
     {
         ["actionName"] = "Aim",
         ["functionToBind"] = Aim,
-        ["inputTypes"] = { 
+        ["inputTypes"] = {
             Enum.UserInputType.MouseButton2,
             Enum.KeyCode.ButtonL2,
         },
         ["priorityLevel"] = 2000,
-        ["MobileButtons"] = { 
+        ["MobileButtons"] = {
             ["createTouchButton"] = true,
             ["stackOrder"] = 1,
             ["description"] = "Aim the gun",
@@ -247,18 +245,18 @@ Actions.ContextActions = {
     {
         ["actionName"] = "Emote",
         ["functionToBind"] = Emote,
-        ["inputTypes"] = { 
+        ["inputTypes"] = {
             Enum.KeyCode.G,
             Enum.KeyCode.ButtonR3,
         },
         ["priorityLevel"] = 2000,
-        ["MobileButtons"] = { 
+        ["MobileButtons"] = {
             ["createTouchButton"] = true,
             ["stackOrder"] = 1,
-            ["description"] = "Shoot the gun", 
+            ["description"] = "Shoot the gun",
             ["title"] = "Emote",
             ["image"] = "",
-			["position"] = {0.6, 0, 0, 0}, 
+			["position"] = {0.6, 0, 0, 0},
         }
     },
 }
