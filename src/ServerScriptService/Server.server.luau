@@ -2,10 +2,12 @@
 local CollectionService = game:GetService("CollectionService")
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
+local ServerScriptService = game:GetService("ServerScriptService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Modules = ReplicatedStorage.Pagfam12ReplicatedStorage.Modules
-local FireTypes = require(Modules.FireTypes)
-local ShootTypes = require(Modules.ShootTypes)
+local ServerModules = ServerScriptService.ServerModules
+local FireTypes = require(ServerModules.FireTypes)
+local ShootTypes = require(ServerModules.ShootTypes)
 local PhysicsService = game:GetService("PhysicsService")
 local ActionHandler
 
@@ -66,7 +68,7 @@ Players.PlayerAdded:Connect(function(plr)
         local GunData = require(child.PagfamGunData)
 		local GunAnim = require(child.PagfamGunAnimations)
 
-        for i, v in pairs(child:GetDescendants()) do --Unanchors all parts
+        for _, v in pairs(child:GetDescendants()) do --Unanchors all parts
             if v:IsA("BasePart") then
                 v.Anchored = false
             end
@@ -93,22 +95,9 @@ Players.PlayerAdded:Connect(function(plr)
 
 				for prop, v in pairs(updateactionProperties) do
 					actionProperties[prop] = v
-				end 
+				end
 			end)
 		end)
-		
-
-		--[[
-		--Shoot Event
-		local ShootEvent 
-		ShootEvent = PlayerData.RemoteEvents.Shoot.OnClientEvent:Connect(function(eventplr: Player, tool:Tool, firetype: string, shoottype: string, shoottypeprop, ...)
-			if eventplr ~= plr then
-				return
-			end
-			
-			FireTypes[firetype](plr, tool, {shoottype, shoottypeprop}, ...)
-			
-		end)]]
 		
 		local ToolUnequip
 		ToolUnequip = char.ChildRemoved:Connect(function()
@@ -116,7 +105,6 @@ Players.PlayerAdded:Connect(function(plr)
 				return
 			end
 			ActionEvent:Disconnect()
-			UpdateEvent:Disconnect()
 			ToolEquipped:Disconnect()
 			ToolUnequip:Disconnect()
 		end)
