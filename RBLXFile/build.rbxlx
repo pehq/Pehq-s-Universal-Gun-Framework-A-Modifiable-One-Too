@@ -78,18 +78,18 @@
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<CoordinateFrame name="CFrame">
-					<X>-7.44015121</X>
-					<Y>36.6865616</Y>
-					<Z>6.07654095</Z>
-					<R00>-0.299462289</R00>
-					<R01>0.570465147</R01>
-					<R02>-0.76478225</R02>
-					<R10>-0</R10>
-					<R11>0.801567674</R11>
-					<R12>0.597904086</R12>
-					<R20>0.954108119</R20>
-					<R21>0.17904973</R21>
-					<R22>-0.240039289</R22>
+					<X>-2.48956823</X>
+					<Y>13.4137268</Y>
+					<Z>12.5208025</Z>
+					<R00>-0.96924001</R00>
+					<R01>-0.103982985</R01>
+					<R02>0.223072737</R02>
+					<R10>-7.45058149e-09</R10>
+					<R11>0.906366229</R11>
+					<R12>0.422492921</R12>
+					<R20>-0.246117681</R20>
+					<R21>0.409497052</R21>
+					<R22>-0.878486335</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
@@ -98,9 +98,9 @@
 				<float name="FieldOfView">70</float>
 				<token name="FieldOfViewMode">0</token>
 				<CoordinateFrame name="Focus">
-					<X>-5.91058636</X>
-					<Y>35.4907532</Y>
-					<Z>6.55661964</Z>
+					<X>-3.5</X>
+					<Y>11.5</Y>
+					<Z>16.5</Z>
 					<R00>1</R00>
 					<R01>0</R01>
 					<R02>0</R02>
@@ -850,21 +850,48 @@ local function onGunEquip(child)
 	local GunData = require(child.PagfamGunData)
 	local GunAnim = require(child.PagfamGunAnimations)
 	local GunActions = require(child.PagfamGunActions) 
-
+	
+	local GunModelClient:Model = GunData.ClientGunModel:Clone()
+	
     --initialize data
     if GunData.CameraMode then
         player.CameraMode = GunData.CameraMode
     end
 
     --create viewmodel
-    local curViewmodel = nil
+    local curViewmodel:Model = nil
     if GunData.ViewmodelEnabled == true then
         if GunData.FPViewmodelType == "Viewmodel" then
             curViewmodel = Viewmodels[GunData.ViewmodelName]:Clone()
 			CreateModelViewmodel(curViewmodel, GunAnim)
-        elseif GunData.FPViewmodelType == "Roblox" then
+			
+			--Attach gun to viewmodel
+			local Motor6D:Motor6D = GunModelClient.PrimaryPart.Handle
+			Motor6D.Part0 = GunModelClient.PrimaryPart
+			Motor6D.Part1 = curViewmodel.PrimaryPart
+			
+			Motor6D.C1 = GunData.ClientGunModelHandleOffset
+			
+			GunModelClient.Parent = curViewmodel
+			
+			if GunData.ApplyHumanoidDescriptionToViewmodel == true then --TODO: Rehaul this
+				local Humanoid:Humanoid = curViewmodel:FindFirstChild("Humanoid")
+				
+				local PlrHumanDesc = Players:GetHumanoidDescriptionFromUserId(player.UserId)
+				
+				local HumanDesc = Instance.new("HumanoidDescription")
+				HumanDesc.Shirt = PlrHumanDesc.Shirt
+				HumanDesc.RightArm = PlrHumanDesc.RightArm
+				HumanDesc.LeftArm = PlrHumanDesc.LeftArm
+				
+				Humanoid:ApplyDescription(HumanDesc)
+			end
+			
+			
+		elseif GunData.FPViewmodelType == "Roblox" then
 			SetCharacterViewmodel(GunData.BodyPartsToShowInFPS)			
-        end 
+			
+		end 
 	end
     
     GunActions.Equip() --Run equip
@@ -958,7 +985,7 @@ character.ChildAdded:Connect(onGunEquip)]]></ProtectedString>
 		<Item class="Tool" referent="RBX9006041713674EA3BCC6E1B3A7878546">
 			<Properties>
 				<BinaryString name="AttributesSerialize">AQAAAAgAAABQQUdGQU0xMgMB</BinaryString>
-				<bool name="CanBeDropped">true</bool>
+				<bool name="CanBeDropped">false</bool>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 				<bool name="DefinesCapabilities">false</bool>
 				<bool name="Enabled">true</bool>
@@ -1003,7 +1030,7 @@ character.ChildAdded:Connect(onGunEquip)]]></ProtectedString>
 				<string name="Name">PehqGun</string>
 				<bool name="NeedsPivotMigration">false</bool>
 				<Ref name="PrimaryPart">null</Ref>
-				<bool name="RequiresHandle">true</bool>
+				<bool name="RequiresHandle">false</bool>
 				<float name="ScaleFactor">1</float>
 				<int64 name="SourceAssetId">-1</int64>
 				<BinaryString name="Tags"></BinaryString>
@@ -1023,7 +1050,6 @@ character.ChildAdded:Connect(onGunEquip)]]></ProtectedString>
 					<string name="ScriptGuid">{9CC2F708-8191-42C3-A86C-1BEFC5EC9E6A}</string>
 					<ProtectedString name="Source"><![CDATA[local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local ShootTypes = require(ReplicatedStorage.Pagfam12ReplicatedStorage.Modules.ShootTypes)
 local Tool = script.Parent
 local PagfamAnimData = require(Tool.PagfamGunAnimations)
 local PagfamGunData = require(Tool.PagfamGunData)
@@ -1032,20 +1058,48 @@ local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local PlayerEvents = ReplicatedStorage.Pagfam12ReplicatedStorage.PlayerData[player.UserId].RemoteEvents
+local Camera = workspace.CurrentCamera
 
 local Equipping = false
 local FireRateCoolDown = false
 local Reloading = false
 local isAiming = false
 
-local function CheckConditions() 
+
+local function CheckConditions()
     if Equipping == true or FireRateCoolDown == true or Reloading == true then
         return false
     end
     return true
 end
 
---functions called by the framework, they are called by name 
+local function getMouse3dPos(inputObject: InputObject) --similar to mouse.hit.p but better
+    local mousepos = inputObject.Position
+
+    local cameraRay = Camera:ScreenPointToRay(mousepos.X, mousepos.Y)
+---@diagnostic disable-next-line: redundant-parameter
+    local RaycastParams = RaycastParams.new(PagfamGunData.RaycastPartFilter, Enum.RaycastFilterType.Exclude, PagfamGunData.FilterWater)
+
+    local raycastResult = workspace:Raycast(cameraRay.Origin, cameraRay.Direction * PagfamGunData.RayLength, RaycastParams)
+
+    raycastResult = raycastResult ~= nil and raycastResult.Position or cameraRay.Origin + cameraRay.Direction * PagfamGunData.RayLength --if there wasn't any instance to hit then it will simply return the destination's position
+
+    return raycastResult
+end
+
+--[[
+    Each action should fire to the server using PlayerEvents.Action in this format: ActionName, ActionProperties
+      ActionName --> The string that is the Action Name
+      ActionProperties --> The table that houses each actions' properties
+
+    Any action that gets it's data updated would have to fire to PlayerEvents.Update in this format: ActionName, PropertyToUpdate
+        ActionName --> A string. Referencing which property to replace.
+        PropertiesToUpdate --> a table with the updated properties. It will only replace the properties that were listed rather than all properties.
+
+        (Note that tool isn't referenced here since tool is already referenced in the PlayerEvents.Action event)
+]]
+
+--functions called by the framework, they are called by name
 local ConnectionsToDisconnectOnUnequip = {}
 
 function Actions.Equip()
@@ -1066,8 +1120,10 @@ Actions.AdditionalFunctions = {}
 function Actions.AdditionalFunctions.Onsit()
     local sitConnection
     sitConnection = character.Humanoid.Seated:Connect(function(active, currentSeatPart)
-        sitConnection:Disconnect()
+
     end)
+
+    table.insert(ConnectionsToDisconnectOnUnequip, sitConnection)
 end
 
 --Functions binded by keybinds using ContextActionService. These functions will be called through another script.
@@ -1077,50 +1133,64 @@ local function Shoot(actionName, inputState, inputObject)
 	if actionName ~= "Shoot" or inputState == Enum.UserInputState.Cancel then
         return
 	end
-	
-	print("Shoot")
 
     --Single (shoot once then let go)
-    if inputState == Enum.UserInputState.Begin and CheckConditions() then
+    if PagfamGunData.FireType == "Single" and inputState == Enum.UserInputState.Begin and CheckConditions() then
         FireRateCoolDown = true
-        PlayerEvents.Shoot:FireServer(Tool, "Semi") --use remote function to yield?
+
+        PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Constant",["TargetPos"] = getMouse3dPos(inputObject)}) --use remote function to yield?
+
+        task.spawn(function()
+            task.wait(PagfamGunData.Firerate)
+            FireRateCoolDown = false
+        end)
+    end
+	
+
+    --Constant (continous shooting)
+    if PagfamGunData.FireType == "Constant" and inputState == Enum.UserInputState.Begin and CheckConditions() then
+		print("Started")
+		PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Constant",["TargetPos"] = getMouse3dPos(inputObject), ["isHeld"] = true})
+    elseif inputState == Enum.UserInputState.End then
+		MouseDown = false
+		
+		print("Ended")
+
+        PlayerEvents.Action:FireServer(actionName, "Constant", getMouse3dPos(inputObject), false)
+
+        FireRateCoolDown = true
+        task.spawn(function()
+            task.wait(PagfamGunData.Firerate)
+            FireRateCoolDown = false
+        end)
+    end
+
+	
+    --Multi (number of shots per trigger pulled)
+	if PagfamGunData.FireType == "Multi" and inputState == Enum.UserInputState.Begin and CheckConditions() then
+        FireRateCoolDown = true
+		PlayerEvents.Action:FireServer(actionName, "Multi") --use remote function to yield?
         task.spawn(function()
             task.wait(PagfamGunData.Firerate)
             FireRateCoolDown = false
         end)
     end
     
-    --Constant (continous shooting)
-    if inputState == Enum.UserInputState.Begin and CheckConditions() then
-		PlayerEvents.Shoot:FireServer(Tool, "Auto", true)
-    elseif inputState == Enum.UserInputState.End then
-        MouseDown = false
-        PlayerEvents.Shoot:FireServer(Tool, "Auto", false)
-        FireRateCoolDown = true
-        task.spawn(function()
-            task.wait(PagfamGunData.Firerate)
-            FireRateCoolDown = false
-        end)
+end
+
+local function UpdateMousePos(actionName, inputState, inputObject)
+    if actionName ~= "UpdateMousePos" or inputState == Enum.UserInputState.Cancel then
+        return
     end
 
-    --Multi (number of shots per trigger pulled)
-    if inputState == Enum.UserInputState.Begin and CheckConditions() then
-        FireRateCoolDown = true
-        PlayerEvents.Shoot:FireServer(Tool, "Burst") --use remote function to yield?
-        task.spawn(function()
-            task.wait(PagfamGunData.Firerate)
-            FireRateCoolDown = false
-        end)
-    end
+    PlayerEvents.Update:FireServer(actionName, {["TargetPos"] = getMouse3dPos(inputObject)})
 end
 
 local function Reload(actionName, inputState, inputObject)
 	if actionName ~= "Reload" or inputState == Enum.UserInputState.Cancel or inputState ~= Enum.UserInputState.Begin then
         return
 	end
-	
-	
-	
+
     local unequippedgun = false
     Reloading = true
     --Play anim
@@ -1128,14 +1198,14 @@ local function Reload(actionName, inputState, inputObject)
     local UnequipToolConnection
     UnequipToolConnection = Tool.Unequipped:Connect(
         function()
-            
+
             unequippedgun = true
     end)
     task.wait(PagfamGunData.ReloadTime)
 
     UnequipToolConnection:Disconnect()
 
-    if PagfamGunData.OffHandReloading == true or not unequippedgun then
+    if PagfamGunData.OffHandReloading == true or not unequippedgun then --check if gun was unequipped
         --reload function
     end
 end
@@ -1149,7 +1219,9 @@ local function Aim(actionName, inputState, inputObject)
         isAiming = true
     else
 
-    end
+	end
+	
+	return Enum.ContextActionResult.Pass
 end
 
 local function Emote(actionName, inputState, inputObject)
@@ -1176,18 +1248,29 @@ Actions.ContextActions = {
             ["description"] = "Shoot the gun", --literally does nothing Rofl
             ["title"] = "Shoot",
             ["image"] = "", --rbxassetid//00000000
-			["position"] = {0, 0, 0, 0}, --shoot button position. Stored as Udim2.new(position) Set it to nil for the default position (idk what position, im scripting from vscode). 
+			["position"] = {0, 0, 0, 0}, --shoot button position. Stored as Udim2.new(position) Set it to nil for the default position (idk what position, im scripting from vscode).
         },
+    },
+    {
+        ["actionName"] = "UpdateMousePos",
+        ["functionToBind"] = UpdateMousePos,
+        ["inputTypes"] = {
+            Enum.UserInputType.MouseMovement,
+            Enum.KeyCode.Thumbstick2,
+            --Enum.UserInputType.Touch --idk how to implement this atm
+        },
+        ["priorityLevel"] = 2000,
+        ["MobileButtons"] = nil
     },
     {
         ["actionName"] = "Reload",
         ["functionToBind"] = Reload,
-        ["inputTypes"] = { 
+        ["inputTypes"] = {
             Enum.KeyCode.R,
             Enum.KeyCode.ButtonX,
         },
         ["priorityLevel"] = 2000,
-        ["MobileButtons"] = { 
+        ["MobileButtons"] = {
             ["createTouchButton"] = true,
             ["stackOrder"] = 1,
             ["description"] = "Reload the gun",
@@ -1199,12 +1282,12 @@ Actions.ContextActions = {
     {
         ["actionName"] = "Aim",
         ["functionToBind"] = Aim,
-        ["inputTypes"] = { 
+        ["inputTypes"] = {
             Enum.UserInputType.MouseButton2,
             Enum.KeyCode.ButtonL2,
         },
         ["priorityLevel"] = 2000,
-        ["MobileButtons"] = { 
+        ["MobileButtons"] = {
             ["createTouchButton"] = true,
             ["stackOrder"] = 1,
             ["description"] = "Aim the gun",
@@ -1216,22 +1299,20 @@ Actions.ContextActions = {
     {
         ["actionName"] = "Emote",
         ["functionToBind"] = Emote,
-        ["inputTypes"] = { 
+        ["inputTypes"] = {
             Enum.KeyCode.G,
             Enum.KeyCode.ButtonR3,
         },
         ["priorityLevel"] = 2000,
-        ["MobileButtons"] = { 
+        ["MobileButtons"] = {
             ["createTouchButton"] = true,
             ["stackOrder"] = 1,
-            ["description"] = "Shoot the gun", 
+            ["description"] = "Shoot the gun",
             ["title"] = "Emote",
             ["image"] = "",
-			["position"] = {0.6, 0, 0, 0}, 
+			["position"] = {0.6, 0, 0, 0},
         }
     },
-    
-    
 }
 
 return Actions]]></ProtectedString>
@@ -1356,9 +1437,11 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 --Basic data (or unsorted)
 Data.GunName = "Pistol" --will use the gun name for default paths if the path isn't present
 Data.ShootType = "Step" --Multiple shoot types, they are Step (the bullet Steps fowards), Hitscan (uses mouse.hit, good for rcl), Raycast (casts a ray and see what was hit)
+Data.FireType = "Single" --Multiple fire types, they are Single (shoot once when trigger is pulled), Constant (keep shooting when trigger is held down), and Multi (shoot an amount when trigger is pulled)
 Data.ShootOrigin = "Head" --from what part does the bullet spawn at. Will look for part in the character
 Data.CameraMode = Enum.CameraMode.LockFirstPerson
 Data.Firerate = 0.1
+Data.FireTypeMultiFirerate = 0.1 --time between shots if fire type is multi
 Data.EquipTime = 1
 Data.ReloadTime = 3
 Data.OffHandReloading = false
@@ -1367,12 +1450,13 @@ Data.AimToggle = true --if false then aim will need to be held down
 Data.AimDownSightTime = 0 --time it takes for player to be able to shoot after toggling aim
 
 --Model (if paths are nil then it'll attempt to use the gunname)
-Data.ServerGunModel = nil --TODO
-Data.ClientGunModel = nil --TODO
+Data.ServerGunModel = ReplicatedStorage.Pagfam12ReplicatedStorage.GunModels.TestGunModel
+Data.ClientGunModel = ReplicatedStorage.Pagfam12ReplicatedStorage.GunModels.TestGunModel
+Data.ClientGunModelHandleOffset = CFrame.new(1.5, -1, -1) --CFrame value
 Data.Actions = nil --Testing Note: might remove
-Data.Bullet = nil --Path to bullet model, can be put in table for multiple different bullets
-Data.BulletSpeed = 64 --In studs per second
-Data.BulletLifetime = 60 --How long will the bullet live for. (Speed = distance / time)
+Data.Bullet = ReplicatedStorage.Pagfam12ReplicatedStorage.Bullets.Orb --Path to bullet model, can be put in table for multiple different bullets
+Data.BulletBase = ReplicatedStorage.Pagfam12ReplicatedStorage.Bullets.Orb.PrimaryPart --path to the bullet base (uses ServerGunModel) WHY DOES THIS EXISTS?!?!?!!?!
+Data.CharacterHandleAttachPart = "Torso" --Part to attach to the tool
 
 --Animation
 Data.ClientAnimationType = "Roblox" --Options include Roblox (Roblox animation from assetid), tweening (similar to acs, exists for acs port), MoonAnimator (Uses Moonlite), and Joint (Similar to how animations were done before animations were a thing)
@@ -1383,6 +1467,7 @@ Data.ViewmodelEnabled = true
 Data.FPViewmodelType = "Viewmodel" --Either a "Viewmodel" or the "Roblox"'s character. The custom Viewmodel requires it's own animation on the client while Roblox could let you reuse animations run on the  leave blank if you don't want a viewmodel
 Data.ViewmodelName = "Roblox" --custom Viewmodel to look for in ReplicatedStorage. Will only work if FPViewmodelType is "Viewmodel"
 Data.BodyPartsToShowInFPS = {"Left Hand", "Left Lower Arm", "Left Upper Arm", "Right Hand", "Right Lower Arm", "Right Upper Arm", "Left Arm", "Right Arm"} --Enter both R6 and R15 parts, will apply nevertheless
+Data.ApplyHumanoidDescriptionToViewmodel = true --Applies the player's avatar to the viewmodel
 
 --Mouse
 Data.CustomMouseIcon = false
@@ -1393,6 +1478,16 @@ Data.MouseImageId = "" --If MouseIconType is an Image
 Data.MobileSupport = false
 Data.ConsoleSupport = false
 Data.VRSupport = false
+
+--ShootTypes
+--|Step
+Data.BulletSpeed = 64 --In studs per second
+Data.BulletLifetime = 60 --How long will the bullet live for. (Speed = distance / time)
+--|Hitscan
+Data.BulletLifetime = 0.1 --How long will the bullet live for
+Data.RayLength = 1000 --Legth of the ray. 15000 is the max length (for comparison, two characters standing 700 studs away would be like 4 px in height on a FHD monitor (i think...))
+Data.RaycastPartFilter = {} --additional parts to filter (you could use "Pagfam Raycast Filter"...)
+Data.FilterWater = false
 
 return Data]]></ProtectedString>
 					<int64 name="SourceAssetId">-1</int64>
@@ -1633,11 +1728,14 @@ return Data]]></ProtectedString>
 local CollectionService = game:GetService("CollectionService")
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
+local ServerScriptService = game:GetService("ServerScriptService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Modules = ReplicatedStorage.Pagfam12ReplicatedStorage.Modules
-local FireTypes = require(Modules.FireTypes)
-local ShootTypes = require(Modules.ShootTypes)
+local ServerModules = ServerScriptService.ServerModules
+local FireTypes = require(ServerModules.FireTypes)
+local ShootTypes = require(ServerModules.ShootTypes)
 local PhysicsService = game:GetService("PhysicsService")
+local ActionHandler
 
 PhysicsService:RegisterCollisionGroup("ViewmodelCollisions")
 
@@ -1659,9 +1757,14 @@ local function createPlrContainer(plr: Player) --Might store a template somewher
 	RemoteEventsContainer.Name = "RemoteEvents"
 	RemoteEventsContainer.Parent = container
 
-	local ShootEvent = Instance.new("RemoteEvent")
-	ShootEvent.Name = "Shoot"
-	ShootEvent.Parent = RemoteEventsContainer
+	local ActionEvent = Instance.new("RemoteEvent") --when action is committed
+	ActionEvent.Name = "Action"
+	ActionEvent.Parent = RemoteEventsContainer
+
+	local UpdateEvent = Instance.new("RemoteEvent") --when the action committed needs to be updated (like mouse pos)
+	UpdateEvent.Name = "Update"
+	UpdateEvent.Parent = RemoteEventsContainer
+
 
     container.Parent = ReplicatedStorage.Pagfam12ReplicatedStorage.PlayerData
 
@@ -1678,7 +1781,6 @@ Players.PlayerAdded:Connect(function(plr)
     
     local char = plr.Character or plr.CharacterAdded:Wait()
 
-
 	--Gun equipped
 	local ToolEquipped
     ToolEquipped = char.ChildAdded:Connect(function(child)
@@ -1691,24 +1793,40 @@ Players.PlayerAdded:Connect(function(plr)
         local GunData = require(child.PagfamGunData)
 		local GunAnim = require(child.PagfamGunAnimations)
 
-        for i, v in pairs(child:GetDescendants()) do --Unanchors all parts
+        for _, v in pairs(child:GetDescendants()) do --Unanchors all parts
             if v:IsA("BasePart") then
                 v.Anchored = false
             end
         end
 
-        --TODO Attach gun to character
+        --TODO: Attach gun to character
 
 
-		-- TODO:Add #1 to client script
+		-- TODO:Add #1 to client script 
 		
-		--Shoot Event
-		local ShootEvent 
-		ShootEvent = PlayerData.RemoteEvents.Shoot.OnClientEvent:Connect(function(eventplr, FireType, ShootType, isHeld)
-			if eventplr ~= plr then
+		local ActionLog = {}
+		
+		local ActionEvent
+		ActionEvent = PlayerData.RemoteEvents.Action.OnServerEvent:Connect(function(eventplr, actionName, actionProperties)
+			if plr ~= eventplr then
+				return 
+			end
+			
+			print(actionName)
+			
+			print(actionProperties)
+			
+
+			ShootTypes.Step(plr, child, actionProperties.TargetPos)
+		end)
+		
+		local UpdateEvent
+		UpdateEvent = PlayerData.RemoteEvents.Update.OnServerEvent:Connect(function(updateplr, updateactionname, updateactionProperties)
+			if plr ~= updateplr then
 				return
 			end
 			
+			print("Updating ".. updateactionname)
 			
 			
 		end)
@@ -1718,7 +1836,8 @@ Players.PlayerAdded:Connect(function(plr)
 			if child ~= ToolUnequip then
 				return
 			end
-			ShootEvent:Disconnect()
+			ActionEvent:Disconnect()
+			UpdateEvent:Disconnect()
 			ToolEquipped:Disconnect()
 			ToolUnequip:Disconnect()
 		end)
@@ -1728,6 +1847,233 @@ end)]]></ProtectedString>
 				<BinaryString name="Tags"></BinaryString>
 				<UniqueId name="UniqueId">653740404b5330d0062c674d00003dd5</UniqueId>
 			</Properties>
+		</Item>
+		<Item class="Folder" referent="RBXACAB62948BA342C6B17C14052A637E75">
+			<Properties>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+				<string name="Name">ServerModules</string>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+				<UniqueId name="UniqueId">7e70e682e9185ea9062f2bdf00004bb8</UniqueId>
+			</Properties>
+			<Item class="ModuleScript" referent="RBX43EEAD41AC404DCB980A79CE16832097">
+				<Properties>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+					<bool name="DefinesCapabilities">false</bool>
+					<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+					<Content name="LinkedSource"><null></null></Content>
+					<string name="Name">FireTypes</string>
+					<string name="ScriptGuid">{E8567EA1-FBA4-45F1-82AE-8B3DAAB0CA14}</string>
+					<ProtectedString name="Source"><![CDATA[--Firetype, derived from rate of fire. Called on the server?
+local FireType = {}
+local ServerScriptService = game:GetService("ServerScriptService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Modules = ReplicatedStorage.Pagfam12ReplicatedStorage.Modules
+local Events = ReplicatedStorage.Pagfam12ReplicatedStorage.RemoteEvents
+local ServerModules = ServerScriptService.ServerModules
+local ShootTypes = require(ServerModules.ShootTypes)
+
+
+function FireType.Constant(functable:{["FunctionName"]:string, ["FunctionParams"]:table}, firetypeparams)
+    if not firetypeparams.IsHeld then
+        warn("IsHeld value doesn't exists for constant firetype, have proper handling!")
+        return
+    end
+    
+    if firetypeparams.IsHeld == true then
+        
+    else
+        return
+    end
+end
+
+function FireType.Single(functable:{["FunctionName"]:string, ["FunctionParams"]:table})
+
+end
+
+function FireType.Multi(funcName, funcParams)
+	
+end
+
+return FireType]]></ProtectedString>
+					<int64 name="SourceAssetId">-1</int64>
+					<BinaryString name="Tags"></BinaryString>
+					<UniqueId name="UniqueId">7e70e682e9185ea9062f2bdf00004bb9</UniqueId>
+				</Properties>
+			</Item>
+			<Item class="ModuleScript" referent="RBX1BDF73E0A74D4081A2F02E9FDF80C014">
+				<Properties>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+					<bool name="DefinesCapabilities">false</bool>
+					<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+					<Content name="LinkedSource"><null></null></Content>
+					<string name="Name">ShootTypes</string>
+					<string name="ScriptGuid">{04BC048D-12F3-460E-A920-004576CD014D}</string>
+					<ProtectedString name="Source"><![CDATA[--Shoot types will be called by fire types
+local ShootTypes = {}
+
+local Players = game:GetService("Players") --haha
+local CollectionService = game:GetService("CollectionService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Modules = ReplicatedStorage.Pagfam12ReplicatedStorage.Modules
+local Events = ReplicatedStorage.Pagfam12ReplicatedStorage.RemoteEvents
+local Debris = game:GetService("Debris")
+local RunService = game:GetService("RunService")
+local HttpService = game:GetService("HttpService")
+
+local function CreateHitMarker(plr:Player, hitData:table)
+    local owner = Instance.new("ObjectValue")
+    owner.Value = plr
+    owner.Name = "owner"
+    
+    local Hit = Instance.new("StringValue")
+    Hit.Name = "PagfamHit"
+    Hit.Value = HttpService:JSONEncode(hitData)
+
+    return owner, Hit
+end
+
+function ShootTypes.Step(plr, Tool, TargetPos:Vector3)
+    local GunData = require(Tool.PagfamGunData)
+	
+	local Bullet:Instance = GunData.Bullet:Clone()
+	
+	if Bullet:IsA("Model") then
+		Bullet = Bullet.PrimaryPart
+	end
+
+    --Bullet:SetAttribute("Owner", plr)
+    Bullet:SetAttribute("Speed", GunData.BulletSpeed)
+    Bullet:SetAttribute("LifeTime", GunData.BulletLifeTime)
+    Debris:AddItem(Bullet, GunData.BulletLifeTime)
+    
+    Bullet.Parent = workspace
+
+    local StepBulletSpeed = GunData.BulletSpeed * -1
+    local SpeedChange
+    SpeedChange = Bullet.AttributeChanged:Connect(function(attributename) --detect when the speed is changed
+        if attributename ~= "Speed" then
+            return
+        end
+        
+        StepBulletSpeed = Bullet:GetAttribute("Speed") * -1
+    end)
+
+    local StartCFrame = CFrame.lookAt(GunData.BulletBase.Position, TargetPos) --wowo ezz...!
+
+    local lastPos = StartCFrame.Position
+
+    local function CheckForCollisions(connection:RBXScriptConnection, startPos) :RaycastResult --TODO: Add shapecasting to Shoot type step
+        local params = RaycastParams.new(GunData.RaycastPartFilter, Enum.RaycastFilterType.Exclude, GunData.FilterWater)
+        
+        local Result:RaycastResult = workspace:Raycast(startPos, lastPos - startPos, params)
+
+        if not Result then
+            return
+        end
+        
+        --This part runs when an object has been hit
+
+        if Result.Instance:IsA("BasePart") and Result.Instance.Parent:FindFirstChild("Humanoid") then --If part hit is a character limb
+            CreateHitMarker(plr, {["RaycastResult"] = Result})
+        end
+
+        Bullet:Destroy()
+        connection:Disconnect()
+    end
+
+    local RenderStep
+    if Bullet:IsA("BasePart") then
+        Bullet.CFrame = StartCFrame
+
+        RenderStep = RunService.Stepped:Connect(function(deltaTime)
+            lastPos = Bullet.CFrame.Position
+            Bullet.CFrame *= CFrame.new(0, 0, StepBulletSpeed * deltaTime)
+                
+            CheckForCollisions(RenderStep, Bullet.CFrame.Position)
+        end)
+    elseif Bullet:IsA("Model") then
+        Bullet:PivotTo(StartCFrame)
+        
+        RenderStep = RunService.Stepped:Connect(function(deltaTime)
+            lastPos = Bullet.CFrame.Position
+            Bullet:PivotTo(Bullet:GetPivot() * CFrame.new(0, 0, StepBulletSpeed * deltaTime))
+            
+            CheckForCollisions(RenderStep, Bullet:GetPivot().Position)
+        end)
+    end
+end
+
+function ShootTypes.Hitscan(plr, Tool, Target:Vector3) --rcl, uses special bullets where it connects at two different positions but also will directly raycast at the target
+    local GunData = require(Tool.PagfamGunData)
+    local Start:Vector3 = GunData.BulletBase.Position
+
+    local Orientation = (Target - Start).Unit --returns orientation, it's being recycled for recasting the ray on the server since the target position came from the client and time has passed.
+
+    local RaycastParams = RaycastParams.new(GunData.RaycastPartFilter, Enum.RaycastFilterType.Exclude, GunData.FilterWater)
+
+    local Result:RaycastResult = workspace:Raycast(Start, Orientation * GunData.RayLength, RaycastParams)
+
+end
+
+function ShootTypes.Raycast(plr, Tool, Target) --Acs, bullet follows a ray
+    
+end
+
+function ShootTypes.Projectile(plr, Tool, Start) --Creates a projectile
+
+end
+
+return ShootTypes]]></ProtectedString>
+					<int64 name="SourceAssetId">-1</int64>
+					<BinaryString name="Tags"></BinaryString>
+					<UniqueId name="UniqueId">7e70e682e9185ea9062f2bdf00004bbb</UniqueId>
+				</Properties>
+			</Item>
+		</Item>
+		<Item class="Folder" referent="RBXD7B9B12DD63047209F87B309C6DDBF39">
+			<Properties>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+				<string name="Name">ToolModules</string>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+				<UniqueId name="UniqueId">7e70e682e9185ea9062f2bdf00004bbd</UniqueId>
+			</Properties>
+			<Item class="ModuleScript" referent="RBX31A19E233911460CA35652611B3654B9">
+				<Properties>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+					<bool name="DefinesCapabilities">false</bool>
+					<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+					<Content name="LinkedSource"><null></null></Content>
+					<string name="Name">PagfamServerActions</string>
+					<string name="ScriptGuid">{894359D0-BE17-4656-848B-656CAD51BF73}</string>
+					<ProtectedString name="Source"><![CDATA[--Actions to run on the server
+local ServerActions = {}
+
+--base actions
+function ServerActions.Equip()
+
+end
+
+function ServerActions.UnEquip()
+
+end
+
+return ServerActions]]></ProtectedString>
+					<int64 name="SourceAssetId">-1</int64>
+					<BinaryString name="Tags"></BinaryString>
+					<UniqueId name="UniqueId">7e70e682e9185ea9062f2bdf00004bbe</UniqueId>
+				</Properties>
+			</Item>
 		</Item>
 	</Item>
 	<Item class="ServerStorage" referent="RBX6F97AC0346F2462C8C6EE5DFC178A0C3">
@@ -1741,6 +2087,57 @@ end)]]></ProtectedString>
 			<BinaryString name="Tags"></BinaryString>
 			<UniqueId name="UniqueId">653740404b5330d0062c674d0000034f</UniqueId>
 		</Properties>
+		<Item class="Model" referent="RBX441F2A0B8DF24797B6AE582A3E9FC827">
+			<Properties>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+				<token name="LevelOfDetail">0</token>
+				<CoordinateFrame name="ModelMeshCFrame">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+					<R00>1</R00>
+					<R01>0</R01>
+					<R02>0</R02>
+					<R10>0</R10>
+					<R11>1</R11>
+					<R12>0</R12>
+					<R20>0</R20>
+					<R21>0</R21>
+					<R22>1</R22>
+				</CoordinateFrame>
+				<SharedString name="ModelMeshData">yuZpQdnvvUBOTYh1jqZ2cA==</SharedString>
+				<Vector3 name="ModelMeshSize">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+				</Vector3>
+				<token name="ModelStreamingMode">0</token>
+				<string name="Name">RBX_ANIMSAVES</string>
+				<bool name="NeedsPivotMigration">false</bool>
+				<Ref name="PrimaryPart">null</Ref>
+				<float name="ScaleFactor">1</float>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+				<UniqueId name="UniqueId">7e70e682e9185ea9062f2bdf00009041</UniqueId>
+				<OptionalCoordinateFrame name="WorldPivotData"></OptionalCoordinateFrame>
+			</Properties>
+			<Item class="ObjectValue" referent="RBX8C83ADBEF2C442EB9775B44644EF0774">
+				<Properties>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+					<bool name="DefinesCapabilities">false</bool>
+					<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+					<string name="Name">Skibidi Toilet</string>
+					<int64 name="SourceAssetId">-1</int64>
+					<BinaryString name="Tags"></BinaryString>
+					<UniqueId name="UniqueId">7e70e682e9185ea9062f2bdf00009042</UniqueId>
+					<Ref name="Value">RBXC1507F8E88D1460D9E916B2489250418</Ref>
+				</Properties>
+			</Item>
+		</Item>
 	</Item>
 	<Item class="ReplicatedStorage" referent="RBXBF67E46C507F490C964DA148B7057563">
 		<Properties>
@@ -1775,125 +2172,6 @@ end)]]></ProtectedString>
 					<BinaryString name="Tags"></BinaryString>
 					<UniqueId name="UniqueId">653740404b5330d0062c674d00003dcd</UniqueId>
 				</Properties>
-				<Item class="ModuleScript" referent="RBXBEB18004C1704F7C94D8772BA17BF5CF">
-					<Properties>
-						<BinaryString name="AttributesSerialize"></BinaryString>
-						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-						<bool name="DefinesCapabilities">false</bool>
-						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-						<Content name="LinkedSource"><null></null></Content>
-						<string name="Name">FireTypes</string>
-						<string name="ScriptGuid">{CB3C7306-5EAF-453B-A1D3-D08D7B997ACD}</string>
-						<ProtectedString name="Source"><![CDATA[--Firetype, derived from rate of fire. Called on the server?
-local FireType = {}
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Modules = ReplicatedStorage.Pagfam12ReplicatedStorage.Modules
-local Events = ReplicatedStorage.Pagfam12ReplicatedStorage.RemoteEvents
-local ShootTypes = require(Modules.FireTypes) --nuh uh
-
-local autoDebounce = false
-function FireType.Constant(func, funcParams, isShooting)
-    if isShooting == true then
-        
-    else
-        return
-    end
-end
-
-function FireType.Single(func, funcParams)
-
-end
-
-function FireType.Multi(func, funcParams)
-	
-end
-
-return FireType]]></ProtectedString>
-						<int64 name="SourceAssetId">-1</int64>
-						<BinaryString name="Tags"></BinaryString>
-						<UniqueId name="UniqueId">653740404b5330d0062c674d00003dce</UniqueId>
-					</Properties>
-				</Item>
-				<Item class="ModuleScript" referent="RBX95F329D29B484CD2AB6246973B6B9DDA">
-					<Properties>
-						<BinaryString name="AttributesSerialize"></BinaryString>
-						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-						<bool name="DefinesCapabilities">false</bool>
-						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-						<Content name="LinkedSource"><null></null></Content>
-						<string name="Name">ShootTypes</string>
-						<string name="ScriptGuid">{C7FD04DD-1983-4C18-9D23-12E3A2F3AFB5}</string>
-						<ProtectedString name="Source"><![CDATA[--Shoot types will be called by fire types
-local ShootTypes = {}
-
-local Players = game:GetService("Players") --haha
-local CollectionService = game:GetService("CollectionService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Modules = ReplicatedStorage.Pagfam12ReplicatedStorage.Modules
-local Events = ReplicatedStorage.Pagfam12ReplicatedStorage.RemoteEvents
-local Debris = game:GetService("Debris")
-local RunService = game:GetService("RunService")
-
-local function Step(plr, Tool)
-	
-    local function createBullet()
-        local GunData = require(Tool.PagfamGunData)
-        local Bullet = GunData.Bullet:Clone()
-        Bullet:SetAttribute("Owner", plr)
-		Bullet:SetAttribute("Speed", GunData.BulletSpeed)
-        Bullet:SetAttribute("LifeTime", GunData.BulletLifeTime)
-		Debris:AddItem(Bullet, GunData.BulletLifeTime)
-
-        Bullet.Parent = workspace
-
-        CollectionService:AddTag("StepBullets")
-    end
-
-    createBullet()
-    
-    local StepConnections = {}
-
-    local function StepBulletsAdded(obj)
-        local StepBulletSpeed = obj:GetAttribute("Speed") * -1 --Multiplied by -1 here to save resources
-        if obj:IsA("BasePart") then
-            local LastCFrame = obj.CFrame
-    
-            StepConnections[obj] = RunService.Renderstepped:Connect(function(deltatime)
-                obj.CFrame *= CFrame.new(0, 0, StepBulletSpeed) * deltatime
-                LastCFrame = obj.CFrame
-            end)
-        elseif obj:IsA("Model") then
-            local LastCFrame = obj:GetPivot()
-    
-            StepConnections[obj] = RunService.Renderstepped:Connect(function(deltatime)
-                obj:TranslateBy(Vector3.new(0, 0, StepBulletSpeed) * deltatime)
-                LastCFrame = obj.CFrame
-            end)
-        end
-    end
-    
-    local function StepBulletsRemoved(obj) --Finds obj by Instance.UniqueId
-        if StepConnections[obj] then
-            StepConnections[obj]:Disconnect()
-            StepConnections[obj] = nil
-        end
-    end
-    
-    CollectionService:GetInstanceAddedSignal("StepBullets"):Connect(StepBulletsAdded)
-    CollectionService:GetInstanceRemovedSignal("StepBullets"):Connect(StepBulletsRemoved)
-end
-
-
-ShootTypes.Functions = {
-    {["ShootType"] = "Step", ["Function"] = Step}
-}
-
-return ShootTypes]]></ProtectedString>
-						<int64 name="SourceAssetId">-1</int64>
-						<BinaryString name="Tags"></BinaryString>
-						<UniqueId name="UniqueId">653740404b5330d0062c674d00003dcf</UniqueId>
-					</Properties>
-				</Item>
 			</Item>
 			<Item class="Folder" referent="RBXF2ADD8A21DB14124A2291BDC03D01E63">
 				<Properties>
@@ -2231,6 +2509,84 @@ return ShootTypes]]></ProtectedString>
 							<bool name="UseJumpPower">true</bool>
 							<float name="WalkSpeed">16</float>
 						</Properties>
+						<Item class="HumanoidDescription" referent="RBX8AF2F0EA519D4252847D6735ACE1030D">
+							<Properties>
+								<string name="AccessoryBlob">[]</string>
+								<string name="AccessoryRigidAndLayeredBlob">[]</string>
+								<BinaryString name="AttributesSerialize"></BinaryString>
+								<string name="BackAccessory"></string>
+								<float name="BodyTypeScale">0.300000012</float>
+								<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+								<int64 name="ClimbAnimation">0</int64>
+								<bool name="DefinesCapabilities">false</bool>
+								<float name="DepthScale">1</float>
+								<string name="EmotesDataInternal"></string>
+								<string name="EquippedEmotesDataInternal"></string>
+								<int64 name="Face">0</int64>
+								<string name="FaceAccessory"></string>
+								<int64 name="FallAnimation">0</int64>
+								<string name="FrontAccessory"></string>
+								<int64 name="GraphicTShirt">0</int64>
+								<string name="HairAccessory"></string>
+								<string name="HatAccessory"></string>
+								<int64 name="Head">0</int64>
+								<Color3 name="HeadColor">
+									<R>0</R>
+									<G>0</G>
+									<B>0</B>
+								</Color3>
+								<float name="HeadScale">1</float>
+								<float name="HeightScale">1</float>
+								<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+								<int64 name="IdleAnimation">0</int64>
+								<int64 name="JumpAnimation">0</int64>
+								<int64 name="LeftArm">0</int64>
+								<Color3 name="LeftArmColor">
+									<R>0</R>
+									<G>0</G>
+									<B>0</B>
+								</Color3>
+								<int64 name="LeftLeg">0</int64>
+								<Color3 name="LeftLegColor">
+									<R>0</R>
+									<G>0</G>
+									<B>0</B>
+								</Color3>
+								<int64 name="MoodAnimation">0</int64>
+								<string name="Name">HumanoidDescription</string>
+								<string name="NeckAccessory"></string>
+								<int64 name="Pants">0</int64>
+								<float name="ProportionScale">1</float>
+								<int64 name="RightArm">0</int64>
+								<Color3 name="RightArmColor">
+									<R>0</R>
+									<G>0</G>
+									<B>0</B>
+								</Color3>
+								<int64 name="RightLeg">0</int64>
+								<Color3 name="RightLegColor">
+									<R>0</R>
+									<G>0</G>
+									<B>0</B>
+								</Color3>
+								<int64 name="RunAnimation">0</int64>
+								<int64 name="Shirt">0</int64>
+								<string name="ShouldersAccessory"></string>
+								<int64 name="SourceAssetId">-1</int64>
+								<int64 name="SwimAnimation">0</int64>
+								<BinaryString name="Tags"></BinaryString>
+								<int64 name="Torso">0</int64>
+								<Color3 name="TorsoColor">
+									<R>0</R>
+									<G>0</G>
+									<B>0</B>
+								</Color3>
+								<UniqueId name="UniqueId">7e70e682e9185ea9062f2bdf00004ffa</UniqueId>
+								<string name="WaistAccessory"></string>
+								<int64 name="WalkAnimation">0</int64>
+								<float name="WidthScale">1</float>
+							</Properties>
+						</Item>
 					</Item>
 					<Item class="Part" referent="RBX2AD3D8E7F59E4F14B5C8939A3669E7B1">
 						<Properties>
@@ -2464,24 +2820,6 @@ return ShootTypes]]></ProtectedString>
 							<UniqueId name="UniqueId">653740404b5330d0062c674d00004eb5</UniqueId>
 						</Properties>
 					</Item>
-					<Item class="Shirt" referent="RBX12A4028D6D494F498C569ED684C02C27">
-						<Properties>
-							<BinaryString name="AttributesSerialize"></BinaryString>
-							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-							<Color3 name="Color3">
-								<R>1</R>
-								<G>1</G>
-								<B>1</B>
-							</Color3>
-							<bool name="DefinesCapabilities">false</bool>
-							<UniqueId name="HistoryId">1ef65c5206ffe63305e2944e0000cd1e</UniqueId>
-							<string name="Name">Shirt</string>
-							<Content name="ShirtTemplate"><url>http://www.roblox.com/asset/?id=11590845885</url></Content>
-							<int64 name="SourceAssetId">-1</int64>
-							<BinaryString name="Tags"></BinaryString>
-							<UniqueId name="UniqueId">653740404b5330d0062c674d00004eb6</UniqueId>
-						</Properties>
-					</Item>
 				</Item>
 			</Item>
 			<Item class="Folder" referent="RBX1A074DAB4E414248AB22AE1A1D590ACF">
@@ -2525,7 +2863,7 @@ return ShootTypes]]></ProtectedString>
 						<token name="ModelStreamingMode">0</token>
 						<string name="Name">Orb</string>
 						<bool name="NeedsPivotMigration">false</bool>
-						<Ref name="PrimaryPart">null</Ref>
+						<Ref name="PrimaryPart">RBXB211714FE7B2462DAE2F02F685451F47</Ref>
 						<float name="ScaleFactor">1</float>
 						<int64 name="SourceAssetId">-1</int64>
 						<BinaryString name="Tags"></BinaryString>
@@ -2599,7 +2937,7 @@ return ShootTypes]]></ProtectedString>
 							<bool name="Massless">false</bool>
 							<token name="Material">288</token>
 							<string name="MaterialVariantSerialized"></string>
-							<string name="Name">Part</string>
+							<string name="Name">Base</string>
 							<CoordinateFrame name="PivotOffset">
 								<X>0</X>
 								<Y>0</Y>
@@ -2649,7 +2987,7 @@ return ShootTypes]]></ProtectedString>
 					</Item>
 					<Item class="Part" referent="RBX2330EABF457848ADBA07355763272B88">
 						<Properties>
-							<bool name="Anchored">true</bool>
+							<bool name="Anchored">false</bool>
 							<BinaryString name="AttributesSerialize"></BinaryString>
 							<float name="BackParamA">-0.5</float>
 							<float name="BackParamB">0.5</float>
@@ -2699,7 +3037,7 @@ return ShootTypes]]></ProtectedString>
 							<bool name="Massless">false</bool>
 							<token name="Material">1568</token>
 							<string name="MaterialVariantSerialized"></string>
-							<string name="Name">Part</string>
+							<string name="Name">Glass</string>
 							<CoordinateFrame name="PivotOffset">
 								<X>0</X>
 								<Y>0</Y>
@@ -2747,9 +3085,98 @@ return ShootTypes]]></ProtectedString>
 							</Vector3>
 						</Properties>
 					</Item>
-					<Item class="Part" referent="RBXA013FF871CC74838AB10FFDEDF477E6B">
+				</Item>
+			</Item>
+			<Item class="Folder" referent="RBXC84124DD4B4A45EE98DA4DB4D9623C4F">
+				<Properties>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+					<bool name="DefinesCapabilities">false</bool>
+					<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+					<string name="Name">GunModels</string>
+					<int64 name="SourceAssetId">-1</int64>
+					<BinaryString name="Tags"></BinaryString>
+					<UniqueId name="UniqueId">7e70e682e9185ea9062f2bdf00004f8d</UniqueId>
+				</Properties>
+				<Item class="Folder" referent="RBX746E1A50AE74402D94B4787FDD9075BE">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<string name="Name">Server</string>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">7e70e682e9185ea9062f2bdf00004f8e</UniqueId>
+					</Properties>
+				</Item>
+				<Item class="Folder" referent="RBXD4C7F4A43B2540C2A169BA8650401F36">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<string name="Name">Client</string>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">7e70e682e9185ea9062f2bdf00004f8f</UniqueId>
+					</Properties>
+				</Item>
+				<Item class="Model" referent="RBXF6056C5BB99F4BB2B4D21D4234E506E7">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<UniqueId name="HistoryId">7e70e682e9185ea9062f2bdf00004f2c</UniqueId>
+						<token name="LevelOfDetail">0</token>
+						<CoordinateFrame name="ModelMeshCFrame">
+							<X>0</X>
+							<Y>0</Y>
+							<Z>0</Z>
+							<R00>1</R00>
+							<R01>0</R01>
+							<R02>0</R02>
+							<R10>0</R10>
+							<R11>1</R11>
+							<R12>0</R12>
+							<R20>0</R20>
+							<R21>0</R21>
+							<R22>1</R22>
+						</CoordinateFrame>
+						<SharedString name="ModelMeshData">yuZpQdnvvUBOTYh1jqZ2cA==</SharedString>
+						<Vector3 name="ModelMeshSize">
+							<X>0</X>
+							<Y>0</Y>
+							<Z>0</Z>
+						</Vector3>
+						<token name="ModelStreamingMode">0</token>
+						<string name="Name">TestGunModel</string>
+						<bool name="NeedsPivotMigration">false</bool>
+						<Ref name="PrimaryPart">RBXDCA868EBC22041148250E6D5C91BCBE2</Ref>
+						<float name="ScaleFactor">0.5</float>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">7e70e682e9185ea9062f2bdf0000ade9</UniqueId>
+						<OptionalCoordinateFrame name="WorldPivotData">
+							<CFrame>
+								<X>28.5</X>
+								<Y>10.25</Y>
+								<Z>-79.25</Z>
+								<R00>1</R00>
+								<R01>0</R01>
+								<R02>0</R02>
+								<R10>0</R10>
+								<R11>1</R11>
+								<R12>0</R12>
+								<R20>0</R20>
+								<R21>0</R21>
+								<R22>1</R22>
+							</CFrame>
+						</OptionalCoordinateFrame>
+					</Properties>
+					<Item class="Part" referent="RBX2345447D073748CCA366BFADC5A9F9DE">
 						<Properties>
-							<bool name="Anchored">true</bool>
+							<bool name="Anchored">false</bool>
 							<BinaryString name="AttributesSerialize"></BinaryString>
 							<float name="BackParamA">-0.5</float>
 							<float name="BackParamB">0.5</float>
@@ -2760,9 +3187,9 @@ return ShootTypes]]></ProtectedString>
 							<token name="BottomSurface">0</token>
 							<token name="BottomSurfaceInput">0</token>
 							<CoordinateFrame name="CFrame">
-								<X>-3.5</X>
-								<Y>11.5</Y>
-								<Z>16.5</Z>
+								<X>28.5</X>
+								<Y>10.75</Y>
+								<Z>-80</Z>
 								<R00>1</R00>
 								<R01>0</R01>
 								<R02>0</R02>
@@ -2780,7 +3207,7 @@ return ShootTypes]]></ProtectedString>
 							<bool name="CastShadow">false</bool>
 							<string name="CollisionGroup">Default</string>
 							<int name="CollisionGroupId">0</int>
-							<Color3uint8 name="Color3uint8">4294901951</Color3uint8>
+							<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
 							<PhysicalProperties name="CustomPhysicalProperties">
 								<CustomPhysics>false</CustomPhysics>
 							</PhysicalProperties>
@@ -2790,16 +3217,16 @@ return ShootTypes]]></ProtectedString>
 							<float name="FrontParamB">0.5</float>
 							<token name="FrontSurface">0</token>
 							<token name="FrontSurfaceInput">0</token>
-							<UniqueId name="HistoryId">7566f6acc3ec6feb062c6c2b00005de1</UniqueId>
+							<UniqueId name="HistoryId">7e70e682e9185ea9062f2bdf00004f2b</UniqueId>
 							<float name="LeftParamA">-0.5</float>
 							<float name="LeftParamB">0.5</float>
 							<token name="LeftSurface">0</token>
 							<token name="LeftSurfaceInput">0</token>
 							<bool name="Locked">false</bool>
 							<bool name="Massless">false</bool>
-							<token name="Material">288</token>
+							<token name="Material">256</token>
 							<string name="MaterialVariantSerialized"></string>
-							<string name="Name">HitBox</string>
+							<string name="Name">Part</string>
 							<CoordinateFrame name="PivotOffset">
 								<X>0</X>
 								<Y>0</Y>
@@ -2831,8 +3258,8 @@ return ShootTypes]]></ProtectedString>
 							<float name="TopParamB">0.5</float>
 							<token name="TopSurface">0</token>
 							<token name="TopSurfaceInput">0</token>
-							<float name="Transparency">1</float>
-							<UniqueId name="UniqueId">7566f6acc3ec6feb062c6c2b000061a3</UniqueId>
+							<float name="Transparency">0</float>
+							<UniqueId name="UniqueId">7e70e682e9185ea9062f2bdf0000adec</UniqueId>
 							<Vector3 name="Velocity">
 								<X>0</X>
 								<Y>0</Y>
@@ -2841,11 +3268,156 @@ return ShootTypes]]></ProtectedString>
 							<token name="formFactorRaw">1</token>
 							<token name="shape">1</token>
 							<Vector3 name="size">
-								<X>3</X>
-								<Y>3</Y>
-								<Z>3</Z>
+								<X>1</X>
+								<Y>0.5</Y>
+								<Z>2</Z>
 							</Vector3>
 						</Properties>
+					</Item>
+					<Item class="Part" referent="RBXDCA868EBC22041148250E6D5C91BCBE2">
+						<Properties>
+							<bool name="Anchored">false</bool>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<float name="BackParamA">-0.5</float>
+							<float name="BackParamB">0.5</float>
+							<token name="BackSurface">0</token>
+							<token name="BackSurfaceInput">0</token>
+							<float name="BottomParamA">-0.5</float>
+							<float name="BottomParamB">0.5</float>
+							<token name="BottomSurface">0</token>
+							<token name="BottomSurfaceInput">0</token>
+							<CoordinateFrame name="CFrame">
+								<X>28.5</X>
+								<Y>10.25</Y>
+								<Z>-79.25</Z>
+								<R00>1</R00>
+								<R01>0</R01>
+								<R02>0</R02>
+								<R10>0</R10>
+								<R11>1</R11>
+								<R12>0</R12>
+								<R20>0</R20>
+								<R21>0</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<bool name="CanCollide">false</bool>
+							<bool name="CanQuery">true</bool>
+							<bool name="CanTouch">true</bool>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="CastShadow">false</bool>
+							<string name="CollisionGroup">Default</string>
+							<int name="CollisionGroupId">0</int>
+							<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
+							<PhysicalProperties name="CustomPhysicalProperties">
+								<CustomPhysics>false</CustomPhysics>
+							</PhysicalProperties>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="EnableFluidForces">true</bool>
+							<float name="FrontParamA">-0.5</float>
+							<float name="FrontParamB">0.5</float>
+							<token name="FrontSurface">0</token>
+							<token name="FrontSurfaceInput">0</token>
+							<UniqueId name="HistoryId">7e70e682e9185ea9062f2bdf00004f2b</UniqueId>
+							<float name="LeftParamA">-0.5</float>
+							<float name="LeftParamB">0.5</float>
+							<token name="LeftSurface">0</token>
+							<token name="LeftSurfaceInput">0</token>
+							<bool name="Locked">false</bool>
+							<bool name="Massless">false</bool>
+							<token name="Material">256</token>
+							<string name="MaterialVariantSerialized"></string>
+							<string name="Name">Handle</string>
+							<CoordinateFrame name="PivotOffset">
+								<X>0</X>
+								<Y>0</Y>
+								<Z>0</Z>
+								<R00>1</R00>
+								<R01>0</R01>
+								<R02>0</R02>
+								<R10>0</R10>
+								<R11>1</R11>
+								<R12>0</R12>
+								<R20>0</R20>
+								<R21>0</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<float name="Reflectance">0</float>
+							<float name="RightParamA">-0.5</float>
+							<float name="RightParamB">0.5</float>
+							<token name="RightSurface">0</token>
+							<token name="RightSurfaceInput">0</token>
+							<int name="RootPriority">0</int>
+							<Vector3 name="RotVelocity">
+								<X>0</X>
+								<Y>0</Y>
+								<Z>0</Z>
+							</Vector3>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<float name="TopParamA">-0.5</float>
+							<float name="TopParamB">0.5</float>
+							<token name="TopSurface">0</token>
+							<token name="TopSurfaceInput">0</token>
+							<float name="Transparency">0</float>
+							<UniqueId name="UniqueId">7e70e682e9185ea9062f2bdf0000ade8</UniqueId>
+							<Vector3 name="Velocity">
+								<X>0</X>
+								<Y>0</Y>
+								<Z>0</Z>
+							</Vector3>
+							<token name="formFactorRaw">1</token>
+							<token name="shape">1</token>
+							<Vector3 name="size">
+								<X>1</X>
+								<Y>0.5</Y>
+								<Z>0.5</Z>
+							</Vector3>
+						</Properties>
+						<Item class="Motor6D" referent="RBX1F036ADF9A5A4599BDD6E7499092761C">
+							<Properties>
+								<BinaryString name="AttributesSerialize"></BinaryString>
+								<CoordinateFrame name="C0">
+									<X>0</X>
+									<Y>0</Y>
+									<Z>-0.75</Z>
+									<R00>1</R00>
+									<R01>0</R01>
+									<R02>0</R02>
+									<R10>0</R10>
+									<R11>1</R11>
+									<R12>0</R12>
+									<R20>0</R20>
+									<R21>0</R21>
+									<R22>1</R22>
+								</CoordinateFrame>
+								<CoordinateFrame name="C1">
+									<X>0</X>
+									<Y>-0.5</Y>
+									<Z>0</Z>
+									<R00>1</R00>
+									<R01>0</R01>
+									<R02>0</R02>
+									<R10>0</R10>
+									<R11>1</R11>
+									<R12>0</R12>
+									<R20>0</R20>
+									<R21>0</R21>
+									<R22>1</R22>
+								</CoordinateFrame>
+								<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+								<bool name="DefinesCapabilities">false</bool>
+								<float name="DesiredAngle">0</float>
+								<bool name="Enabled">true</bool>
+								<UniqueId name="HistoryId">7e70e682e9185ea9062f2bdf00009842</UniqueId>
+								<float name="MaxVelocity">0</float>
+								<string name="Name">Part</string>
+								<Ref name="Part0">RBXDCA868EBC22041148250E6D5C91BCBE2</Ref>
+								<Ref name="Part1">RBX2345447D073748CCA366BFADC5A9F9DE</Ref>
+								<int64 name="SourceAssetId">-1</int64>
+								<BinaryString name="Tags"></BinaryString>
+								<UniqueId name="UniqueId">7e70e682e9185ea9062f2bdf0000adeb</UniqueId>
+							</Properties>
+						</Item>
 					</Item>
 				</Item>
 			</Item>
