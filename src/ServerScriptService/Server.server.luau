@@ -55,7 +55,6 @@ Players.PlayerAdded:Connect(function(plr)
     
     local char = plr.Character or plr.CharacterAdded:Wait()
 
-
 	--Gun equipped
 	local ToolEquipped
     ToolEquipped = char.ChildAdded:Connect(function(child)
@@ -77,26 +76,33 @@ Players.PlayerAdded:Connect(function(plr)
         --TODO: Attach gun to character
 
 
-		-- TODO:Add #1 to client script
+		-- TODO:Add #1 to client script 
+		
+		local ActionLog = {}
 		
 		local ActionEvent
-
-		ActionEvent = PlayerData.RemoteEvents.Action.OnClientEvent:Connect(function(eventplr, actionName, actionProperties)
+		ActionEvent = PlayerData.RemoteEvents.Action.OnServerEvent:Connect(function(eventplr, actionName, actionProperties)
 			if plr ~= eventplr then
 				return 
 			end
-
+			
+			print(actionName)
+			
+			print(actionProperties)
 			
 
-			PlayerData.RemoteEvents.Update.OnClientEvent:Connect(function(updateplr, updateactionname, updateactionProperties)
-				if plr ~= updateplr or actionName ~= updateactionname then
-					return
-				end
-
-				for prop, v in pairs(updateactionProperties) do
-					actionProperties[prop] = v
-				end
-			end)
+			ShootTypes.Step(plr, child, actionProperties.TargetPos)
+		end)
+		
+		local UpdateEvent
+		UpdateEvent = PlayerData.RemoteEvents.Update.OnServerEvent:Connect(function(updateplr, updateactionname, updateactionProperties)
+			if plr ~= updateplr then
+				return
+			end
+			
+			print("Updating ".. updateactionname)
+			
+			
 		end)
 		
 		local ToolUnequip
@@ -105,6 +111,7 @@ Players.PlayerAdded:Connect(function(plr)
 				return
 			end
 			ActionEvent:Disconnect()
+			UpdateEvent:Disconnect()
 			ToolEquipped:Disconnect()
 			ToolUnequip:Disconnect()
 		end)
