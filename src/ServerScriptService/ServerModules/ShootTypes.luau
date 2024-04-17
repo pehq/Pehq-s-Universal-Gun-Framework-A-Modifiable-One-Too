@@ -22,21 +22,17 @@ local function CreateHitMarker(plr:Player, hitData:table)
     return owner, Hit
 end
 
-function ShootTypes.Step(plr, Tool, TargetPos:Vector3)
+--Step
+function ShootTypes.Step(plr: Player, Tool, TargetPos:Vector3)
     local GunData = require(Tool.PagfamGunData)
 	
 	local Bullet:Instance = GunData.Bullet:Clone()
-	
-	if Bullet:IsA("Model") then
-		Bullet = Bullet.PrimaryPart
-	end
+	Bullet.Parent = workspace
 
     --Bullet:SetAttribute("Owner", plr)
     Bullet:SetAttribute("Speed", GunData.BulletSpeed)
     Bullet:SetAttribute("LifeTime", GunData.BulletLifeTime)
     Debris:AddItem(Bullet, GunData.BulletLifeTime)
-    
-    Bullet.Parent = workspace
 
     local StepBulletSpeed = GunData.BulletSpeed * -1
     local SpeedChange
@@ -48,7 +44,7 @@ function ShootTypes.Step(plr, Tool, TargetPos:Vector3)
         StepBulletSpeed = Bullet:GetAttribute("Speed") * -1
     end)
 
-    local StartCFrame = CFrame.lookAt(GunData.BulletBase.Position, TargetPos) --wowo ezz...!
+    local StartCFrame = CFrame.lookAt(plr.Character.Head.Position, TargetPos) --wowo ezz...!
 
     local lastPos = StartCFrame.Position
 
@@ -57,10 +53,12 @@ function ShootTypes.Step(plr, Tool, TargetPos:Vector3)
         
         local Result:RaycastResult = workspace:Raycast(startPos, lastPos - startPos, params)
 
-        if not Result then
+        if not Result or plr == Players:GetPlayerFromCharacter(Result.Instance.Parent) or Result.Instance:FindFirstAncestor(plr.Name) then
             return
         end
-        
+
+		print("Hit ", Result.Instance)
+
         --This part runs when an object has been hit
 
         if Result.Instance:IsA("BasePart") and Result.Instance.Parent:FindFirstChild("Humanoid") then --If part hit is a character limb
@@ -75,18 +73,18 @@ function ShootTypes.Step(plr, Tool, TargetPos:Vector3)
     if Bullet:IsA("BasePart") then
         Bullet.CFrame = StartCFrame
 
-        RenderStep = RunService.Stepped:Connect(function(deltaTime)
+        RenderStep = RunService.Stepped:Connect(function(t, dt)
             lastPos = Bullet.CFrame.Position
-            Bullet.CFrame *= CFrame.new(0, 0, StepBulletSpeed * deltaTime)
+            Bullet.CFrame *= CFrame.new(0, 0, StepBulletSpeed * dt)
                 
             CheckForCollisions(RenderStep, Bullet.CFrame.Position)
         end)
     elseif Bullet:IsA("Model") then
         Bullet:PivotTo(StartCFrame)
         
-        RenderStep = RunService.Stepped:Connect(function(deltaTime)
-            lastPos = Bullet.CFrame.Position
-            Bullet:PivotTo(Bullet:GetPivot() * CFrame.new(0, 0, StepBulletSpeed * deltaTime))
+		RenderStep = RunService.Stepped:Connect(function(t, dt)
+			lastPos = Bullet:GetPivot().Position
+            Bullet:PivotTo(Bullet:GetPivot() * CFrame.new(0, 0, StepBulletSpeed * dt))
             
             CheckForCollisions(RenderStep, Bullet:GetPivot().Position)
         end)

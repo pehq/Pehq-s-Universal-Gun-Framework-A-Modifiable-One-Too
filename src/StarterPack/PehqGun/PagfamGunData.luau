@@ -23,7 +23,7 @@ Data.ClientGunModel = ReplicatedStorage.Pagfam12ReplicatedStorage.GunModels.Test
 Data.ClientGunModelHandleOffset = CFrame.new(1.5, -1, -1) --CFrame value
 Data.Actions = nil --Testing Note: might remove
 Data.Bullet = ReplicatedStorage.Pagfam12ReplicatedStorage.Bullets.Orb --Path to bullet model, can be put in table for multiple different bullets
-Data.BulletBase = ReplicatedStorage.Pagfam12ReplicatedStorage.Bullets.Orb.PrimaryPart --path to the bullet base (uses ServerGunModel) WHY DOES THIS EXISTS?!?!?!!?!
+Data.BulletBase = "Part" --Name of the bullet base (uses ServerGunModel atm) WHY DOES THIS EXISTS?!?!?!!?!
 Data.CharacterHandleAttachPart = "Torso" --Part to attach to the tool
 
 --Animation
@@ -40,7 +40,7 @@ Data.ApplyHumanoidDescriptionToViewmodel = true --Applies the player's avatar to
 --Mouse
 Data.CustomMouseIcon = false
 Data.MouseIconType = "Image" --Either an Image or Gui
-Data.MouseImageId = "" --If MouseIconType is an Image
+Data.MouseImageId = "rbxasset://SystemCursors/Cross" --If MouseIconType is an Image
 
 --Cross-Platform Support (PC support is the base that these platforms will be built on (obviously))
 Data.MobileSupport = false

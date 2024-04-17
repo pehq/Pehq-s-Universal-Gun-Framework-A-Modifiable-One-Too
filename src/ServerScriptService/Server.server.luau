@@ -90,8 +90,7 @@ Players.PlayerAdded:Connect(function(plr)
 			
 			print(actionProperties)
 			
-
-			ShootTypes.Step(plr, child, actionProperties.TargetPos)
+			ShootTypes[actionProperties.ShootType](plr, child, actionProperties.TargetPos)
 		end)
 		
 		local UpdateEvent
@@ -100,7 +99,7 @@ Players.PlayerAdded:Connect(function(plr)
 				return
 			end
 			
-			print("Updating ".. updateactionname)
+			--print("Updating ".. updateactionname)
 			
 			
 		end)

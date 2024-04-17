@@ -25,14 +25,32 @@ end
 
 local function getMouse3dPos(inputObject: InputObject) --similar to mouse.hit.p but better
     local mousepos = inputObject.Position
-
+	
     local cameraRay = Camera:ScreenPointToRay(mousepos.X, mousepos.Y)
----@diagnostic disable-next-line: redundant-parameter
-    local RaycastParams = RaycastParams.new(PagfamGunData.RaycastPartFilter, Enum.RaycastFilterType.Exclude, PagfamGunData.FilterWater)
+---@diagnostic disable-next-line: redundant-parameter	
+		
+	
+	local RaycastParamsThing = RaycastParams.new({table.unpack(PagfamGunData.RaycastPartFilter), character:GetDescendants(), Camera:GetDescendants()}, Enum.RaycastFilterType.Exclude, PagfamGunData.FilterWater)
 
-    local raycastResult = workspace:Raycast(cameraRay.Origin, cameraRay.Direction * PagfamGunData.RayLength, RaycastParams)
+    local raycastResult = workspace:Raycast(cameraRay.Origin, cameraRay.Direction * PagfamGunData.RayLength, RaycastParamsThing)
 
-    raycastResult = raycastResult ~= nil and raycastResult.Position or cameraRay.Origin + cameraRay.Direction * PagfamGunData.RayLength --if there wasn't any instance to hit then it will simply return the destination's position
+	raycastResult = raycastResult ~= nil and raycastResult.Position or cameraRay.Origin + cameraRay.Direction * PagfamGunData.RayLength --if there wasn't any instance to hit then it will simply return the destination's position
+
+	local debugPart = Instance.new("Part")
+	debugPart.Size = Vector3.one
+	debugPart.Position = raycastResult
+	debugPart.Anchored = true
+	debugPart.CanCollide = false
+	debugPart.CanQuery = false
+	debugPart.CanTouch = false
+	debugPart.Transparency = 0.5
+	debugPart.Color = Color3.new(1, 0, 0)
+	debugPart.Material = Enum.Material.Neon
+	debugPart.Parent = workspace
+	task.delay(0.5, function()
+		debugPart:Destroy()
+	end)
+	
 
     return raycastResult
 end
@@ -78,7 +96,6 @@ end
 
 --Functions binded by keybinds using ContextActionService. These functions will be called through another script.
 local MouseDown = false
-
 local function Shoot(actionName, inputState, inputObject)
 	if actionName ~= "Shoot" or inputState == Enum.UserInputState.Cancel then
         return
@@ -88,7 +105,7 @@ local function Shoot(actionName, inputState, inputObject)
     if PagfamGunData.FireType == "Single" and inputState == Enum.UserInputState.Begin and CheckConditions() then
         FireRateCoolDown = true
 
-        PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Constant",["TargetPos"] = getMouse3dPos(inputObject)}) --use remote function to yield?
+        PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Constant", ["ShootType"] = "Step", ["TargetPos"] = getMouse3dPos(inputObject)}) --use remote function to yield?
 
         task.spawn(function()
             task.wait(PagfamGunData.Firerate)
@@ -96,11 +113,11 @@ local function Shoot(actionName, inputState, inputObject)
         end)
     end
 	
-
+--[[
     --Constant (continous shooting)
     if PagfamGunData.FireType == "Constant" and inputState == Enum.UserInputState.Begin and CheckConditions() then
 		print("Started")
-		PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Constant",["TargetPos"] = getMouse3dPos(inputObject), ["isHeld"] = true})
+		PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Constant", ["ShootType"] = "Step", ["TargetPos"] = getMouse3dPos(inputObject), ["isHeld"] = true})
     elseif inputState == Enum.UserInputState.End then
 		MouseDown = false
 		
@@ -119,13 +136,15 @@ local function Shoot(actionName, inputState, inputObject)
     --Multi (number of shots per trigger pulled)
 	if PagfamGunData.FireType == "Multi" and inputState == Enum.UserInputState.Begin and CheckConditions() then
         FireRateCoolDown = true
-		PlayerEvents.Action:FireServer(actionName, "Multi") --use remote function to yield?
+		PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Multi", ["ShootType"] = "Step", ["TargetPos"] = getMouse3dPos(inputObject)}) --use remote function to yield?
         task.spawn(function()
             task.wait(PagfamGunData.Firerate)
             FireRateCoolDown = false
         end)
     end
-    
+    ]]
+
+	return
 end
 
 local function UpdateMousePos(actionName, inputState, inputObject)
