@@ -78,18 +78,18 @@
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<CoordinateFrame name="CFrame">
-					<X>-2.48956823</X>
-					<Y>13.4137268</Y>
-					<Z>12.5208025</Z>
-					<R00>-0.96924001</R00>
-					<R01>-0.103982985</R01>
-					<R02>0.223072737</R02>
-					<R10>-7.45058149e-09</R10>
-					<R11>0.906366229</R11>
-					<R12>0.422492921</R12>
-					<R20>-0.246117681</R20>
-					<R21>0.409497052</R21>
-					<R22>-0.878486335</R22>
+					<X>-151.463394</X>
+					<Y>33.4675789</Y>
+					<Z>-286.255981</Z>
+					<R00>-0.991423249</R00>
+					<R01>-0.0219711456</R01>
+					<R02>-0.128830284</R02>
+					<R10>-0</R10>
+					<R11>0.985767365</R11>
+					<R12>-0.168116033</R12>
+					<R20>0.130690366</R20>
+					<R21>-0.166674137</R21>
+					<R22>-0.977312624</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
@@ -98,9 +98,9 @@
 				<float name="FieldOfView">70</float>
 				<token name="FieldOfViewMode">0</token>
 				<CoordinateFrame name="Focus">
-					<X>-3.5</X>
-					<Y>11.5</Y>
-					<Z>16.5</Z>
+					<X>-151.205734</X>
+					<Y>33.8038101</Y>
+					<Z>-284.301361</Z>
 					<R00>1</R00>
 					<R01>0</R01>
 					<R02>0</R02>
@@ -856,7 +856,19 @@ local function onGunEquip(child)
     --initialize data
     if GunData.CameraMode then
         player.CameraMode = GunData.CameraMode
-    end
+	end
+	
+	for i, v:Instance in pairs(character:GetChildren()) do --filters out all accessories
+		if v:IsA("Accessory") then
+			for i, vParts in pairs(v:GetChildren()) do
+				if vParts:IsA("BasePart") then
+					vParts.CanQuery = false
+				end
+			end
+		end
+	end
+	
+	character.Head.CanQuery = false --TODO: Set CanQuery to false once the player is in first person mode
 
     --create viewmodel
     local curViewmodel:Model = nil
@@ -1075,14 +1087,32 @@ end
 
 local function getMouse3dPos(inputObject: InputObject) --similar to mouse.hit.p but better
     local mousepos = inputObject.Position
-
+	
     local cameraRay = Camera:ScreenPointToRay(mousepos.X, mousepos.Y)
----@diagnostic disable-next-line: redundant-parameter
-    local RaycastParams = RaycastParams.new(PagfamGunData.RaycastPartFilter, Enum.RaycastFilterType.Exclude, PagfamGunData.FilterWater)
+---@diagnostic disable-next-line: redundant-parameter	
+		
+	
+	local RaycastParamsThing = RaycastParams.new({table.unpack(PagfamGunData.RaycastPartFilter), character:GetDescendants(), Camera:GetDescendants()}, Enum.RaycastFilterType.Exclude, PagfamGunData.FilterWater)
 
-    local raycastResult = workspace:Raycast(cameraRay.Origin, cameraRay.Direction * PagfamGunData.RayLength, RaycastParams)
+    local raycastResult = workspace:Raycast(cameraRay.Origin, cameraRay.Direction * PagfamGunData.RayLength, RaycastParamsThing)
 
-    raycastResult = raycastResult ~= nil and raycastResult.Position or cameraRay.Origin + cameraRay.Direction * PagfamGunData.RayLength --if there wasn't any instance to hit then it will simply return the destination's position
+	raycastResult = raycastResult ~= nil and raycastResult.Position or cameraRay.Origin + cameraRay.Direction * PagfamGunData.RayLength --if there wasn't any instance to hit then it will simply return the destination's position
+
+	local debugPart = Instance.new("Part")
+	debugPart.Size = Vector3.one
+	debugPart.Position = raycastResult
+	debugPart.Anchored = true
+	debugPart.CanCollide = false
+	debugPart.CanQuery = false
+	debugPart.CanTouch = false
+	debugPart.Transparency = 0.5
+	debugPart.Color = Color3.new(1, 0, 0)
+	debugPart.Material = Enum.Material.Neon
+	debugPart.Parent = workspace
+	task.delay(0.5, function()
+		debugPart:Destroy()
+	end)
+	
 
     return raycastResult
 end
@@ -1128,7 +1158,6 @@ end
 
 --Functions binded by keybinds using ContextActionService. These functions will be called through another script.
 local MouseDown = false
-
 local function Shoot(actionName, inputState, inputObject)
 	if actionName ~= "Shoot" or inputState == Enum.UserInputState.Cancel then
         return
@@ -1138,7 +1167,7 @@ local function Shoot(actionName, inputState, inputObject)
     if PagfamGunData.FireType == "Single" and inputState == Enum.UserInputState.Begin and CheckConditions() then
         FireRateCoolDown = true
 
-        PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Constant",["TargetPos"] = getMouse3dPos(inputObject)}) --use remote function to yield?
+        PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Constant", ["ShootType"] = "Step", ["TargetPos"] = getMouse3dPos(inputObject)}) --use remote function to yield?
 
         task.spawn(function()
             task.wait(PagfamGunData.Firerate)
@@ -1146,11 +1175,11 @@ local function Shoot(actionName, inputState, inputObject)
         end)
     end
 	
-
+--[[
     --Constant (continous shooting)
     if PagfamGunData.FireType == "Constant" and inputState == Enum.UserInputState.Begin and CheckConditions() then
 		print("Started")
-		PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Constant",["TargetPos"] = getMouse3dPos(inputObject), ["isHeld"] = true})
+		PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Constant", ["ShootType"] = "Step", ["TargetPos"] = getMouse3dPos(inputObject), ["isHeld"] = true})
     elseif inputState == Enum.UserInputState.End then
 		MouseDown = false
 		
@@ -1169,13 +1198,15 @@ local function Shoot(actionName, inputState, inputObject)
     --Multi (number of shots per trigger pulled)
 	if PagfamGunData.FireType == "Multi" and inputState == Enum.UserInputState.Begin and CheckConditions() then
         FireRateCoolDown = true
-		PlayerEvents.Action:FireServer(actionName, "Multi") --use remote function to yield?
+		PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Multi", ["ShootType"] = "Step", ["TargetPos"] = getMouse3dPos(inputObject)}) --use remote function to yield?
         task.spawn(function()
             task.wait(PagfamGunData.Firerate)
             FireRateCoolDown = false
         end)
     end
-    
+    ]]
+
+	return
 end
 
 local function UpdateMousePos(actionName, inputState, inputObject)
@@ -1455,7 +1486,7 @@ Data.ClientGunModel = ReplicatedStorage.Pagfam12ReplicatedStorage.GunModels.Test
 Data.ClientGunModelHandleOffset = CFrame.new(1.5, -1, -1) --CFrame value
 Data.Actions = nil --Testing Note: might remove
 Data.Bullet = ReplicatedStorage.Pagfam12ReplicatedStorage.Bullets.Orb --Path to bullet model, can be put in table for multiple different bullets
-Data.BulletBase = ReplicatedStorage.Pagfam12ReplicatedStorage.Bullets.Orb.PrimaryPart --path to the bullet base (uses ServerGunModel) WHY DOES THIS EXISTS?!?!?!!?!
+Data.BulletBase = "Part" --Name of the bullet base (uses ServerGunModel atm) WHY DOES THIS EXISTS?!?!?!!?!
 Data.CharacterHandleAttachPart = "Torso" --Part to attach to the tool
 
 --Animation
@@ -1472,7 +1503,7 @@ Data.ApplyHumanoidDescriptionToViewmodel = true --Applies the player's avatar to
 --Mouse
 Data.CustomMouseIcon = false
 Data.MouseIconType = "Image" --Either an Image or Gui
-Data.MouseImageId = "" --If MouseIconType is an Image
+Data.MouseImageId = "rbxasset://SystemCursors/Cross" --If MouseIconType is an Image
 
 --Cross-Platform Support (PC support is the base that these platforms will be built on (obviously))
 Data.MobileSupport = false
@@ -1816,8 +1847,7 @@ Players.PlayerAdded:Connect(function(plr)
 			
 			print(actionProperties)
 			
-
-			ShootTypes.Step(plr, child, actionProperties.TargetPos)
+			ShootTypes[actionProperties.ShootType](plr, child, actionProperties.TargetPos)
 		end)
 		
 		local UpdateEvent
@@ -1826,7 +1856,7 @@ Players.PlayerAdded:Connect(function(plr)
 				return
 			end
 			
-			print("Updating ".. updateactionname)
+			--print("Updating ".. updateactionname)
 			
 			
 		end)
@@ -1938,21 +1968,17 @@ local function CreateHitMarker(plr:Player, hitData:table)
     return owner, Hit
 end
 
-function ShootTypes.Step(plr, Tool, TargetPos:Vector3)
+--Step
+function ShootTypes.Step(plr: Player, Tool, TargetPos:Vector3)
     local GunData = require(Tool.PagfamGunData)
 	
 	local Bullet:Instance = GunData.Bullet:Clone()
-	
-	if Bullet:IsA("Model") then
-		Bullet = Bullet.PrimaryPart
-	end
+	Bullet.Parent = workspace
 
     --Bullet:SetAttribute("Owner", plr)
     Bullet:SetAttribute("Speed", GunData.BulletSpeed)
     Bullet:SetAttribute("LifeTime", GunData.BulletLifeTime)
     Debris:AddItem(Bullet, GunData.BulletLifeTime)
-    
-    Bullet.Parent = workspace
 
     local StepBulletSpeed = GunData.BulletSpeed * -1
     local SpeedChange
@@ -1964,7 +1990,7 @@ function ShootTypes.Step(plr, Tool, TargetPos:Vector3)
         StepBulletSpeed = Bullet:GetAttribute("Speed") * -1
     end)
 
-    local StartCFrame = CFrame.lookAt(GunData.BulletBase.Position, TargetPos) --wowo ezz...!
+    local StartCFrame = CFrame.lookAt(plr.Character.Head.Position, TargetPos) --wowo ezz...!
 
     local lastPos = StartCFrame.Position
 
@@ -1973,10 +1999,12 @@ function ShootTypes.Step(plr, Tool, TargetPos:Vector3)
         
         local Result:RaycastResult = workspace:Raycast(startPos, lastPos - startPos, params)
 
-        if not Result then
+        if not Result or plr == Players:GetPlayerFromCharacter(Result.Instance.Parent) or Result.Instance:FindFirstAncestor(plr.Name) then
             return
         end
-        
+
+		print("Hit ", Result.Instance)
+
         --This part runs when an object has been hit
 
         if Result.Instance:IsA("BasePart") and Result.Instance.Parent:FindFirstChild("Humanoid") then --If part hit is a character limb
@@ -1991,18 +2019,18 @@ function ShootTypes.Step(plr, Tool, TargetPos:Vector3)
     if Bullet:IsA("BasePart") then
         Bullet.CFrame = StartCFrame
 
-        RenderStep = RunService.Stepped:Connect(function(deltaTime)
+        RenderStep = RunService.Stepped:Connect(function(t, dt)
             lastPos = Bullet.CFrame.Position
-            Bullet.CFrame *= CFrame.new(0, 0, StepBulletSpeed * deltaTime)
+            Bullet.CFrame *= CFrame.new(0, 0, StepBulletSpeed * dt)
                 
             CheckForCollisions(RenderStep, Bullet.CFrame.Position)
         end)
     elseif Bullet:IsA("Model") then
         Bullet:PivotTo(StartCFrame)
         
-        RenderStep = RunService.Stepped:Connect(function(deltaTime)
-            lastPos = Bullet.CFrame.Position
-            Bullet:PivotTo(Bullet:GetPivot() * CFrame.new(0, 0, StepBulletSpeed * deltaTime))
+		RenderStep = RunService.Stepped:Connect(function(t, dt)
+			lastPos = Bullet:GetPivot().Position
+            Bullet:PivotTo(Bullet:GetPivot() * CFrame.new(0, 0, StepBulletSpeed * dt))
             
             CheckForCollisions(RenderStep, Bullet:GetPivot().Position)
         end)
@@ -2134,7 +2162,7 @@ return ServerActions]]></ProtectedString>
 					<int64 name="SourceAssetId">-1</int64>
 					<BinaryString name="Tags"></BinaryString>
 					<UniqueId name="UniqueId">7e70e682e9185ea9062f2bdf00009042</UniqueId>
-					<Ref name="Value">RBXC1507F8E88D1460D9E916B2489250418</Ref>
+					<Ref name="Value">null</Ref>
 				</Properties>
 			</Item>
 		</Item>
@@ -2287,7 +2315,7 @@ return ServerActions]]></ProtectedString>
 								<R22>-4.37113883e-08</R22>
 							</CoordinateFrame>
 							<bool name="CanCollide">false</bool>
-							<bool name="CanQuery">true</bool>
+							<bool name="CanQuery">false</bool>
 							<bool name="CanTouch">true</bool>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 							<bool name="CastShadow">false</bool>
@@ -2392,7 +2420,7 @@ return ServerActions]]></ProtectedString>
 								<R22>-4.37113883e-08</R22>
 							</CoordinateFrame>
 							<bool name="CanCollide">false</bool>
-							<bool name="CanQuery">true</bool>
+							<bool name="CanQuery">false</bool>
 							<bool name="CanTouch">true</bool>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 							<bool name="CastShadow">false</bool>
@@ -2615,7 +2643,7 @@ return ServerActions]]></ProtectedString>
 								<R22>1</R22>
 							</CoordinateFrame>
 							<bool name="CanCollide">false</bool>
-							<bool name="CanQuery">true</bool>
+							<bool name="CanQuery">false</bool>
 							<bool name="CanTouch">true</bool>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 							<bool name="CastShadow">false</bool>
@@ -2871,7 +2899,7 @@ return ServerActions]]></ProtectedString>
 						<OptionalCoordinateFrame name="WorldPivotData">
 							<CFrame>
 								<X>-3.5</X>
-								<Y>11.5</Y>
+								<Y>13.5</Y>
 								<Z>16.5</Z>
 								<R00>1</R00>
 								<R01>0</R01>
@@ -2899,7 +2927,7 @@ return ServerActions]]></ProtectedString>
 							<token name="BottomSurfaceInput">0</token>
 							<CoordinateFrame name="CFrame">
 								<X>-3.5</X>
-								<Y>11.5</Y>
+								<Y>13.5</Y>
 								<Z>16.5</Z>
 								<R00>1</R00>
 								<R01>0</R01>
@@ -2987,7 +3015,7 @@ return ServerActions]]></ProtectedString>
 					</Item>
 					<Item class="Part" referent="RBX2330EABF457848ADBA07355763272B88">
 						<Properties>
-							<bool name="Anchored">false</bool>
+							<bool name="Anchored">true</bool>
 							<BinaryString name="AttributesSerialize"></BinaryString>
 							<float name="BackParamA">-0.5</float>
 							<float name="BackParamB">0.5</float>
@@ -2999,7 +3027,7 @@ return ServerActions]]></ProtectedString>
 							<token name="BottomSurfaceInput">0</token>
 							<CoordinateFrame name="CFrame">
 								<X>-3.5</X>
-								<Y>11.5</Y>
+								<Y>13.5</Y>
 								<Z>16.5</Z>
 								<R00>1</R00>
 								<R01>0</R01>
@@ -3085,6 +3113,106 @@ return ServerActions]]></ProtectedString>
 							</Vector3>
 						</Properties>
 					</Item>
+				</Item>
+				<Item class="Part" referent="RBX0AFC29F276D741B49B1161060F9C27E2">
+					<Properties>
+						<bool name="Anchored">true</bool>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<float name="BackParamA">-0.5</float>
+						<float name="BackParamB">0.5</float>
+						<token name="BackSurface">0</token>
+						<token name="BackSurfaceInput">0</token>
+						<float name="BottomParamA">-0.5</float>
+						<float name="BottomParamB">0.5</float>
+						<token name="BottomSurface">0</token>
+						<token name="BottomSurfaceInput">0</token>
+						<CoordinateFrame name="CFrame">
+							<X>0</X>
+							<Y>0</Y>
+							<Z>0</Z>
+							<R00>1</R00>
+							<R01>0</R01>
+							<R02>0</R02>
+							<R10>0</R10>
+							<R11>1</R11>
+							<R12>0</R12>
+							<R20>0</R20>
+							<R21>0</R21>
+							<R22>1</R22>
+						</CoordinateFrame>
+						<bool name="CanCollide">false</bool>
+						<bool name="CanQuery">false</bool>
+						<bool name="CanTouch">true</bool>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="CastShadow">false</bool>
+						<string name="CollisionGroup">Default</string>
+						<int name="CollisionGroupId">0</int>
+						<Color3uint8 name="Color3uint8">4294506744</Color3uint8>
+						<PhysicalProperties name="CustomPhysicalProperties">
+							<CustomPhysics>false</CustomPhysics>
+						</PhysicalProperties>
+						<bool name="DefinesCapabilities">false</bool>
+						<bool name="EnableFluidForces">true</bool>
+						<float name="FrontParamA">-0.5</float>
+						<float name="FrontParamB">0.5</float>
+						<token name="FrontSurface">0</token>
+						<token name="FrontSurfaceInput">0</token>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<float name="LeftParamA">-0.5</float>
+						<float name="LeftParamB">0.5</float>
+						<token name="LeftSurface">0</token>
+						<token name="LeftSurfaceInput">0</token>
+						<bool name="Locked">false</bool>
+						<bool name="Massless">false</bool>
+						<token name="Material">288</token>
+						<string name="MaterialVariantSerialized"></string>
+						<string name="Name">RCLBullet</string>
+						<CoordinateFrame name="PivotOffset">
+							<X>0</X>
+							<Y>0</Y>
+							<Z>0</Z>
+							<R00>1</R00>
+							<R01>0</R01>
+							<R02>0</R02>
+							<R10>0</R10>
+							<R11>1</R11>
+							<R12>0</R12>
+							<R20>0</R20>
+							<R21>0</R21>
+							<R22>1</R22>
+						</CoordinateFrame>
+						<float name="Reflectance">0</float>
+						<float name="RightParamA">-0.5</float>
+						<float name="RightParamB">0.5</float>
+						<token name="RightSurface">0</token>
+						<token name="RightSurfaceInput">0</token>
+						<int name="RootPriority">0</int>
+						<Vector3 name="RotVelocity">
+							<X>0</X>
+							<Y>0</Y>
+							<Z>0</Z>
+						</Vector3>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<float name="TopParamA">-0.5</float>
+						<float name="TopParamB">0.5</float>
+						<token name="TopSurface">0</token>
+						<token name="TopSurfaceInput">0</token>
+						<float name="Transparency">0</float>
+						<UniqueId name="UniqueId">37cbfde7584800030631d5b2000055a9</UniqueId>
+						<Vector3 name="Velocity">
+							<X>0</X>
+							<Y>0</Y>
+							<Z>0</Z>
+						</Vector3>
+						<token name="formFactorRaw">1</token>
+						<token name="shape">1</token>
+						<Vector3 name="size">
+							<X>4</X>
+							<Y>1</Y>
+							<Z>2</Z>
+						</Vector3>
+					</Properties>
 				</Item>
 			</Item>
 			<Item class="Folder" referent="RBXC84124DD4B4A45EE98DA4DB4D9623C4F">
@@ -3201,7 +3329,7 @@ return ServerActions]]></ProtectedString>
 								<R22>1</R22>
 							</CoordinateFrame>
 							<bool name="CanCollide">false</bool>
-							<bool name="CanQuery">true</bool>
+							<bool name="CanQuery">false</bool>
 							<bool name="CanTouch">true</bool>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 							<bool name="CastShadow">false</bool>
@@ -3301,7 +3429,7 @@ return ServerActions]]></ProtectedString>
 								<R22>1</R22>
 							</CoordinateFrame>
 							<bool name="CanCollide">false</bool>
-							<bool name="CanQuery">true</bool>
+							<bool name="CanQuery">false</bool>
 							<bool name="CanTouch">true</bool>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 							<bool name="CastShadow">false</bool>
