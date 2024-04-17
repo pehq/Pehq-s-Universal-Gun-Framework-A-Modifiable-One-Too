@@ -77,7 +77,19 @@ local function onGunEquip(child)
     --initialize data
     if GunData.CameraMode then
         player.CameraMode = GunData.CameraMode
-    end
+	end
+	
+	for i, v:Instance in pairs(character:GetChildren()) do --filters out all accessories
+		if v:IsA("Accessory") then
+			for i, vParts in pairs(v:GetChildren()) do
+				if vParts:IsA("BasePart") then
+					vParts.CanQuery = false
+				end
+			end
+		end
+	end
+	
+	character.Head.CanQuery = false --TODO: Set CanQuery to false once the player is in first person mode
 
     --create viewmodel
     local curViewmodel:Model = nil
