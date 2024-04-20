@@ -102,19 +102,19 @@ function ShootTypes.RCL(plr, Tool:Tool, Prop) --rcl, uses special bullets where 
 
     local Orientation = (Target - Start).Unit --returns orientation, it's being recycled for recasting the ray on the server since the target position came from the client and time has passed.
 
-	local RaycastParamsThing = RaycastParams.new({GunData.RaycastPartFilter, plr.Character}, Enum.RaycastFilterType.Exclude, GunData.FilterWater)
+	local RaycastParamsThing = RaycastParams.new()
+	RaycastParamsThing.FilterDescendantsInstances = {GunData.RaycastPartFilter, plr.Character}
+	RaycastParamsThing.FilterType = Enum.RaycastFilterType.Exclude
+	RaycastParamsThing.IgnoreWater = GunData.FilterWater
 	
 
 	local Result:RaycastResult = workspace:Raycast(Start, Orientation * RayLength, RaycastParamsThing)
-	
-	print(Result)
-	print(Result.Instance)
 	
 	if Result ~= nil then
 		RayLength = (Start - Result.Position).Magnitude
 	end
 	
-	if Result.Instance:IsA("BasePart") and Result.Instance.Parent:FindFirstChild("Humanoid") then --If part hit is a character limb
+	if Result ~= nil and Result.Instance:IsA("BasePart") and Result.Instance.Parent:FindFirstChild("Humanoid") then --If part hit is a character limb
 		local owner, hitmarker = CreateHitMarker(plr, {plr.Name, ["Distance"] = Result.Distance})
 		owner.Parent = Result.Instance
 		hitmarker.Parent = Result.Instance
@@ -129,8 +129,7 @@ function ShootTypes.RCL(plr, Tool:Tool, Prop) --rcl, uses special bullets where 
 	end
 	
 	Bullet.Size = Vector3.new(Bullet.Size.X, Bullet.Size.Y, RayLength)
-	Bullet.PivotOffset = CFrame.new(0, 0, RayLength/2)
-	Bullet:PivotTo(CFrame.new(Start) * CFrame.lookAt(Start, Orientation, Vector3.new(0,1,0)))
+	Bullet.CFrame = CFrame.new(Start) * CFrame.lookAt(Vector3.zero, Orientation, Vector3.new(0,1,0)) * CFrame.new(0, 0, - Bullet.Size.Z / 2)
 	Bullet.Color = plr.Team and plr.TeamColor.Color or Color3.new(1,1,1)
 	
 	Bullet.Parent = workspace

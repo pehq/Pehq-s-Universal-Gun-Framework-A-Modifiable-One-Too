@@ -78,18 +78,18 @@
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<CoordinateFrame name="CFrame">
-					<X>-26.1771393</X>
-					<Y>52.5760574</Y>
-					<Z>-60.2218704</Z>
-					<R00>-0.634472311</R00>
-					<R01>0.272316635</R01>
-					<R02>-0.723386824</R02>
-					<R10>-1.49011612e-08</R10>
-					<R11>0.935883284</R11>
-					<R12>0.35231021</R12>
-					<R20>0.772945583</R20>
-					<R21>0.223531082</R21>
-					<R22>-0.593792021</R22>
+					<X>-12.7865229</X>
+					<Y>25.3480473</Y>
+					<Z>-57.3061409</Z>
+					<R00>-0.939181089</R00>
+					<R01>-0.205853149</R01>
+					<R02>0.274888068</R02>
+					<R10>-1.4901163e-08</R10>
+					<R11>0.800437212</R11>
+					<R12>0.599416673</R12>
+					<R20>-0.343422443</R20>
+					<R21>0.562960804</R21>
+					<R22>-0.751755416</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
@@ -98,9 +98,9 @@
 				<float name="FieldOfView">70</float>
 				<token name="FieldOfViewMode">0</token>
 				<CoordinateFrame name="Focus">
-					<X>-24.7303658</X>
-					<Y>51.8714371</Y>
-					<Z>-59.0342865</Z>
+					<X>-13.3362999</X>
+					<Y>24.1492119</Y>
+					<Z>-55.8026276</Z>
 					<R00>1</R00>
 					<R01>0</R01>
 					<R02>0</R02>
@@ -978,9 +978,11 @@ local function onGunEquip(child)
 			CreateModelViewmodel(curViewmodel, GunAnim)
 			
 			--Attach gun to viewmodel
-			local Motor6D:Motor6D = GunModelClient.PrimaryPart.Handle
+			
+			local Motor6D:Motor6D = Instance.new("Motor6D")
 			Motor6D.Part0 = GunModelClient.PrimaryPart
 			Motor6D.Part1 = curViewmodel.PrimaryPart
+			Motor6D.Parent = GunModelClient.PrimaryPart
 			
 			Motor6D.C1 = GunData.ClientGunModelHandleOffset
 			
@@ -1571,7 +1573,7 @@ Data.ShootType = "RCL" --Multiple shoot types, they are Step (the bullet Steps f
 Data.FireType = "Single" --Multiple fire types, they are Single (shoot once when trigger is pulled), Constant (keep shooting when trigger is held down), and Multi (shoot an amount when trigger is pulled)
 Data.ShootOrigin = "Head" --from what part does the bullet spawn at. Will look for part in the character
 Data.CameraMode = Enum.CameraMode.LockFirstPerson
-Data.Firerate = 1
+Data.Firerate = 0.1
 Data.FireTypeMultiFirerate = 0.1 --time between shots if fire type is multi
 Data.EquipTime = 1
 Data.ReloadTime = 3
@@ -1587,7 +1589,7 @@ Data.ClientGunModelHandleOffset = CFrame.new(1.5, -1, -1) --CFrame value
 Data.Actions = nil --Testing Note: might remove
 Data.Bullet = ReplicatedStorage.Pagfam12ReplicatedStorage.Bullets.RCLBullet --Path to bullet model, can be put in table for multiple different bullets
 Data.BulletBase = "BulletBase" --Name of the bullet base (uses ServerGunModel atm) WHY DOES THIS EXISTS?!?!?!!?!
-Data.CharacterHandleAttachPart = "Torso" --Part to attach to the tool
+Data.CharacterHandleAttachPart = "Head" --Part to attach to the tool
 
 --Animation
 Data.ClientAnimationType = "Roblox" --Options include Roblox (Roblox animation from assetid), tweening (similar to acs, exists for acs port), MoonAnimator (Uses Moonlite), and Joint (Similar to how animations were done before animations were a thing)
@@ -1615,7 +1617,7 @@ Data.VRSupport = false
 Data.BulletSpeed = 64 --In studs per second
 Data.BulletLifetime = 0.5 --How long will the bullet live for. (Speed = distance / time)
 --|Hitscan
-Data.BulletLifetime = 60 --How long will the bullet live for
+Data.BulletLifetime = 0.05 --How long will the bullet live for
 Data.RayLength = 1000 --Legth of the ray. 15000 is the max length (for comparison, two characters standing 700 studs away would be like 4 px in height on a FHD monitor (i think...))
 Data.RaycastPartFilter = {} --additional parts to filter (you could use "Pagfam Raycast Filter"...)
 Data.FilterWater = false
@@ -1909,81 +1911,89 @@ end
 local gunEquippedConnections = {}
 Players.PlayerAdded:Connect(function(plr)
     createPlrContainer(plr)
-    
-    local char = plr.Character or plr.CharacterAdded:Wait()
-	
-	for i, v:Instance in pairs(char:GetChildren()) do --filters out all accessories
-		if v:IsA("Accessory") then
-			for i, vParts in pairs(v:GetChildren()) do
-				if vParts:IsA("BasePart") then
-					vParts.CanQuery = false
+	plr.CharacterAdded:Connect(function(char)
+		
+		for i, v:Instance in pairs(char:GetChildren()) do --filters out all accessories
+			if v:IsA("Accessory") then
+				for i, vParts in pairs(v:GetChildren()) do
+					if vParts:IsA("BasePart") then
+						vParts.CanQuery = false
+					end
 				end
 			end
 		end
-	end
-	
-	--Gun equipped
-	local ToolEquipped
-    ToolEquipped = char.ChildAdded:Connect(function(child)
-        if not child:IsA("Tool") or not child:GetAttribute("PAGFAM12") then
-            return
-		end
 		
-		local PlayerData = ReplicatedStorage.Pagfam12ReplicatedStorage.PlayerData[plr.UserId]
-
-        local GunData = require(child.PagfamGunData)
-		local GunAnim = require(child.PagfamGunAnimations)
-
-        for _, v in pairs(child:GetDescendants()) do --Unanchors all parts
-            if v:IsA("BasePart") then
-                v.Anchored = false
-            end
-        end
-
-        --TODO: Attach gun to character
-
-
-		-- TODO:Add #1 to client script 
 		
-		local ActionLog = {}
-		
-		local ActionEvent
-		ActionEvent = PlayerData.RemoteEvents.Action.OnServerEvent:Connect(function(eventplr, actionName, actionProperties, FireTypeProp)
-			if plr ~= eventplr then
-				return 
-			end
-			
-			for i, v in pairs(actionProperties) do
-				ActionLog[i] = v
-			end
-			
-			FireTypes[GunData.FireType](GunData.ShootType, {plr, child, ActionLog}, FireTypeProp)
-			
-			--ShootTypes[actionProperties.ShootType](plr, child, actionProperties.TargetPos)
-		end)
-		
-		local UpdateEvent
-		UpdateEvent = PlayerData.RemoteEvents.Update.OnServerEvent:Connect(function(eventplr, updateactionname, updateactionProperties)
-			if plr ~= eventplr then
+		--Gun equipped
+		local ToolEquipped
+		ToolEquipped = char.ChildAdded:Connect(function(child)
+			if not child:IsA("Tool") or not child:GetAttribute("PAGFAM12") then
 				return
 			end
-			
-			ActionLog[updateactionname] = updateactionProperties
-		end)
-		
-		local ToolUnequip
-		ToolUnequip = char.ChildRemoved:Connect(function()
-			if child ~= ToolUnequip then
-				return
+
+			local PlayerData = ReplicatedStorage.Pagfam12ReplicatedStorage.PlayerData[plr.UserId]
+
+			local GunData = require(child.PagfamGunData)
+			local GunAnim = require(child.PagfamGunAnimations)
+
+			for _, v in pairs(child:GetDescendants()) do --Unanchors all parts
+				if v:IsA("BasePart") then
+					v.Anchored = false
+				end
 			end
+
+			--TODO: Attach gun to character
+			local GunModel:Model = GunData.ServerGunModel:Clone()
 			
-			print("Removed")
-			ActionEvent:Disconnect()
-			UpdateEvent:Disconnect()
-			ToolEquipped:Disconnect()
-			ToolUnequip:Disconnect()
+			local Motor6D:Motor6D = Instance.new("Motor6D")
+			Motor6D.Part0 = GunModel.PrimaryPart
+			Motor6D.Part1 = char[GunData.CharacterHandleAttachPart]
+			Motor6D.Parent = GunModel.PrimaryPart
+
+			GunModel.Parent = char
+
+			-- TODO:Add #1 to client script 
+
+			local ActionLog = {}
+
+			local ActionEvent
+			ActionEvent = PlayerData.RemoteEvents.Action.OnServerEvent:Connect(function(eventplr, actionName, actionProperties, FireTypeProp)
+				if plr ~= eventplr then
+					return 
+				end
+
+				for i, v in pairs(actionProperties) do
+					ActionLog[i] = v
+				end
+
+				FireTypes[GunData.FireType](GunData.ShootType, {plr, child, ActionLog}, FireTypeProp)
+
+				--ShootTypes[actionProperties.ShootType](plr, child, actionProperties.TargetPos)
+			end)
+
+			local UpdateEvent
+			UpdateEvent = PlayerData.RemoteEvents.Update.OnServerEvent:Connect(function(eventplr, updateactionname, updateactionProperties)
+				if plr ~= eventplr then
+					return
+				end
+
+				ActionLog[updateactionname] = updateactionProperties
+			end)
+
+			local ToolUnequip
+			ToolUnequip = char.ChildRemoved:Connect(function()
+				if child ~= ToolUnequip then
+					return
+				end
+
+				print("Removed")
+				ActionEvent:Disconnect()
+				UpdateEvent:Disconnect()
+				ToolEquipped:Disconnect()
+				ToolUnequip:Disconnect()
+			end)
 		end)
-    end)
+	end)
 end)]]></ProtectedString>
 				<int64 name="SourceAssetId">-1</int64>
 				<BinaryString name="Tags"></BinaryString>
@@ -2178,19 +2188,19 @@ function ShootTypes.RCL(plr, Tool:Tool, Prop) --rcl, uses special bullets where 
 
     local Orientation = (Target - Start).Unit --returns orientation, it's being recycled for recasting the ray on the server since the target position came from the client and time has passed.
 
-	local RaycastParamsThing = RaycastParams.new({GunData.RaycastPartFilter, plr.Character}, Enum.RaycastFilterType.Exclude, GunData.FilterWater)
+	local RaycastParamsThing = RaycastParams.new()
+	RaycastParamsThing.FilterDescendantsInstances = {GunData.RaycastPartFilter, plr.Character}
+	RaycastParamsThing.FilterType = Enum.RaycastFilterType.Exclude
+	RaycastParamsThing.IgnoreWater = GunData.FilterWater
 	
 
 	local Result:RaycastResult = workspace:Raycast(Start, Orientation * RayLength, RaycastParamsThing)
-	
-	print(Result)
-	print(Result.Instance)
 	
 	if Result ~= nil then
 		RayLength = (Start - Result.Position).Magnitude
 	end
 	
-	if Result.Instance:IsA("BasePart") and Result.Instance.Parent:FindFirstChild("Humanoid") then --If part hit is a character limb
+	if Result ~= nil and Result.Instance:IsA("BasePart") and Result.Instance.Parent:FindFirstChild("Humanoid") then --If part hit is a character limb
 		local owner, hitmarker = CreateHitMarker(plr, {plr.Name, ["Distance"] = Result.Distance})
 		owner.Parent = Result.Instance
 		hitmarker.Parent = Result.Instance
@@ -2205,8 +2215,7 @@ function ShootTypes.RCL(plr, Tool:Tool, Prop) --rcl, uses special bullets where 
 	end
 	
 	Bullet.Size = Vector3.new(Bullet.Size.X, Bullet.Size.Y, RayLength)
-	Bullet.PivotOffset = CFrame.new(0, 0, RayLength/2)
-	Bullet:PivotTo(CFrame.new(Start) * CFrame.lookAt(Start, Orientation, Vector3.new(0,1,0)))
+	Bullet.CFrame = CFrame.new(Start) * CFrame.lookAt(Vector3.zero, Orientation, Vector3.new(0,1,0)) * CFrame.new(0, 0, - Bullet.Size.Z / 2)
 	Bullet.Color = plr.Team and plr.TeamColor.Color or Color3.new(1,1,1)
 	
 	Bullet.Parent = workspace

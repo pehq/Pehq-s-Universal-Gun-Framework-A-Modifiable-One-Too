@@ -52,79 +52,87 @@ end
 local gunEquippedConnections = {}
 Players.PlayerAdded:Connect(function(plr)
     createPlrContainer(plr)
-    
-    local char = plr.Character or plr.CharacterAdded:Wait()
-	
-	for i, v:Instance in pairs(char:GetChildren()) do --filters out all accessories
-		if v:IsA("Accessory") then
-			for i, vParts in pairs(v:GetChildren()) do
-				if vParts:IsA("BasePart") then
-					vParts.CanQuery = false
+	plr.CharacterAdded:Connect(function(char)
+		
+		for i, v:Instance in pairs(char:GetChildren()) do --filters out all accessories
+			if v:IsA("Accessory") then
+				for i, vParts in pairs(v:GetChildren()) do
+					if vParts:IsA("BasePart") then
+						vParts.CanQuery = false
+					end
 				end
 			end
 		end
-	end
-	
-	--Gun equipped
-	local ToolEquipped
-    ToolEquipped = char.ChildAdded:Connect(function(child)
-        if not child:IsA("Tool") or not child:GetAttribute("PAGFAM12") then
-            return
-		end
 		
-		local PlayerData = ReplicatedStorage.Pagfam12ReplicatedStorage.PlayerData[plr.UserId]
-
-        local GunData = require(child.PagfamGunData)
-		local GunAnim = require(child.PagfamGunAnimations)
-
-        for _, v in pairs(child:GetDescendants()) do --Unanchors all parts
-            if v:IsA("BasePart") then
-                v.Anchored = false
-            end
-        end
-
-        --TODO: Attach gun to character
-
-
-		-- TODO:Add #1 to client script 
 		
-		local ActionLog = {}
-		
-		local ActionEvent
-		ActionEvent = PlayerData.RemoteEvents.Action.OnServerEvent:Connect(function(eventplr, actionName, actionProperties, FireTypeProp)
-			if plr ~= eventplr then
-				return 
-			end
-			
-			for i, v in pairs(actionProperties) do
-				ActionLog[i] = v
-			end
-			
-			FireTypes[GunData.FireType](GunData.ShootType, {plr, child, ActionLog}, FireTypeProp)
-			
-			--ShootTypes[actionProperties.ShootType](plr, child, actionProperties.TargetPos)
-		end)
-		
-		local UpdateEvent
-		UpdateEvent = PlayerData.RemoteEvents.Update.OnServerEvent:Connect(function(eventplr, updateactionname, updateactionProperties)
-			if plr ~= eventplr then
+		--Gun equipped
+		local ToolEquipped
+		ToolEquipped = char.ChildAdded:Connect(function(child)
+			if not child:IsA("Tool") or not child:GetAttribute("PAGFAM12") then
 				return
 			end
-			
-			ActionLog[updateactionname] = updateactionProperties
-		end)
-		
-		local ToolUnequip
-		ToolUnequip = char.ChildRemoved:Connect(function()
-			if child ~= ToolUnequip then
-				return
+
+			local PlayerData = ReplicatedStorage.Pagfam12ReplicatedStorage.PlayerData[plr.UserId]
+
+			local GunData = require(child.PagfamGunData)
+			local GunAnim = require(child.PagfamGunAnimations)
+
+			for _, v in pairs(child:GetDescendants()) do --Unanchors all parts
+				if v:IsA("BasePart") then
+					v.Anchored = false
+				end
 			end
+
+			--TODO: Attach gun to character
+			local GunModel:Model = GunData.ServerGunModel:Clone()
 			
-			print("Removed")
-			ActionEvent:Disconnect()
-			UpdateEvent:Disconnect()
-			ToolEquipped:Disconnect()
-			ToolUnequip:Disconnect()
+			local Motor6D:Motor6D = Instance.new("Motor6D")
+			Motor6D.Part0 = GunModel.PrimaryPart
+			Motor6D.Part1 = char[GunData.CharacterHandleAttachPart]
+			Motor6D.Parent = GunModel.PrimaryPart
+
+			GunModel.Parent = char
+
+			-- TODO:Add #1 to client script 
+
+			local ActionLog = {}
+
+			local ActionEvent
+			ActionEvent = PlayerData.RemoteEvents.Action.OnServerEvent:Connect(function(eventplr, actionName, actionProperties, FireTypeProp)
+				if plr ~= eventplr then
+					return 
+				end
+
+				for i, v in pairs(actionProperties) do
+					ActionLog[i] = v
+				end
+
+				FireTypes[GunData.FireType](GunData.ShootType, {plr, child, ActionLog}, FireTypeProp)
+
+				--ShootTypes[actionProperties.ShootType](plr, child, actionProperties.TargetPos)
+			end)
+
+			local UpdateEvent
+			UpdateEvent = PlayerData.RemoteEvents.Update.OnServerEvent:Connect(function(eventplr, updateactionname, updateactionProperties)
+				if plr ~= eventplr then
+					return
+				end
+
+				ActionLog[updateactionname] = updateactionProperties
+			end)
+
+			local ToolUnequip
+			ToolUnequip = char.ChildRemoved:Connect(function()
+				if child ~= ToolUnequip then
+					return
+				end
+
+				print("Removed")
+				ActionEvent:Disconnect()
+				UpdateEvent:Disconnect()
+				ToolEquipped:Disconnect()
+				ToolUnequip:Disconnect()
+			end)
 		end)
-    end)
+	end)
 end)

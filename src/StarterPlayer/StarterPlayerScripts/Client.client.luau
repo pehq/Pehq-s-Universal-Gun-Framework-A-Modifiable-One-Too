@@ -99,9 +99,11 @@ local function onGunEquip(child)
 			CreateModelViewmodel(curViewmodel, GunAnim)
 			
 			--Attach gun to viewmodel
-			local Motor6D:Motor6D = GunModelClient.PrimaryPart.Handle
+			
+			local Motor6D:Motor6D = Instance.new("Motor6D")
 			Motor6D.Part0 = GunModelClient.PrimaryPart
 			Motor6D.Part1 = curViewmodel.PrimaryPart
+			Motor6D.Parent = GunModelClient.PrimaryPart
 			
 			Motor6D.C1 = GunData.ClientGunModelHandleOffset
 			
