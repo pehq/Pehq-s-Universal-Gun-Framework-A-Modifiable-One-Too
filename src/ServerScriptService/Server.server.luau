@@ -55,7 +55,7 @@ Players.PlayerAdded:Connect(function(plr)
     
     local char = plr.Character or plr.CharacterAdded:Wait()
 	
-	for i, v:Instance in pairs(character:GetChildren()) do --filters out all accessories
+	for i, v:Instance in pairs(char:GetChildren()) do --filters out all accessories
 		if v:IsA("Accessory") then
 			for i, vParts in pairs(v:GetChildren()) do
 				if vParts:IsA("BasePart") then
