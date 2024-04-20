@@ -54,7 +54,17 @@ Players.PlayerAdded:Connect(function(plr)
     createPlrContainer(plr)
     
     local char = plr.Character or plr.CharacterAdded:Wait()
-
+	
+	for i, v:Instance in pairs(character:GetChildren()) do --filters out all accessories
+		if v:IsA("Accessory") then
+			for i, vParts in pairs(v:GetChildren()) do
+				if vParts:IsA("BasePart") then
+					vParts.CanQuery = false
+				end
+			end
+		end
+	end
+	
 	--Gun equipped
 	local ToolEquipped
     ToolEquipped = char.ChildAdded:Connect(function(child)
@@ -81,27 +91,27 @@ Players.PlayerAdded:Connect(function(plr)
 		local ActionLog = {}
 		
 		local ActionEvent
-		ActionEvent = PlayerData.RemoteEvents.Action.OnServerEvent:Connect(function(eventplr, actionName, actionProperties)
+		ActionEvent = PlayerData.RemoteEvents.Action.OnServerEvent:Connect(function(eventplr, actionName, actionProperties, FireTypeProp)
 			if plr ~= eventplr then
 				return 
 			end
 			
-			print(actionName)
+			for i, v in pairs(actionProperties) do
+				ActionLog[i] = v
+			end
 			
-			print(actionProperties)
+			FireTypes[GunData.FireType](GunData.ShootType, {plr, child, ActionLog}, FireTypeProp)
 			
-			ShootTypes[actionProperties.ShootType](plr, child, actionProperties.TargetPos)
+			--ShootTypes[actionProperties.ShootType](plr, child, actionProperties.TargetPos)
 		end)
 		
 		local UpdateEvent
-		UpdateEvent = PlayerData.RemoteEvents.Update.OnServerEvent:Connect(function(updateplr, updateactionname, updateactionProperties)
-			if plr ~= updateplr then
+		UpdateEvent = PlayerData.RemoteEvents.Update.OnServerEvent:Connect(function(eventplr, updateactionname, updateactionProperties)
+			if plr ~= eventplr then
 				return
 			end
 			
-			--print("Updating ".. updateactionname)
-			
-			
+			ActionLog[updateactionname] = updateactionProperties
 		end)
 		
 		local ToolUnequip
@@ -109,6 +119,8 @@ Players.PlayerAdded:Connect(function(plr)
 			if child ~= ToolUnequip then
 				return
 			end
+			
+			print("Removed")
 			ActionEvent:Disconnect()
 			UpdateEvent:Disconnect()
 			ToolEquipped:Disconnect()

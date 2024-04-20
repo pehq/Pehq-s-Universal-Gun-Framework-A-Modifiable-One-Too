@@ -3,12 +3,13 @@ local Data = {}
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 --Basic data (or unsorted)
+
 Data.GunName = "Pistol" --will use the gun name for default paths if the path isn't present
-Data.ShootType = "Step" --Multiple shoot types, they are Step (the bullet Steps fowards), Hitscan (uses mouse.hit, good for rcl), Raycast (casts a ray and see what was hit)
+Data.ShootType = "RCL" --Multiple shoot types, they are Step (the bullet Steps fowards), Hitscan (uses mouse.hit, good for rcl), Raycast (casts a ray and see what was hit)
 Data.FireType = "Single" --Multiple fire types, they are Single (shoot once when trigger is pulled), Constant (keep shooting when trigger is held down), and Multi (shoot an amount when trigger is pulled)
 Data.ShootOrigin = "Head" --from what part does the bullet spawn at. Will look for part in the character
 Data.CameraMode = Enum.CameraMode.LockFirstPerson
-Data.Firerate = 0.1
+Data.Firerate = 1
 Data.FireTypeMultiFirerate = 0.1 --time between shots if fire type is multi
 Data.EquipTime = 1
 Data.ReloadTime = 3
@@ -22,8 +23,8 @@ Data.ServerGunModel = ReplicatedStorage.Pagfam12ReplicatedStorage.GunModels.Test
 Data.ClientGunModel = ReplicatedStorage.Pagfam12ReplicatedStorage.GunModels.TestGunModel
 Data.ClientGunModelHandleOffset = CFrame.new(1.5, -1, -1) --CFrame value
 Data.Actions = nil --Testing Note: might remove
-Data.Bullet = ReplicatedStorage.Pagfam12ReplicatedStorage.Bullets.Orb --Path to bullet model, can be put in table for multiple different bullets
-Data.BulletBase = "Part" --Name of the bullet base (uses ServerGunModel atm) WHY DOES THIS EXISTS?!?!?!!?!
+Data.Bullet = ReplicatedStorage.Pagfam12ReplicatedStorage.Bullets.RCLBullet --Path to bullet model, can be put in table for multiple different bullets
+Data.BulletBase = "BulletBase" --Name of the bullet base (uses ServerGunModel atm) WHY DOES THIS EXISTS?!?!?!!?!
 Data.CharacterHandleAttachPart = "Torso" --Part to attach to the tool
 
 --Animation
@@ -50,9 +51,9 @@ Data.VRSupport = false
 --ShootTypes
 --|Step
 Data.BulletSpeed = 64 --In studs per second
-Data.BulletLifetime = 60 --How long will the bullet live for. (Speed = distance / time)
+Data.BulletLifetime = 0.5 --How long will the bullet live for. (Speed = distance / time)
 --|Hitscan
-Data.BulletLifetime = 0.1 --How long will the bullet live for
+Data.BulletLifetime = 60 --How long will the bullet live for
 Data.RayLength = 1000 --Legth of the ray. 15000 is the max length (for comparison, two characters standing 700 studs away would be like 4 px in height on a FHD monitor (i think...))
 Data.RaycastPartFilter = {} --additional parts to filter (you could use "Pagfam Raycast Filter"...)
 Data.FilterWater = false

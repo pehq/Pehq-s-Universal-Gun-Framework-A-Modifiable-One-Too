@@ -10,7 +10,7 @@ local Debris = game:GetService("Debris")
 local RunService = game:GetService("RunService")
 local HttpService = game:GetService("HttpService")
 
-local function CreateHitMarker(plr:Player, hitData:table)
+local function CreateHitMarker(plr:Player, hitData:table) 
     local owner = Instance.new("ObjectValue")
     owner.Value = plr
     owner.Name = "owner"
@@ -32,7 +32,7 @@ function ShootTypes.Step(plr: Player, Tool, TargetPos:Vector3)
     --Bullet:SetAttribute("Owner", plr)
     Bullet:SetAttribute("Speed", GunData.BulletSpeed)
     Bullet:SetAttribute("LifeTime", GunData.BulletLifeTime)
-    Debris:AddItem(Bullet, GunData.BulletLifeTime)
+	Debris:AddItem(Bullet, GunData.BulletLifetime)
 
     local StepBulletSpeed = GunData.BulletSpeed * -1
     local SpeedChange
@@ -62,7 +62,9 @@ function ShootTypes.Step(plr: Player, Tool, TargetPos:Vector3)
         --This part runs when an object has been hit
 
         if Result.Instance:IsA("BasePart") and Result.Instance.Parent:FindFirstChild("Humanoid") then --If part hit is a character limb
-            CreateHitMarker(plr, {["RaycastResult"] = Result})
+			local owner, hitmarker = CreateHitMarker(plr, {plr.Name, ["Distance"] = Result.Distance})
+			owner.Parent = Result.Instance
+			hitmarker.Parent = Result.Instance
         end
 
         Bullet:Destroy()
@@ -91,16 +93,49 @@ function ShootTypes.Step(plr: Player, Tool, TargetPos:Vector3)
     end
 end
 
-function ShootTypes.Hitscan(plr, Tool, Target:Vector3) --rcl, uses special bullets where it connects at two different positions but also will directly raycast at the target
+function ShootTypes.RCL(plr, Tool:Tool, Prop) --rcl, uses special bullets where it connects at two different positions but also will directly raycast at the target
     local GunData = require(Tool.PagfamGunData)
-    local Start:Vector3 = GunData.BulletBase.Position
+	local Start:Vector3 = Tool.Parent.Head.Position
+	local Target = Prop.TargetPos
+	
+	local RayLength = GunData.RayLength
 
     local Orientation = (Target - Start).Unit --returns orientation, it's being recycled for recasting the ray on the server since the target position came from the client and time has passed.
 
-    local RaycastParams = RaycastParams.new(GunData.RaycastPartFilter, Enum.RaycastFilterType.Exclude, GunData.FilterWater)
+	local RaycastParamsThing = RaycastParams.new({GunData.RaycastPartFilter, plr.Character}, Enum.RaycastFilterType.Exclude, GunData.FilterWater)
+	
 
-    local Result:RaycastResult = workspace:Raycast(Start, Orientation * GunData.RayLength, RaycastParams)
-
+	local Result:RaycastResult = workspace:Raycast(Start, Orientation * RayLength, RaycastParamsThing)
+	
+	print(Result)
+	print(Result.Instance)
+	
+	if Result ~= nil then
+		RayLength = (Start - Result.Position).Magnitude
+	end
+	
+	if Result.Instance:IsA("BasePart") and Result.Instance.Parent:FindFirstChild("Humanoid") then --If part hit is a character limb
+		local owner, hitmarker = CreateHitMarker(plr, {plr.Name, ["Distance"] = Result.Distance})
+		owner.Parent = Result.Instance
+		hitmarker.Parent = Result.Instance
+	end
+	
+	--Now create the laser
+	local Bullet:BasePart = GunData.Bullet:Clone()
+	
+	if not Bullet:IsA("BasePart") then
+		Bullet:Destroy()
+		error("Bullet isn't a BasePart, this shoottype only accepts BaseParts as a bullet")
+	end
+	
+	Bullet.Size = Vector3.new(Bullet.Size.X, Bullet.Size.Y, RayLength)
+	Bullet.PivotOffset = CFrame.new(0, 0, RayLength/2)
+	Bullet:PivotTo(CFrame.new(Start) * CFrame.lookAt(Start, Orientation, Vector3.new(0,1,0)))
+	Bullet.Color = plr.Team and plr.TeamColor.Color or Color3.new(1,1,1)
+	
+	Bullet.Parent = workspace
+	
+	Debris:AddItem(Bullet, GunData.BulletLifetime)
 end
 
 function ShootTypes.Raycast(plr, Tool, Target) --Acs, bullet follows a ray

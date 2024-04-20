@@ -7,25 +7,43 @@ local Events = ReplicatedStorage.Pagfam12ReplicatedStorage.RemoteEvents
 local ServerModules = ServerScriptService.ServerModules
 local ShootTypes = require(ServerModules.ShootTypes)
 
+local hasShot = false
 
-function FireType.Constant(functable:{["FunctionName"]:string, ["FunctionParams"]:table}, firetypeparams)
-    if not firetypeparams.IsHeld then
-        warn("IsHeld value doesn't exists for constant firetype, have proper handling!")
-        return
-    end
-    
-    if firetypeparams.IsHeld == true then
-        
-    else
-        return
-    end
+local function Check()
+	if hasShot == true then
+		return false
+	end
+	
+	return true
 end
 
-function FireType.Single(functable:{["FunctionName"]:string, ["FunctionParams"]:table})
-
+function FireType.Single(funcName, funcProps, props)
+	if not Check() then
+		return
+	end
+	
+	hasShot = true
+	ShootTypes[funcName](table.unpack(funcProps))
+	
+	task.spawn(function()
+		wait()
+		hasShot = false
+	end)
 end
 
-function FireType.Multi(funcName, funcParams)
+function FireType.Constant(funcName, funcProps, props)
+	if funcProps.IsHeld == nil then
+		warn("IsHeld value doesn't exists for constant firetype, have proper handling!")
+		return
+	end
+	if funcProps.IsHeld == true then
+
+	end
+
+	return
+end
+
+function FireType.Multi(funcName, funcProps, props)
 	
 end
 

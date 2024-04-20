@@ -50,7 +50,6 @@ local function getMouse3dPos(inputObject: InputObject) --similar to mouse.hit.p 
 	task.delay(0.5, function()
 		debugPart:Destroy()
 	end)
-	
 
     return raycastResult
 end
@@ -105,7 +104,7 @@ local function Shoot(actionName, inputState, inputObject)
     if PagfamGunData.FireType == "Single" and inputState == Enum.UserInputState.Begin and CheckConditions() then
         FireRateCoolDown = true
 
-        PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Constant", ["ShootType"] = "Step", ["TargetPos"] = getMouse3dPos(inputObject)}) --use remote function to yield?
+        PlayerEvents.Action:FireServer(actionName, {["TargetPos"] = getMouse3dPos(inputObject)}) --use remote function to yield?
 
         task.spawn(function()
             task.wait(PagfamGunData.Firerate)
@@ -152,7 +151,7 @@ local function UpdateMousePos(actionName, inputState, inputObject)
         return
     end
 
-    PlayerEvents.Update:FireServer(actionName, {["TargetPos"] = getMouse3dPos(inputObject)})
+	PlayerEvents.Update:FireServer({"TargetPos", getMouse3dPos(inputObject)})
 end
 
 local function Reload(actionName, inputState, inputObject)
