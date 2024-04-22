@@ -11,7 +11,7 @@ local ShootTypes = require(ServerModules.ShootTypes)
 local PhysicsService = game:GetService("PhysicsService")
 -- local ActionHandler --why does this exists? (I think it might have something to do with the ActionLog variable)
 
-PhysicsService:RegisterCollisionGroup("ViewmodelCollisions")
+PhysicsService:RegisterCollisionGroup("ViewmodelCollisions") --Test tsktsk
 
 for _, v in pairs(PhysicsService:GetRegisteredCollisionGroups()) do
 	if v.name ~= "ViewmodelCollisions" then
