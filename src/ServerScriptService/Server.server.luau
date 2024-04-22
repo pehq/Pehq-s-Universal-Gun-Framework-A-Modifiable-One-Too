@@ -9,7 +9,7 @@ local ServerModules = ServerScriptService.ServerModules
 local FireTypes = require(ServerModules.FireTypes)
 local ShootTypes = require(ServerModules.ShootTypes)
 local PhysicsService = game:GetService("PhysicsService")
-local ActionHandler
+-- local ActionHandler --why does this exists? (I think it might have something to do with the ActionLog variable)
 
 PhysicsService:RegisterCollisionGroup("ViewmodelCollisions")
 
@@ -45,18 +45,14 @@ local function createPlrContainer(plr: Player) --Might store a template somewher
     return container
 end
 
---ShootTypes
-
-
---when plr joins
-local gunEquippedConnections = {}
-Players.PlayerAdded:Connect(function(plr)
-    createPlrContainer(plr)
+--Player Join Function
+local function PlrAdded(plr)
+	createPlrContainer(plr)
 	plr.CharacterAdded:Connect(function(char)
 		
-		for i, v:Instance in pairs(char:GetChildren()) do --filters out all accessories
+		for _, v:Instance in pairs(char:GetChildren()) do --filters out all accessories
 			if v:IsA("Accessory") then
-				for i, vParts in pairs(v:GetChildren()) do
+				for _, vParts in pairs(v:GetChildren()) do
 					if vParts:IsA("BasePart") then
 						vParts.CanQuery = false
 					end
@@ -134,5 +130,17 @@ Players.PlayerAdded:Connect(function(plr)
 				ToolUnequip:Disconnect()
 			end)
 		end)
+
+		local charRemoved
+		charRemoved = plr.CharacterRemoving:Connect(function(char)
+			
+			ToolEquipped:Disconnect()
+			charRemoved:Disconnect()
+		end)
 	end)
-end)
+end
+
+
+--when plr joins
+local gunEquippedConnections = {}
+Players.PlayerAdded:Connect(PlrAdded)
