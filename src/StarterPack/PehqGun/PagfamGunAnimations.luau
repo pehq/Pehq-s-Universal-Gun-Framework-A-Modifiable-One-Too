@@ -43,28 +43,31 @@ end
     you can add your own in place of etc
 ]]
 
-function Anim.Equip()
+Anim.TweenAnims = {}
+local TweenAnims = Anim.TweenAnims
+
+function TweenAnims.Equip()
 
 end
 
-function Anim.Idle()
+function TweenAnims.Idle()
 
 end
 
-function Anim.Aim()
+function TweenAnims.Aim()
 
 end
 
-function Anim.Shoot()
+function TweenAnims.Shoot()
 
 end
 
-function Anim.Reload()
+function TweenAnims.Reload()
 
 end
 
 
-function Anim.Salute() --not inserted cause this ain't a larp gun engine... instead it's up to you!
+function TweenAnims.Salute() --not inserted cause this ain't a larp gun engine... instead it's up to you!
 
 end
 
@@ -81,6 +84,26 @@ end
 local newJoint = {} --uses oop... maybe...
 newJoint.__index = newJoint
 
---Server
+--Most stuff ^^^ up there ^^^ is documentation, here is where the real code begins
+
+Anim.AnimationFile = {
+    ["Shoot"] = {
+        ["Type"] = "Roblox",
+        ["Location"] = "rbxassetid://EXAMPLEID"
+    },
+    ["Idle"] = {
+        ["Type"] = "MoonAnim",
+        ["Location"] = nil, --script.MoonAnimSave
+    },
+    ["Reload"] = {
+        ["Type"] = "TweenAnim",
+        ["Location"] = TweenAnims.Reload
+    },
+    ["Aim"] = {
+        ["Type"] = "Joint",
+        ["Location"] = nil, --still thinking on this but it's similar to the roblox sword script animations
+    }
+}
+
 
 return Anim

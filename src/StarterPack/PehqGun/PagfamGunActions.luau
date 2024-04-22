@@ -1,4 +1,3 @@
-local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Tool = script.Parent
 local PagfamAnimData = require(Tool.PagfamGunAnimations)
@@ -14,10 +13,11 @@ local Equipping = false
 local FireRateCoolDown = false
 local Reloading = false
 local isAiming = false
+local AimDownSights = false
 
 
 local function CheckConditions()
-    if Equipping == true or FireRateCoolDown == true or Reloading == true then
+    if Equipping == true or FireRateCoolDown == true or Reloading == true and AimDownSights == true then
         return false
     end
     return true
@@ -30,7 +30,15 @@ local function getMouse3dPos(inputObject: InputObject) --similar to mouse.hit.p 
 ---@diagnostic disable-next-line: redundant-parameter	
 		
 	
-	local RaycastParamsThing = RaycastParams.new({table.unpack(PagfamGunData.RaycastPartFilter), character:GetDescendants(), Camera:GetDescendants()}, Enum.RaycastFilterType.Exclude, PagfamGunData.FilterWater)
+	local RaycastParamsThing = RaycastParams.new()
+    local x = {character:GetDescendants(), Camera:GetDescendants()}
+    for value in pairs(PagfamGunData.RaycastPartFilter) do
+        table.insert(x, value)
+    end
+
+    RaycastParamsThing.FilterDescendantsInstances = x
+    RaycastParamsThing.FilterType = Enum.RaycastFilterType.Exclude
+    RaycastParamsThing.IgnoreWater = PagfamGunData.FilterWater
 
     local raycastResult = workspace:Raycast(cameraRay.Origin, cameraRay.Direction * PagfamGunData.RayLength, RaycastParamsThing)
 
@@ -94,7 +102,6 @@ function Actions.AdditionalFunctions.Onsit()
 end
 
 --Functions binded by keybinds using ContextActionService. These functions will be called through another script.
-local MouseDown = false
 local function Shoot(actionName, inputState, inputObject)
 	if actionName ~= "Shoot" or inputState == Enum.UserInputState.Cancel then
         return
@@ -112,13 +119,11 @@ local function Shoot(actionName, inputState, inputObject)
         end)
     end
 	
---[[
     --Constant (continous shooting)
     if PagfamGunData.FireType == "Constant" and inputState == Enum.UserInputState.Begin and CheckConditions() then
 		print("Started")
 		PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Constant", ["ShootType"] = "Step", ["TargetPos"] = getMouse3dPos(inputObject), ["isHeld"] = true})
     elseif inputState == Enum.UserInputState.End then
-		MouseDown = false
 		
 		print("Ended")
 
@@ -141,7 +146,6 @@ local function Shoot(actionName, inputState, inputObject)
             FireRateCoolDown = false
         end)
     end
-    ]]
 
 	return
 end
@@ -166,16 +170,18 @@ local function Reload(actionName, inputState, inputObject)
     local UnequipToolConnection
     UnequipToolConnection = Tool.Unequipped:Connect(
         function()
-
             unequippedgun = true
     end)
+
     task.wait(PagfamGunData.ReloadTime)
 
     UnequipToolConnection:Disconnect()
 
-    if PagfamGunData.OffHandReloading == true or not unequippedgun then --check if gun was unequipped
-        --reload function
+    if PagfamGunData.OffHandReloading ~= true or unequippedgun then --check if gun was unequipped
+        return
     end
+
+    --reload function
 end
 
 local function Aim(actionName, inputState, inputObject)
@@ -183,13 +189,8 @@ local function Aim(actionName, inputState, inputObject)
         return
     end
 
-    if not isAiming then
-        isAiming = true
-    else
 
-	end
-	
-	return Enum.ContextActionResult.Pass
+	return Enum.ContextActionResult.Pass --Mouse right click
 end
 
 local function Emote(actionName, inputState, inputObject)

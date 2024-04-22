@@ -1,15 +1,11 @@
 local Players = game:GetService("Players") --HAHAHAW
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
-local Mouse = player:GetMouse()
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Modules = ReplicatedStorage.Pagfam12ReplicatedStorage.Modules
 local Viewmodels = ReplicatedStorage.Pagfam12ReplicatedStorage.Viewmodels
 local RunService = game:GetService("RunService")
 local cam = workspace.CurrentCamera
-local UserInputService = game:GetService("UserInputService")
 local ContextActionService = game:GetService("ContextActionService")
-local PhysicsService = game:GetService("PhysicsService")
 
 --in-scope variables
 local lastViewmodel = nil
@@ -79,9 +75,9 @@ local function onGunEquip(child)
         player.CameraMode = GunData.CameraMode
 	end
 	
-	for i, v:Instance in pairs(character:GetChildren()) do --filters out all accessories
+	for _, v:Instance in pairs(character:GetChildren()) do --filters out all accessories
 		if v:IsA("Accessory") then
-			for i, vParts in pairs(v:GetChildren()) do
+			for _, vParts in pairs(v:GetChildren()) do
 				if vParts:IsA("BasePart") then
 					vParts.CanQuery = false
 				end
@@ -89,7 +85,7 @@ local function onGunEquip(child)
 		end
 	end
 	
-	character.Head.CanQuery = false --TODO: Set CanQuery to false once the player is in first person mode
+	character.Head.CanQuery = false --TODO: Set CanQuery to false once the player is in first person mode (Note: this is probably patched now so it might be safe to remove)
 
     --create viewmodel
     local curViewmodel:Model = nil

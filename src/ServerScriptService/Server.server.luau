@@ -103,7 +103,11 @@ local function PlrAdded(plr)
 					ActionLog[i] = v
 				end
 
-				FireTypes[GunData.FireType](GunData.ShootType, {plr, child, ActionLog}, FireTypeProp)
+
+
+				if GunData.FireType and GunData.ShootType then
+					FireTypes[GunData.FireType](GunData.ShootType, {plr, child, ActionLog}, FireTypeProp)
+				end
 
 				--ShootTypes[actionProperties.ShootType](plr, child, actionProperties.TargetPos)
 			end)
@@ -140,7 +144,6 @@ local function PlrAdded(plr)
 	end)
 end
 
-
 --when plr joins
-local gunEquippedConnections = {}
+
 Players.PlayerAdded:Connect(PlrAdded)
