@@ -84,7 +84,15 @@ local function PlrAdded(plr)
 			
 			local Motor6D:Motor6D = Instance.new("Motor6D")
 			Motor6D.Part0 = GunModel.PrimaryPart
-			Motor6D.Part1 = char[GunData.CharacterHandleAttachPart]
+			
+			for i, v in pairs(GunData.CharacterHandleAttachPart) do --attach to bodypart, will cycle parts if it didn't find the target part
+				if not char:FindFirstChild(v) then
+					continue
+				end
+				Motor6D.Part1 = char[v]
+				break
+			end
+			
 			Motor6D.Parent = GunModel.PrimaryPart
 
 			GunModel.Parent = char
@@ -98,11 +106,14 @@ local function PlrAdded(plr)
 				if plr ~= eventplr then
 					return 
 				end
-
-				for i, v in pairs(actionProperties) do
-					ActionLog[i] = v
+				
+				print(actionProperties)
+				
+				if actionProperties then
+					for i, v in pairs(actionProperties) do
+						ActionLog[i] = v
+					end	
 				end
-
 
 
 				if GunData.FireType and GunData.ShootType then

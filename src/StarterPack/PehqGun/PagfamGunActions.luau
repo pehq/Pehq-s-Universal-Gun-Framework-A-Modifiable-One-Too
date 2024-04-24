@@ -127,7 +127,7 @@ local function Shoot(actionName, inputState, inputObject)
 		
 		print("Ended")
 
-        PlayerEvents.Action:FireServer(actionName, "Constant", getMouse3dPos(inputObject), false)
+        PlayerEvents.Action:FireServer(actionName, {"Constant", getMouse3dPos(inputObject), ["isHeld"] = false})
 
         FireRateCoolDown = true
         task.spawn(function()

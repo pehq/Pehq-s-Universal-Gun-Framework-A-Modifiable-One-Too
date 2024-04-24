@@ -8,7 +8,7 @@ Data.GunName = "Pistol" --will use the gun name for default paths if the path is
 Data.ShootType = "RCL" --Multiple shoot types, they are Step (the bullet Steps fowards), Hitscan (uses mouse.hit, good for rcl), Raycast (casts a ray and see what was hit)
 Data.FireType = "Single" --Multiple fire types, they are Single (shoot once when trigger is pulled), Constant (keep shooting when trigger is held down), and Multi (shoot an amount when trigger is pulled)
 Data.ShootOrigin = "Head" --from what part does the bullet spawn at. Will look for part in the character
-Data.CameraMode = Enum.CameraMode.LockFirstPerson
+Data.CameraMode = Enum.CameraMode.Classic
 Data.Firerate = 0.1
 Data.FireTypeMultiFirerate = 0.1 --time between shots if fire type is multi
 Data.EquipTime = 1
@@ -25,7 +25,7 @@ Data.ClientGunModelHandleOffset = CFrame.new(1.5, -1, -1) --CFrame value
 Data.Actions = nil --Testing Note: might remove
 Data.Bullet = ReplicatedStorage.Pagfam12ReplicatedStorage.Bullets.RCLBullet --Path to bullet model, can be put in table for multiple different bullets
 Data.BulletBase = "BulletBase" --Name of the bullet base (uses ServerGunModel atm) WHY DOES THIS EXISTS?!?!?!!?!
-Data.CharacterHandleAttachPart = "Head" --Part to attach to the tool
+Data.CharacterHandleAttachPart = {"HumanoidRootPart"} --Part to attach to the tool
 
 --Animation
 Data.ClientAnimationType = "Roblox" --Options include Roblox (Roblox animation from assetid), tweening (similar to acs, exists for acs port), MoonAnimator (Uses Moonlite), and Joint (Similar to how animations were done before animations were a thing)
