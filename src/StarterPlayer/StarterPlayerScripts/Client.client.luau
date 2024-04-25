@@ -11,7 +11,7 @@ local ContextActionService = game:GetService("ContextActionService")
 local lastViewmodel = nil
 local ConnectionsToDisconnectOnUnequip = {}
 
-local function ChangeLocalTransparancyOfModelBasedOnFP(mode)
+local function ChangeLocalTransparancyOfModelBasedOnFP(model)
     for i, v in pairs(model:GetDescendants()) do
         if v:IsA("BasePart") then
             if character.Head.LocalTransparencyModifier == 1 then --fully transparent
@@ -108,6 +108,9 @@ local function onGunEquip(child)
 			Motor6D.C1 = GunData.ClientGunModelHandleOffset
 			
 			GunModelClient.Parent = curViewmodel
+			
+			ChangeLocalTransparancyOfModelBasedOnFP(curViewmodel)
+
 			
 			if GunData.ApplyHumanoidDescriptionToViewmodel == true then --TODO: Rehaul this
 				local Humanoid:Humanoid = curViewmodel:FindFirstChild("Humanoid")

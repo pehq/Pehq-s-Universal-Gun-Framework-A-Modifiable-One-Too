@@ -69,6 +69,8 @@ local function PlrAdded(plr)
 			if not child:IsA("Tool") or not child:GetAttribute("PAGFAM12") then
 				return
 			end
+			
+			print("HEHEHEHAH")
 
 			local PlayerData = ReplicatedStorage.Pagfam12ReplicatedStorage.PlayerData[plr.UserId]
 
@@ -84,20 +86,20 @@ local function PlrAdded(plr)
 			--TODO: Attach gun to character
 			local GunModel:Model = GunData.ServerGunModel:Clone()
 			
-			local Motor6D:Motor6D = Instance.new("Motor6D")
-			Motor6D.Name = "BodyAttach"
-			Motor6D.Part1 = GunModel.PrimaryPart
+			local BodyAttach:Motor6D = Instance.new("Motor6D")
+			BodyAttach.Name = "BodyAttach"
+			BodyAttach.Part1 = GunModel.PrimaryPart
 			
 			for i, v in pairs(GunData.CharacterHandleAttachPart) do --attach to bodypart, will cycle parts if it didn't find the target part
 				if not char:FindFirstChild(v) then
 					continue
 				end
 				
-				Motor6D.Part0 = char[v]
+				BodyAttach.Part0 = char[v]
 				
 				print(char[v])
 				
-				Motor6D.Parent = char[v]
+				BodyAttach.Parent = char[v]
 				break
 			end
 			
@@ -110,8 +112,8 @@ local function PlrAdded(plr)
 			local Animator:Animator = char.Humanoid.Animator
 			local Amination = Instance.new("Animation")
 			Amination.AnimationId = tmpId
-			local AnimationTrack = Animator:LoadAnimation(Amination)
-			AnimationTrack:Play()
+			local anim = Animator:LoadAnimation(Amination)
+			anim:Play()
 
 			-- TODO:Add #1 to client script 
 
@@ -149,17 +151,17 @@ local function PlrAdded(plr)
 			end)
 
 			local ToolUnequip
-			ToolUnequip = char.ChildRemoved:Connect(function()
-				if child ~= ToolUnequip then
+			ToolUnequip = char.ChildRemoved:Connect(function(removingchild)
+				if child ~= removingchild then
 					return
 				end
-
-
-				AnimationTrack:Stop()
+				
+				anim:Stop()
+				GunModel:Destroy()
+				BodyAttach:Destroy()
 				print("Removed")
 				ActionEvent:Disconnect()
 				UpdateEvent:Disconnect()
-				ToolEquipped:Disconnect()
 				ToolUnequip:Disconnect()
 			end)
 		end)
