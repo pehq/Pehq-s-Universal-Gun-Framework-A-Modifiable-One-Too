@@ -24,8 +24,8 @@ Data.ClientGunModel = ReplicatedStorage.Pagfam12ReplicatedStorage.GunModels.Test
 Data.ClientGunModelHandleOffset = CFrame.new(1.5, -1, -1) --CFrame value
 Data.Actions = nil --Testing Note: might remove
 Data.Bullet = ReplicatedStorage.Pagfam12ReplicatedStorage.Bullets.RCLBullet --Path to bullet model, can be put in table for multiple different bullets
-Data.BulletBase = "BulletBase" --Name of the bullet base (uses ServerGunModel atm) WHY DOES THIS EXISTS?!?!?!!?!
-Data.CharacterHandleAttachPart = {"HumanoidRootPart"} --Part to attach to the tool
+Data.BulletBase = "BulletBase" --Name of the bullet base (uses ServerGunModel atm)
+Data.CharacterHandleAttachPart = {"UpperTorso"} --Part to attach to the tool
 
 --Animation
 Data.ClientAnimationType = "Roblox" --Options include Roblox (Roblox animation from assetid), tweening (similar to acs, exists for acs port), MoonAnimator (Uses Moonlite), and Joint (Similar to how animations were done before animations were a thing)

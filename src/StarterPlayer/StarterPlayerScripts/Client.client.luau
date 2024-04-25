@@ -11,7 +11,7 @@ local ContextActionService = game:GetService("ContextActionService")
 local lastViewmodel = nil
 local ConnectionsToDisconnectOnUnequip = {}
 
-local function ChangeLocalTransparancyOfModelBasedOnFP(model)
+local function ChangeLocalTransparancyOfModelBasedOnFP(mode)
     for i, v in pairs(model:GetDescendants()) do
         if v:IsA("BasePart") then
             if character.Head.LocalTransparencyModifier == 1 then --fully transparent
@@ -40,8 +40,9 @@ local function CreateModelViewmodel(viewmodel: Model, gunanim)
     local function RenderBeforeCamera(dt)
 		viewmodel.HumanoidRootPart.CFrame = cam.CFrame * ViewmodelOffest
     end
-
-    character.Head:GetPropertyChangedSignal("LocalTransparencyModifier"):Connect(function() --check if player is in first person by seeing if the head becomes transparent
+	
+	local FPVisibility
+	FPVisibility = character.Head:GetPropertyChangedSignal("LocalTransparencyModifier"):Connect(function() --check if player is in first person by seeing if the head becomes transparent
         ChangeLocalTransparancyOfModelBasedOnFP(viewmodel)
 	end)
 	
@@ -53,7 +54,10 @@ local function CreateModelViewmodel(viewmodel: Model, gunanim)
 		end
 	end
 
+	ChangeLocalTransparancyOfModelBasedOnFP(viewmodel)
+
 	table.insert(ConnectionsToDisconnectOnUnequip, RunService.RenderStepped:Connect(RenderBeforeCamera))
+	table.insert(ConnectionsToDisconnectOnUnequip, FPVisibility)
 end
 
 

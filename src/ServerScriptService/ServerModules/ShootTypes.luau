@@ -44,7 +44,7 @@ function ShootTypes.Step(plr: Player, Tool, TargetPos:Vector3)
         StepBulletSpeed = Bullet:GetAttribute("Speed") * -1
     end)
 
-    local StartCFrame = CFrame.lookAt(plr.Character.Head.Position, TargetPos) --wowo ezz...!
+	local StartCFrame = CFrame.lookAt(plr.Character[GunData.ServerGunModel.Name][GunData.BulletBase].Position, TargetPos) --wowo ezz...!
 
     local lastPos = StartCFrame.Position
 
@@ -95,7 +95,7 @@ end
 
 function ShootTypes.RCL(plr, Tool:Tool, Prop) --rcl, uses special bullets where it connects at two different positions but also will directly raycast at the target
     local GunData = require(Tool.PagfamGunData)
-	local Start:Vector3 = Tool.Parent.Head.Position
+	local Start:Vector3 = plr.Character[GunData.ServerGunModel.Name][GunData.BulletBase].Position
 	local Target = Prop.TargetPos
 	
 	local RayLength = GunData.RayLength

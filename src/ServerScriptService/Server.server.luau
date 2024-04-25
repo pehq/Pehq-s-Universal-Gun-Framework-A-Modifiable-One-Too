@@ -9,6 +9,8 @@ local ServerModules = ServerScriptService.ServerModules
 local FireTypes = require(ServerModules.FireTypes)
 local ShootTypes = require(ServerModules.ShootTypes)
 local PhysicsService = game:GetService("PhysicsService")
+local KeyframeSequenceProvider = game:GetService("KeyframeSequenceProvider")
+local ServerStorage = game:GetService("ServerStorage")
 -- local ActionHandler --why does this exists? (I think it might have something to do with the ActionLog variable)
 
 PhysicsService:RegisterCollisionGroup("ViewmodelCollisions") --Test tsktsk
@@ -83,19 +85,33 @@ local function PlrAdded(plr)
 			local GunModel:Model = GunData.ServerGunModel:Clone()
 			
 			local Motor6D:Motor6D = Instance.new("Motor6D")
-			Motor6D.Part0 = GunModel.PrimaryPart
+			Motor6D.Name = "BodyAttach"
+			Motor6D.Part1 = GunModel.PrimaryPart
 			
 			for i, v in pairs(GunData.CharacterHandleAttachPart) do --attach to bodypart, will cycle parts if it didn't find the target part
 				if not char:FindFirstChild(v) then
 					continue
 				end
-				Motor6D.Part1 = char[v]
+				
+				Motor6D.Part0 = char[v]
+				
+				print(char[v])
+				
+				Motor6D.Parent = char[v]
 				break
 			end
 			
-			Motor6D.Parent = GunModel.PrimaryPart
+			
 
 			GunModel.Parent = char
+			
+			--animate
+			local tmpId = KeyframeSequenceProvider:RegisterKeyframeSequence(ServerStorage.RBX_ANIMSAVES.Rig.idle)
+			local Animator:Animator = char.Humanoid.Animator
+			local Amination = Instance.new("Animation")
+			Amination.AnimationId = tmpId
+			local AnimationTrack = Animator:LoadAnimation(Amination)
+			AnimationTrack:Play()
 
 			-- TODO:Add #1 to client script 
 
@@ -138,6 +154,8 @@ local function PlrAdded(plr)
 					return
 				end
 
+
+				AnimationTrack:Stop()
 				print("Removed")
 				ActionEvent:Disconnect()
 				UpdateEvent:Disconnect()
