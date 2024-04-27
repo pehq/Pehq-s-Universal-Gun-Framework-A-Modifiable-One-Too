@@ -10,6 +10,7 @@ local ContextActionService = game:GetService("ContextActionService")
 --in-scope variables
 local lastViewmodel = nil
 local ConnectionsToDisconnectOnUnequip = {}
+local LocalTransparencyModifierContainer = {}
 
 local function ChangeLocalTransparancyOfModelBasedOnFP(model)
     for i, v in pairs(model:GetDescendants()) do
@@ -23,13 +24,10 @@ local function ChangeLocalTransparancyOfModelBasedOnFP(model)
     end
 end
 
-local function SetCharacterViewmodel(bodypartstoshowinfp) --TODO: #3 Make it so the arms move with the camera
-	for _, v in pairs(bodypartstoshowinfp) do
-		if character:FindFirstChild(v) then
-			print(v)
-        	character[v].LocalTransparencyModifier = 0 --TODO: #2 test if character's limbs will be visisble on respawn
-		end
-    end
+local function SetCharacterLocalTransparency()
+	for i, v in pairs(LocalTransparencyModifierContainer) do
+		v.LocalTransparencyModifier = 0
+	end
 end
 
 local function CreateModelViewmodel(viewmodel: Model, gunanim)
@@ -61,7 +59,7 @@ local function CreateModelViewmodel(viewmodel: Model, gunanim)
 end
 
 
-local function onGunEquip(child)
+local function onGunEquip(child:Model)
     if not child:GetAttribute("PAGFAM12") then --Returns if it doesn't have PAGFAM12 property or if it's false
         return
     end
@@ -70,9 +68,10 @@ local function onGunEquip(child)
 
 	local GunData = require(child.PagfamGunData)
 	local GunAnim = require(child.PagfamGunAnimations)
-	local GunActions = require(child.PagfamGunActions) 
+	local GunActions = require(child.PagfamGunActions)
 	
 	local GunModelClient:Model = GunData.ClientGunModel:Clone()
+	local CharGunModel = character:WaitForChild(GunData.ServerGunModel.Name)
 	
     --initialize data
     if GunData.CameraMode then
@@ -88,8 +87,6 @@ local function onGunEquip(child)
 			end
 		end
 	end
-	
-	character.Head.CanQuery = false --TODO: Set CanQuery to false once the player is in first person mode (Note: this is probably patched now so it might be safe to remove)
 
     --create viewmodel
     local curViewmodel:Model = nil
@@ -127,8 +124,23 @@ local function onGunEquip(child)
 			
 			
 		elseif GunData.FPViewmodelType == "Roblox" then
-			SetCharacterViewmodel(GunData.BodyPartsToShowInFPS)			
+			for i, v in pairs(CharGunModel:GetDescendants()) do
+				if v:IsA("BasePart") then
+					table.insert(LocalTransparencyModifierContainer, v)
+				end
+			end
+			for i, v in pairs(character:GetChildren()) do
+				if v:IsA("BasePart") and table.find(GunData.BodyPartsToShowInFPS, v.Name) ~= nil then
+					table.insert(LocalTransparencyModifierContainer, v)
+				end
+			end
 			
+			local ViewmodelShow
+			ViewmodelShow = RunService.RenderStepped:Connect(function(dt)
+				SetCharacterLocalTransparency()
+			end)
+			
+			table.insert(ConnectionsToDisconnectOnUnequip, ViewmodelShow)
 		end 
 	end
     
