@@ -31,13 +31,22 @@ function FireType.Single(funcName, funcProps, props)
 	end)
 end
 
+
+local isHeld = false
 function FireType.Constant(funcName, funcProps, props)
 	if funcProps.IsHeld == nil then
 		warn("IsHeld value doesn't exists for constant firetype, have proper handling!")
+		funcProps.IsHeld = false
+	end
+	
+	if funcProps.IsHeld == false then
+		isHeld = false
 		return
 	end
-	if funcProps.IsHeld == true then
 
+	while isHeld == true do
+		ShootTypes[funcName](table.unpack(funcProps))
+		task.wait(props.ConstantRate)
 	end
 
 	return
