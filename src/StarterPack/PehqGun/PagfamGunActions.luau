@@ -40,9 +40,18 @@ local function getMouse3dPos(inputObject: InputObject) --similar to mouse.hit.p 
     RaycastParamsThing.FilterType = Enum.RaycastFilterType.Exclude
     RaycastParamsThing.IgnoreWater = PagfamGunData.FilterWater
 
-    local raycastResult = workspace:Raycast(cameraRay.Origin, cameraRay.Direction * PagfamGunData.RayLength, RaycastParamsThing)
+    local raycastResult:RaycastResult = workspace:Raycast(cameraRay.Origin, cameraRay.Direction * PagfamGunData.RayLength, RaycastParamsThing)
 
-	raycastResult = raycastResult ~= nil and raycastResult.Position or cameraRay.Origin + cameraRay.Direction * PagfamGunData.RayLength --if there wasn't any instance to hit then it will simply return the destination's position
+	--raycastResult = raycastResult ~= nil and raycastResult.Position or cameraRay.Origin + cameraRay.Direction * PagfamGunData.RayLength --if there wasn't any instance to hit then it will simply return the destination's position
+	if not raycastResult then --if not raycast result then return a value
+		raycastResult = {
+			["Distance"] = PagfamGunData.RayLength,
+			["Instance"] = nil,
+			["Material"] = nil,
+			["Position"] = cameraRay.Origin + cameraRay.Direction * PagfamGunData.RayLength,
+			["Normal"] = ((workspace.Camera.CFrame.LookVector.Unit) - Vector3.new(0.5)):Ceil() * -1, --Returns skybox (don't know why you'll need this...)
+		}
+	end
 
 	local debugPart = Instance.new("Part")
 	debugPart.Size = Vector3.one
@@ -77,13 +86,18 @@ end
 --functions called by the framework, they are called by name
 local ConnectionsToDisconnectOnUnequip = {}
 
+local idleAnim
+
 function Actions.Equip()
     Equipping = true
     task.wait(PagfamAnimData.EquipTime)
-    Equipping = false
+	Equipping = false
+	
+	idleAnim = PagfamAnimData.AnimationFile.CharIdle(character)
 end
 
 function Actions.UnEquip()
+	idleAnim:Stop()
     for _, v in pairs(ConnectionsToDisconnectOnUnequip) do
         v:Disconnect()
     end
@@ -106,28 +120,35 @@ local function Shoot(actionName, inputState, inputObject)
 	if actionName ~= "Shoot" or inputState == Enum.UserInputState.Cancel then
         return
 	end
+	
+	print(inputState == Enum.UserInputState.Begin)
 
     --Single (shoot once then let go)
     if PagfamGunData.FireType == "Single" and inputState == Enum.UserInputState.Begin and CheckConditions() then
-        FireRateCoolDown = true
-
-        PlayerEvents.Action:FireServer(actionName, {["TargetPos"] = getMouse3dPos(inputObject)}) --use remote function to yield?
+		FireRateCoolDown = true
+		
+		local res = getMouse3dPos(inputObject)
+		
+        PlayerEvents.Action:FireServer(actionName, {["TargetPos"] = res.Position, ["RaycastResult"] = res}) --use remote function to yield?
 
         task.spawn(function()
             task.wait(PagfamGunData.Firerate)
             FireRateCoolDown = false
         end)
     end
-	
+	--[[
     --Constant (continous shooting)
     if PagfamGunData.FireType == "Constant" and inputState == Enum.UserInputState.Begin and CheckConditions() then
 		print("Started")
-		PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Constant", ["ShootType"] = "Step", ["TargetPos"] = getMouse3dPos(inputObject), ["isHeld"] = true})
+		
+		local res = getMouse3dPos(inputObject)
+		
+		PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Constant", ["ShootType"] = "Step", ["TargetPos"] = res.Position, ["RaycastResult"] = res, ["isHeld"] = true})
     elseif inputState == Enum.UserInputState.End then
 		
 		print("Ended")
 
-        PlayerEvents.Action:FireServer(actionName, {"Constant", getMouse3dPos(inputObject), ["isHeld"] = false})
+        PlayerEvents.Action:FireServer(actionName, {"Constant", getMouse3dPos(inputObject).Position, ["isHeld"] = false})
 
         FireRateCoolDown = true
         task.spawn(function()
@@ -140,13 +161,13 @@ local function Shoot(actionName, inputState, inputObject)
     --Multi (number of shots per trigger pulled)
 	if PagfamGunData.FireType == "Multi" and inputState == Enum.UserInputState.Begin and CheckConditions() then
         FireRateCoolDown = true
-		PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Multi", ["ShootType"] = "Step", ["TargetPos"] = getMouse3dPos(inputObject)}) --use remote function to yield?
+		PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Multi", ["ShootType"] = "Step", ["TargetPos"] = getMouse3dPos(inputObject).Position, ["RaycastResult"] = getMouse3dPos(inputObject)}) --use remote function to yield?
         task.spawn(function()
             task.wait(PagfamGunData.Firerate)
             FireRateCoolDown = false
         end)
     end
-
+	]]
 	return
 end
 
@@ -155,7 +176,7 @@ local function UpdateMousePos(actionName, inputState, inputObject)
         return
     end
 
-	PlayerEvents.Update:FireServer({"TargetPos", getMouse3dPos(inputObject)})
+	PlayerEvents.Update:FireServer({"TargetPos", getMouse3dPos(inputObject).Position})
 end
 
 local function Reload(actionName, inputState, inputObject)
