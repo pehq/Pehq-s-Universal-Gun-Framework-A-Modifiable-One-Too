@@ -107,13 +107,7 @@ local function PlrAdded(plr)
 
 			GunModel.Parent = char
 			
-			--animate
-			local tmpId = KeyframeSequenceProvider:RegisterKeyframeSequence(ServerStorage.RBX_ANIMSAVES.Rig.idle)
-			local Animator:Animator = char.Humanoid.Animator
-			local Amination = Instance.new("Animation")
-			Amination.AnimationId = tmpId
-			local anim = Animator:LoadAnimation(Amination)
-			anim:Play()
+			--animate (unless client repplication is a thing...)
 
 			-- TODO:Add #1 to client script 
 
@@ -132,7 +126,10 @@ local function PlrAdded(plr)
 						ActionLog[i] = v
 					end	
 				end
-
+				
+				if actionName == "Constant" then
+					return --figure out later
+				end
 
 				if GunData.FireType and GunData.ShootType then
 					FireTypes[GunData.FireType](GunData.ShootType, {plr, child, ActionLog}, FireTypeProp)
