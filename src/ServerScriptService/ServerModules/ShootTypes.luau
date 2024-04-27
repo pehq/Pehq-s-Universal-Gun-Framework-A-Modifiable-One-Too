@@ -22,6 +22,8 @@ local function CreateHitMarker(plr:Player, hitData:table)
     return owner, Hit
 end
 
+ShootTypes.EventShootTypes = {} -- these shoot types are initialized on the server rather than running (currently not in use)
+
 --Step
 function ShootTypes.Step(plr: Player, Tool, TargetPos:Vector3)
     local GunData = require(Tool.PagfamGunData)
@@ -93,7 +95,7 @@ function ShootTypes.Step(plr: Player, Tool, TargetPos:Vector3)
     end
 end
 
-function ShootTypes.RCL(plr, Tool:Tool, Prop) --rcl, uses special bullets where it connects at two different positions but also will directly raycast at the target
+function ShootTypes.RCLServer(plr, Tool:Tool, Prop) --rcl, uses special bullets where it connects at two different positions but also will directly raycast at the target
     local GunData = require(Tool.PagfamGunData)
 	local Start:Vector3 = plr.Character[GunData.ServerGunModel.Name][GunData.BulletBase].Position
 	local Target = Prop.TargetPos
@@ -135,6 +137,11 @@ function ShootTypes.RCL(plr, Tool:Tool, Prop) --rcl, uses special bullets where 
 	Bullet.Parent = workspace
 	
 	Debris:AddItem(Bullet, GunData.BulletLifetime)
+end
+
+function ShootTypes.RCLClient(...) --Plr, tool, Prop
+	local event = Events.RclClient
+	event:FireAllClients(...)
 end
 
 function ShootTypes.Raycast(plr, Tool, Target) --Acs, bullet follows a ray
