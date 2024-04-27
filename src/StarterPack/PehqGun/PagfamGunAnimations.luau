@@ -1,6 +1,11 @@
 --Note: this simply stores the animation file and is meant to played on another script
 local Anim = {}
 
+local KeyframeSequenceProvider = game:GetService("KeyframeSequenceProvider")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local PugfamRep = ReplicatedStorage.Pagfam12ReplicatedStorage
+local AnimStorage = PugfamRep.Animations
+
 --REQUIRED VARIABLES
 Anim.ViewmodelOffest = CFrame.new(0,0, -0.5) -- -0.5 is the distance between camera and player in fp mode
 
@@ -105,5 +110,30 @@ Anim.AnimationFile = {
     }
 }
 
+--AGAIN... IGNORE EVEYTHING UP THERE...
+
+--Anims are ran from the actions functions
+
+local AnimationList = {
+	["CharacterIdle"] = {
+		["Type"] = "Roblox",
+		["Location"] = KeyframeSequenceProvider:RegisterKeyframeSequence(AnimStorage.TestGunModel.idle)
+	}
+}
+
+Anim.AnimationFile.Shoot = function(Model:Model)
+	local animator = Model.Humanoid.Animator
+end
+
+Anim.AnimationFile.CharIdle = function(Model:Model)
+	local animator = Model.Humanoid.Animator
+	local animation = Instance.new("Animation")
+	animation.Name = "Ni hao"
+	animation.AnimationId = AnimationList.CharacterIdle.Location
+	local animTrack:AnimationTrack = animator:LoadAnimation(animation)
+	animTrack:Play()
+	
+	return animTrack
+end
 
 return Anim
