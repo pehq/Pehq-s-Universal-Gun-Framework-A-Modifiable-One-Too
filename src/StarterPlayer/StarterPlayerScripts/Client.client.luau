@@ -16,6 +16,7 @@ local lastViewmodel = nil
 local ConnectionsToDisconnectOnUnequip = {}
 local LocalTransparencyModifierContainer = {}
 
+
 local function SetLocalTransparency()
 	for i, v in pairs(LocalTransparencyModifierContainer) do
 		v.LocalTransparencyModifier = 0
@@ -207,4 +208,9 @@ end)
 
 for i, v in pairs(ClientShootType.EventShoots) do
 	v() --set up events
+end
+
+--Client Shoot types
+for i, v in pairs(ClientShootType.EventShoots) do
+	v()
 end

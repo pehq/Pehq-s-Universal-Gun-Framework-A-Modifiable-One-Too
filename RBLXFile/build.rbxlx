@@ -78,18 +78,18 @@
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<CoordinateFrame name="CFrame">
-					<X>-50.77771</X>
-					<Y>24.0108299</Y>
-					<Z>-39.540451</Z>
-					<R00>-0.636491477</R00>
-					<R01>0.424257487</R01>
-					<R02>-0.64411509</R02>
+					<X>-64.4387283</X>
+					<Y>34.9144897</Y>
+					<Z>-90.1451111</Z>
+					<R00>-0.763281345</R00>
+					<R01>0.159098625</R01>
+					<R02>-0.626170278</R02>
 					<R10>-0</R10>
-					<R11>0.835120857</R11>
-					<R12>0.55006659</R12>
-					<R20>0.771283865</R20>
-					<R21>0.350112706</R21>
-					<R22>-0.531547248</R22>
+					<R11>0.969204426</R11>
+					<R12>0.246257454</R12>
+					<R20>0.646066248</R20>
+					<R21>0.187963724</R21>
+					<R22>-0.739775658</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
@@ -98,9 +98,9 @@
 				<float name="FieldOfView">70</float>
 				<token name="FieldOfViewMode">0</token>
 				<CoordinateFrame name="Focus">
-					<X>-49.4894791</X>
-					<Y>22.910696</Y>
-					<Z>-38.477356</Z>
+					<X>-63.1863861</X>
+					<Y>34.4219742</Y>
+					<Z>-88.6655579</Z>
 					<R00>1</R00>
 					<R01>0</R01>
 					<R02>0</R02>
@@ -5171,7 +5171,7 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 						<int64 name="ClimbAnimation">0</int64>
 						<bool name="DefinesCapabilities">false</bool>
 						<float name="DepthScale">1</float>
-						<string name="EmotesDataInternal">Salute^3360689775^\Point2^3576823880^\Stadium^3360686498^\Shrug^3576968026^\</string>
+						<string name="EmotesDataInternal">Point2^3576823880^\Salute^3360689775^\Stadium^3360686498^\Shrug^3576968026^\</string>
 						<string name="EquippedEmotesDataInternal">1^Salute\2^Stadium\3^Point2\4^Shrug\</string>
 						<int64 name="Face">15432080</int64>
 						<string name="FaceAccessory">12327869517,12994295329,14339080816</string>
@@ -7011,6 +7011,49 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 							<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00003d40</UniqueId>
 						</Properties>
 					</Item>
+					<Item class="Weld" referent="RBXA69F8E5D759B452C83C59B62CDBE300D">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>8.65851391e-09</X>
+								<Y>-0.194411755</Y>
+								<Z>0.0135949999</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>8.65851391e-09</X>
+								<Y>0.599999905</Y>
+								<Z>-0.000272244215</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBX352BC895CC584FC1A1F22456139FBD08</Ref>
+							<Ref name="Part1">RBXE5FE1B551F9C46C1901D257A1090EDBF</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">76571e97445aef790640512100003d40</UniqueId>
+						</Properties>
+					</Item>
 				</Item>
 			</Item>
 			<Item class="Accessory" referent="RBX807C4E1CEF0842B693356B63CBE51567">
@@ -7500,6 +7543,49 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 							<int64 name="SourceAssetId">-1</int64>
 							<BinaryString name="Tags"></BinaryString>
 							<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00003d42</UniqueId>
+						</Properties>
+					</Item>
+					<Item class="Weld" referent="RBXC10F9B43E6B24FBB869294FCB7186A34">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>0</X>
+								<Y>0.384912252</Y>
+								<Z>0</Z>
+								<R00>1</R00>
+								<R01>7.86497356e-09</R01>
+								<R02>-3.25957957e-24</R02>
+								<R10>-7.86497356e-09</R10>
+								<R11>1</R11>
+								<R12>-4.14442527e-16</R12>
+								<R20>0</R20>
+								<R21>4.14442527e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>8.65851391e-09</X>
+								<Y>0.599999905</Y>
+								<Z>-0.000272244215</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBX4AC0FB315A0E4A1C9FEB30CC9A96FA93</Ref>
+							<Ref name="Part1">RBXE5FE1B551F9C46C1901D257A1090EDBF</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">76571e97445aef790640512100003d42</UniqueId>
 						</Properties>
 					</Item>
 				</Item>
@@ -8006,6 +8092,49 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 							<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00003d44</UniqueId>
 						</Properties>
 					</Item>
+					<Item class="Weld" referent="RBXF1CDA255B5FF43C2B8CA0154876F14A9">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>-0.000442504883</X>
+								<Y>-0.291984558</Y>
+								<Z>0.12121582</Z>
+								<R00>-1</R00>
+								<R01>-7.87137999e-09</R01>
+								<R02>-2.66453526e-15</R02>
+								<R10>-7.39667838e-09</R10>
+								<R11>0.939692736</R11>
+								<R12>0.342020124</R12>
+								<R20>-2.69216738e-09</R20>
+								<R21>0.342020124</R21>
+								<R22>-0.939692736</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>8.65851391e-09</X>
+								<Y>0.599999905</Y>
+								<Z>-0.000272244215</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBXE31E95903FA2423FBF4F2A6A38E102F7</Ref>
+							<Ref name="Part1">RBXE5FE1B551F9C46C1901D257A1090EDBF</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">76571e97445aef790640512100003d44</UniqueId>
+						</Properties>
+					</Item>
 				</Item>
 			</Item>
 			<Item class="Accessory" referent="RBX7CBBC6C17F9B4D938B1E62CFC3F9CF8C">
@@ -8508,6 +8637,49 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 							<int64 name="SourceAssetId">-1</int64>
 							<BinaryString name="Tags"></BinaryString>
 							<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00003d46</UniqueId>
+						</Properties>
+					</Item>
+					<Item class="Weld" referent="RBX40D56087AF1C4860833D12625670E1D7">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>0.00514030457</X>
+								<Y>0.687205076</Y>
+								<Z>-0.111553513</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>8.65851391e-09</X>
+								<Y>0.599999905</Y>
+								<Z>-0.000272244215</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBX05CCFE648200408B9970F007C0464DBB</Ref>
+							<Ref name="Part1">RBXE5FE1B551F9C46C1901D257A1090EDBF</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">76571e97445aef790640512100003d46</UniqueId>
 						</Properties>
 					</Item>
 				</Item>
@@ -9014,6 +9186,49 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 							<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00003d48</UniqueId>
 						</Properties>
 					</Item>
+					<Item class="Weld" referent="RBXC2C7CC709D00405FA9260DB65C956FDB">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>0</X>
+								<Y>0.199470997</Y>
+								<Z>0.62651062</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998169e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.14442633e-16</R12>
+								<R20>-3.02998169e-15</R20>
+								<R21>4.14442607e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>3.93568822e-09</X>
+								<Y>0</Y>
+								<Z>-0.000272244215</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBX0CDABB5A448B40AF8462A4A363AE029B</Ref>
+							<Ref name="Part1">RBXE5FE1B551F9C46C1901D257A1090EDBF</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">76571e97445aef790640512100003d48</UniqueId>
+						</Properties>
+					</Item>
 				</Item>
 			</Item>
 			<Item class="Accessory" referent="RBX5F5AB7323CE04470850C2698175F8680">
@@ -9516,6 +9731,49 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 							<int64 name="SourceAssetId">-1</int64>
 							<BinaryString name="Tags"></BinaryString>
 							<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00003d4a</UniqueId>
+						</Properties>
+					</Item>
+					<Item class="Weld" referent="RBX5C50D1535D4947B0AD171EE236FCDCD1">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>0.000411987305</X>
+								<Y>0</Y>
+								<Z>0</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>3.93568822e-09</X>
+								<Y>0</Y>
+								<Z>-0.000272244215</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBX969A356B9B9A46D9951E60B973A9B5B2</Ref>
+							<Ref name="Part1">RBXE5FE1B551F9C46C1901D257A1090EDBF</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">76571e97445aef790640512100003d4a</UniqueId>
 						</Properties>
 					</Item>
 				</Item>
@@ -10022,6 +10280,49 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 							<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00003d4c</UniqueId>
 						</Properties>
 					</Item>
+					<Item class="Weld" referent="RBX85F5BDE42BAD4FFBB285F28213552099">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>0</X>
+								<Y>-0.168453693</Y>
+								<Z>-0.0934925079</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>3.93568866e-09</X>
+								<Y>0</Y>
+								<Z>-0.600272298</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBX6F0D52C775FA4D3687BD7542D0E7F7BD</Ref>
+							<Ref name="Part1">RBXE5FE1B551F9C46C1901D257A1090EDBF</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">76571e97445aef790640512100003d4c</UniqueId>
+						</Properties>
+					</Item>
 				</Item>
 			</Item>
 			<Item class="Accessory" referent="RBX6E60246032294A90B97C06FA387665EE">
@@ -10526,6 +10827,49 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 							<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00003d4e</UniqueId>
 						</Properties>
 					</Item>
+					<Item class="Weld" referent="RBX87291DBD1E824764B0CDAAF2BC766FB2">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>-0.0100002289</X>
+								<Y>0.0169999599</Y>
+								<Z>-1.15899992</Z>
+								<R00>1</R00>
+								<R01>0</R01>
+								<R02>-8.74227766e-08</R02>
+								<R10>0</R10>
+								<R11>1</R11>
+								<R12>0</R12>
+								<R20>8.74227766e-08</R20>
+								<R21>0</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>-3.81469727e-06</X>
+								<Y>-0.128407657</Y>
+								<Z>-0.497149348</Z>
+								<R00>1</R00>
+								<R01>0</R01>
+								<R02>0</R02>
+								<R10>0</R10>
+								<R11>1</R11>
+								<R12>0</R12>
+								<R20>0</R20>
+								<R21>0</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBX2B2785EECA6B4E12A42B9E930168D716</Ref>
+							<Ref name="Part1">RBX87FD527EF2D84C33A586DF9A529FEE4D</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">76571e97445aef790640512100003d4e</UniqueId>
+						</Properties>
+					</Item>
 				</Item>
 			</Item>
 			<Item class="Accessory" referent="RBX31673FFED131469EAFF074DDF00A913F">
@@ -11028,6 +11372,49 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 							<int64 name="SourceAssetId">-1</int64>
 							<BinaryString name="Tags"></BinaryString>
 							<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00003d50</UniqueId>
+						</Properties>
+					</Item>
+					<Item class="Weld" referent="RBXD585DC054B404427924E74186769D58A">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>2.72039244e-08</X>
+								<Y>0.738000035</Y>
+								<Z>1.14499998</Z>
+								<R00>-1</R00>
+								<R01>0</R01>
+								<R02>0</R02>
+								<R10>0</R10>
+								<R11>1</R11>
+								<R12>0</R12>
+								<R20>0</R20>
+								<R21>0</R21>
+								<R22>-1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>-3.84190116e-06</X>
+								<Y>-0.297599018</Y>
+								<Z>0.502850533</Z>
+								<R00>1</R00>
+								<R01>0</R01>
+								<R02>0</R02>
+								<R10>0</R10>
+								<R11>1</R11>
+								<R12>0</R12>
+								<R20>0</R20>
+								<R21>0</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBXF8872AFFE8C247F888697F09CEB93722</Ref>
+							<Ref name="Part1">RBX3D8B08FB93E140EA8380629C0FB12DD3</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">76571e97445aef790640512100003d50</UniqueId>
 						</Properties>
 					</Item>
 				</Item>
@@ -12346,7 +12733,7 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 			<int64 name="SourceAssetId">-1</int64>
 			<BinaryString name="Tags"></BinaryString>
 			<UniqueId name="UniqueId">653740404b5330d0062c674d0000031a</UniqueId>
-			<bool name="UseStrafingAnimations">false</bool>
+			<bool name="UseStrafingAnimations">true</bool>
 		</Properties>
 	</Item>
 	<Item class="ReplicatedFirst" referent="RBX83F96F823A3B40A1BCC6059BA521F843">
@@ -12709,6 +13096,7 @@ local lastViewmodel = nil
 local ConnectionsToDisconnectOnUnequip = {}
 local LocalTransparencyModifierContainer = {}
 
+
 local function SetLocalTransparency()
 	for i, v in pairs(LocalTransparencyModifierContainer) do
 		v.LocalTransparencyModifier = 0
@@ -12900,6 +13288,11 @@ end)
 
 for i, v in pairs(ClientShootType.EventShoots) do
 	v() --set up events
+end
+
+--Client Shoot types
+for i, v in pairs(ClientShootType.EventShoots) do
+	v()
 end]]></ProtectedString>
 					<int64 name="SourceAssetId">-1</int64>
 					<BinaryString name="Tags"></BinaryString>
@@ -14329,7 +14722,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 --Basic data (or unsorted)
 
 Data.GunName = "Pistol" --will use the gun name for default paths if the path isn't present
-Data.ShootType = "RCLServer" --Multiple shoot types, they are Step (the bullet Steps fowards), Hitscan (uses mouse.hit, good for rcl), Raycast (casts a ray and see what was hit)
+Data.ShootType = "RCLClient" --Multiple shoot types, they are Step (the bullet Steps fowards), Hitscan (uses mouse.hit, good for rcl), Raycast (casts a ray and see what was hit)
 Data.FireType = "Single" --Multiple fire types, they are Single (shoot once when trigger is pulled), Constant (keep shooting when trigger is held down), and Multi (shoot an amount when trigger is pulled)
 Data.ShootOrigin = "Head" --from what part does the bullet spawn at. Will look for part in the character
 Data.CameraMode = Enum.CameraMode.Classic
@@ -14380,7 +14773,7 @@ Data.VRSupport = false
 Data.BulletSpeed = 64 --In studs per second
 Data.BulletLifetime = 0.5 --How long will the bullet live for. (Speed = distance / time)
 --|Hitscan
-Data.BulletLifetime = 0.05 --How long will the bullet live for
+Data.BulletLifetime = 5 --How long will the bullet live for
 Data.RayLength = 1000 --Legth of the ray. 15000 is the max length (for comparison, two characters standing 700 studs away would be like 4 px in height on a FHD monitor (i think...))
 Data.RaycastPartFilter = {} --additional parts to filter (you could use "Pagfam Raycast Filter"...)
 Data.FilterWater = false
@@ -15351,9 +15744,9 @@ function ShootTypes.RCLServer(plr, Tool:Tool, Prop) --rcl, uses special bullets 
 end
 
 function ShootTypes.RCLClient(plr, tool, prop) --Plr, tool, Prop
-	local event = Events.RclClient
+	local event = Events.RCLClient
 	
-	local GunData = require(tool.PagfamGunData)
+	local GunData = require(tool.Data.PugfamData)
 	
 	event:FireAllClients(plr, tool, prop)
 end
@@ -16269,16 +16662,42 @@ AAAAAAAAAAAAAAAAAACAPwAAAAAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAA=]]></BinaryString>
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local PugfamRS = ReplicatedStorage.Pugfam12RE
 local Events = PugfamRS.RemoteEvents
+local RunService = game:GetService("RunService")
+local Debris = game:GetService("Debris")
+
 
 ShootType.EventShoots = {}
 local EventShoots = ShootType.EventShoots
 
-local function RCL(plr:Player, tool:Tool, prop:{["Start"]:Vector3, ["Orientation"]:Vector3, ["Length"]:number}) --plr: plr that fired, Tool: the tool used, Prop: properties
+local function RCL(plr:Player, tool:Tool, prop:{["StartPos"]:Vector3, ["TargetPos"]:Vector3, ["RayResult"]:RaycastResult}) --plr: plr that fired, Tool: the tool used, Prop: properties. This creates the bullets on the client
+	local data = require(tool.Data.PugfamData)
 	
+	local Bullet:BasePart = data.Bullet:Clone()
+	
+	local StartPos = tool[data.BulletBase].Position
+	
+	Bullet.Size = Vector3.new(Bullet.Size.X, Bullet.Size.Y, (prop.TargetPos - StartPos).Magnitude)
+	Bullet.CFrame = CFrame.new(StartPos, prop.TargetPos) * CFrame.new(0, 0, - Bullet.Size.Z / 2)
+	Bullet.Color = plr.TeamColor.Color
+	
+	Bullet.Parent = workspace
+	
+	Debris:AddItem(Bullet, data.BulletLifetime)
+	
+	local BulletUpdatePos
+	BulletUpdatePos = RunService.RenderStepped:Connect(function(dt)
+		if not tool.Data or not Bullet then
+			BulletUpdatePos:Disconnect()
+		end
+		Bullet.CFrame = CFrame.new(tool[data.BulletBase].Position, prop.TargetPos) * CFrame.new(0, 0, - Bullet.Size.Z / 2)
+	end)
 end
 
 function EventShoots.RCLClient()
-	Events.RCLClient.OnClientEvent:Connect(RCL)
+	local event
+	event = Events.RCLClient.OnClientEvent:Connect(RCL)
+	
+	return event
 end
 
 

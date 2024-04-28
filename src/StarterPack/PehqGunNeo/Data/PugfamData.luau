@@ -5,7 +5,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 --Basic data (or unsorted)
 
 Data.GunName = "Pistol" --will use the gun name for default paths if the path isn't present
-Data.ShootType = "RCLServer" --Multiple shoot types, they are Step (the bullet Steps fowards), Hitscan (uses mouse.hit, good for rcl), Raycast (casts a ray and see what was hit)
+Data.ShootType = "RCLClient" --Multiple shoot types, they are Step (the bullet Steps fowards), Hitscan (uses mouse.hit, good for rcl), Raycast (casts a ray and see what was hit)
 Data.FireType = "Single" --Multiple fire types, they are Single (shoot once when trigger is pulled), Constant (keep shooting when trigger is held down), and Multi (shoot an amount when trigger is pulled)
 Data.ShootOrigin = "Head" --from what part does the bullet spawn at. Will look for part in the character
 Data.CameraMode = Enum.CameraMode.Classic
@@ -56,7 +56,7 @@ Data.VRSupport = false
 Data.BulletSpeed = 64 --In studs per second
 Data.BulletLifetime = 0.5 --How long will the bullet live for. (Speed = distance / time)
 --|Hitscan
-Data.BulletLifetime = 0.05 --How long will the bullet live for
+Data.BulletLifetime = 5 --How long will the bullet live for
 Data.RayLength = 1000 --Legth of the ray. 15000 is the max length (for comparison, two characters standing 700 studs away would be like 4 px in height on a FHD monitor (i think...))
 Data.RaycastPartFilter = {} --additional parts to filter (you could use "Pagfam Raycast Filter"...)
 Data.FilterWater = false

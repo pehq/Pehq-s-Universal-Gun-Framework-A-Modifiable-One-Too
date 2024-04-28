@@ -140,9 +140,9 @@ function ShootTypes.RCLServer(plr, Tool:Tool, Prop) --rcl, uses special bullets 
 end
 
 function ShootTypes.RCLClient(plr, tool, prop) --Plr, tool, Prop
-	local event = Events.RclClient
+	local event = Events.RCLClient
 	
-	local GunData = require(tool.PagfamGunData)
+	local GunData = require(tool.Data.PugfamData)
 	
 	event:FireAllClients(plr, tool, prop)
 end
