@@ -1,13 +1,14 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Tool = script.Parent
-local PagfamAnimData = require(Tool.PagfamGunAnimations)
-local PagfamGunData = require(Tool.PagfamGunData)
+local Tool = script.Parent.Parent
 local Actions = {}
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local PlayerEvents = ReplicatedStorage.Pugfam12RE.PlayerData[player.UserId].RemoteEvents
 local Camera = workspace.CurrentCamera
+
+local PugfamGunData = require(Tool.Data.PugfamData)
+local PugfamAnimData = require(Tool.Data.PugfamAnims)
 
 local Equipping = false
 local FireRateCoolDown = false
@@ -19,7 +20,8 @@ local AimDownSights = false
 local function CheckConditions()
     if Equipping == true or FireRateCoolDown == true or Reloading == true and AimDownSights == true then
         return false
-    end
+	end
+	
     return true
 end
 
@@ -32,23 +34,23 @@ local function getMouse3dPos(inputObject: InputObject) --similar to mouse.hit.p 
 	
 	local RaycastParamsThing = RaycastParams.new()
     local x = {character:GetDescendants(), Camera:GetDescendants()}
-    for value in pairs(PagfamGunData.RaycastPartFilter) do
+    for value in pairs(PugfamGunData.RaycastPartFilter) do
         table.insert(x, value)
     end
 
     RaycastParamsThing.FilterDescendantsInstances = x
     RaycastParamsThing.FilterType = Enum.RaycastFilterType.Exclude
-    RaycastParamsThing.IgnoreWater = PagfamGunData.FilterWater
+    RaycastParamsThing.IgnoreWater = PugfamGunData.FilterWater
 
-    local raycastResult:RaycastResult = workspace:Raycast(cameraRay.Origin, cameraRay.Direction * PagfamGunData.RayLength, RaycastParamsThing)
+    local raycastResult:RaycastResult = workspace:Raycast(cameraRay.Origin, cameraRay.Direction * PugfamGunData.RayLength, RaycastParamsThing)
 
-	--raycastResult = raycastResult ~= nil and raycastResult.Position or cameraRay.Origin + cameraRay.Direction * PagfamGunData.RayLength --if there wasn't any instance to hit then it will simply return the destination's position
+	--raycastResult = raycastResult ~= nil and raycastResult.Position or cameraRay.Origin + cameraRay.Direction * PugfamGunData.RayLength --if there wasn't any instance to hit then it will simply return the destination's position
 	if not raycastResult then --if not raycast result then return a value
 		raycastResult = {
-			["Distance"] = PagfamGunData.RayLength,
+			["Distance"] = PugfamGunData.RayLength,
 			["Instance"] = nil,
 			["Material"] = nil,
-			["Position"] = cameraRay.Origin + cameraRay.Direction * PagfamGunData.RayLength,
+			["Position"] = cameraRay.Origin + cameraRay.Direction * PugfamGunData.RayLength,
 			["Normal"] = ((workspace.Camera.CFrame.LookVector.Unit) - Vector3.new(0.5)):Ceil() * -1, --Returns skybox (don't know why you'll need this...)
 		}
 	end
@@ -90,10 +92,10 @@ local idleAnim
 
 function Actions.Equip()
     Equipping = true
-    task.wait(PagfamAnimData.EquipTime)
+    task.wait(PugfamAnimData.EquipTime)
 	Equipping = false
 	
-	idleAnim = PagfamAnimData.AnimationFile.CharIdle(character)
+	idleAnim = PugfamAnimData.AnimationFile.CharIdle(character)
 end
 
 function Actions.UnEquip()
@@ -124,21 +126,21 @@ local function Shoot(actionName, inputState, inputObject)
 	print(inputState == Enum.UserInputState.Begin)
 
     --Single (shoot once then let go)
-    if PagfamGunData.FireType == "Single" and inputState == Enum.UserInputState.Begin and CheckConditions() then
+    if PugfamGunData.FireType == "Single" and inputState == Enum.UserInputState.Begin and CheckConditions() then
 		FireRateCoolDown = true
 		
 		local res = getMouse3dPos(inputObject)
 		
-		PlayerEvents.Action:FireServer(actionName, {["StartPos"] = character[PagfamGunData.ServerGunModel.Name][PagfamGunData.BulletBase].Position , ["TargetPos"] = res.Position}) --use remote function to yield?
+		PlayerEvents.Action:FireServer(actionName, {["StartPos"] = script.Parent.Parent[PugfamGunData.BulletBase].Position , ["TargetPos"] = res.Position}) --use remote function to yield?
 
         task.spawn(function()
-            task.wait(PagfamGunData.Firerate)
+            task.wait(PugfamGunData.Firerate)
             FireRateCoolDown = false
         end)
     end
 	--[[
     --Constant (continous shooting)
-    if PagfamGunData.FireType == "Constant" and inputState == Enum.UserInputState.Begin and CheckConditions() then
+    if PugfamGunData.FireType == "Constant" and inputState == Enum.UserInputState.Begin and CheckConditions() then
 		print("Started")
 		
 		local res = getMouse3dPos(inputObject)
@@ -152,18 +154,18 @@ local function Shoot(actionName, inputState, inputObject)
 
         FireRateCoolDown = true
         task.spawn(function()
-            task.wait(PagfamGunData.Firerate)
+            task.wait(PugfamGunData.Firerate)
             FireRateCoolDown = false
         end)
     end
 
 	
     --Multi (number of shots per trigger pulled)
-	if PagfamGunData.FireType == "Multi" and inputState == Enum.UserInputState.Begin and CheckConditions() then
+	if PugfamGunData.FireType == "Multi" and inputState == Enum.UserInputState.Begin and CheckConditions() then
         FireRateCoolDown = true
 		PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Multi", ["ShootType"] = "Step", ["TargetPos"] = getMouse3dPos(inputObject).Position, ["RaycastResult"] = getMouse3dPos(inputObject)}) --use remote function to yield?
         task.spawn(function()
-            task.wait(PagfamGunData.Firerate)
+            task.wait(PugfamGunData.Firerate)
             FireRateCoolDown = false
         end)
     end
@@ -194,11 +196,11 @@ local function Reload(actionName, inputState, inputObject)
             unequippedgun = true
     end)
 
-    task.wait(PagfamGunData.ReloadTime)
+    task.wait(PugfamGunData.ReloadTime)
 
     UnequipToolConnection:Disconnect()
 
-    if PagfamGunData.OffHandReloading ~= true or unequippedgun then --check if gun was unequipped
+    if PugfamGunData.OffHandReloading ~= true or unequippedgun then --check if gun was unequipped
         return
     end
 

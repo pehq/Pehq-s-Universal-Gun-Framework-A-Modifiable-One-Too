@@ -4,8 +4,8 @@ local ShootTypes = {}
 local Players = game:GetService("Players") --haha
 local CollectionService = game:GetService("CollectionService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Modules = ReplicatedStorage.Pagfam12ReplicatedStorage.Modules
-local Events = ReplicatedStorage.Pagfam12ReplicatedStorage.RemoteEvents
+local Modules = ReplicatedStorage.Pugfam12RE.Modules
+local Events = ReplicatedStorage.Pugfam12RE.RemoteEvents
 local Debris = game:GetService("Debris")
 local RunService = game:GetService("RunService")
 local HttpService = game:GetService("HttpService")
@@ -96,8 +96,8 @@ function ShootTypes.Step(plr: Player, Tool, TargetPos:Vector3)
 end
 
 function ShootTypes.RCLServer(plr, Tool:Tool, Prop) --rcl, uses special bullets where it connects at two different positions but also will directly raycast at the target
-    local GunData = require(Tool.PagfamGunData)
-	local Start:Vector3 = plr.Character[GunData.ServerGunModel.Name][GunData.BulletBase].Position
+	local GunData = require(Tool.Data.PugfamData)
+	local Start:Vector3 = Prop.StartPos ~= nil and Prop.StartPos or plr.Character[GunData.ServerGunModel.Name][GunData.BulletBase].Position
 	local Target = Prop.TargetPos
 	
 	local RayLength = GunData.RayLength
@@ -139,9 +139,12 @@ function ShootTypes.RCLServer(plr, Tool:Tool, Prop) --rcl, uses special bullets 
 	Debris:AddItem(Bullet, GunData.BulletLifetime)
 end
 
-function ShootTypes.RCLClient(...) --Plr, tool, Prop
+function ShootTypes.RCLClient(plr, tool, prop) --Plr, tool, Prop
 	local event = Events.RclClient
-	event:FireAllClients(...)
+	
+	local GunData = require(tool.PagfamGunData)
+	
+	event:FireAllClients(plr, tool, prop)
 end
 
 function ShootTypes.Raycast(plr, Tool, Target) --Acs, bullet follows a ray

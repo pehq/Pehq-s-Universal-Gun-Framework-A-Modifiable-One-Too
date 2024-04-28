@@ -2,8 +2,8 @@
 local FireType = {}
 local ServerScriptService = game:GetService("ServerScriptService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Modules = ReplicatedStorage.Pagfam12ReplicatedStorage.Modules
-local Events = ReplicatedStorage.Pagfam12ReplicatedStorage.RemoteEvents
+local Modules = ReplicatedStorage.Pugfam12RE.Modules
+local Events = ReplicatedStorage.Pugfam12RE.RemoteEvents
 local ServerModules = ServerScriptService.ServerModules
 local ShootTypes = require(ServerModules.ShootTypes)
 

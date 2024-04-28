@@ -78,18 +78,18 @@
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<CoordinateFrame name="CFrame">
-					<X>-106.15506</X>
-					<Y>51.899765</Y>
-					<Z>-57.9019814</Z>
-					<R00>-0.431489289</R00>
-					<R01>0.409546852</R01>
-					<R02>-0.803796291</R02>
+					<X>-50.77771</X>
+					<Y>24.0108299</Y>
+					<Z>-39.540451</Z>
+					<R00>-0.636491477</R00>
+					<R01>0.424257487</R01>
+					<R02>-0.64411509</R02>
 					<R10>-0</R10>
-					<R11>0.891010165</R11>
-					<R12>0.453983605</R12>
-					<R20>0.902118146</R20>
-					<R21>0.195889056</R21>
-					<R22>-0.384461284</R22>
+					<R11>0.835120857</R11>
+					<R12>0.55006659</R12>
+					<R20>0.771283865</R20>
+					<R21>0.350112706</R21>
+					<R22>-0.531547248</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
@@ -98,9 +98,9 @@
 				<float name="FieldOfView">70</float>
 				<token name="FieldOfViewMode">0</token>
 				<CoordinateFrame name="Focus">
-					<X>-104.547455</X>
-					<Y>50.9917908</Y>
-					<Z>-57.1330528</Z>
+					<X>-49.4894791</X>
+					<Y>22.910696</Y>
+					<Z>-38.477356</Z>
 					<R00>1</R00>
 					<R01>0</R01>
 					<R02>0</R02>
@@ -6925,6 +6925,92 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 							<UniqueId name="UniqueId">593474c7fc3a6599063f164600003d40</UniqueId>
 						</Properties>
 					</Item>
+					<Item class="Weld" referent="RBXB168EF810885490A9865468408E03EF3">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>8.65851391e-09</X>
+								<Y>-0.194411755</Y>
+								<Z>0.0135949999</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>8.65851391e-09</X>
+								<Y>0.599999905</Y>
+								<Z>-0.000272244215</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBX352BC895CC584FC1A1F22456139FBD08</Ref>
+							<Ref name="Part1">RBXE5FE1B551F9C46C1901D257A1090EDBF</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">2de51ae0589befaa063f39d100003d40</UniqueId>
+						</Properties>
+					</Item>
+					<Item class="Weld" referent="RBX0562945A020549FBA2CEF0FDF993C51C">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>8.65851391e-09</X>
+								<Y>-0.194411755</Y>
+								<Z>0.0135949999</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>8.65851391e-09</X>
+								<Y>0.599999905</Y>
+								<Z>-0.000272244215</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBX352BC895CC584FC1A1F22456139FBD08</Ref>
+							<Ref name="Part1">RBXE5FE1B551F9C46C1901D257A1090EDBF</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00003d40</UniqueId>
+						</Properties>
+					</Item>
 				</Item>
 			</Item>
 			<Item class="Accessory" referent="RBX807C4E1CEF0842B693356B63CBE51567">
@@ -7328,6 +7414,92 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 							<int64 name="SourceAssetId">-1</int64>
 							<BinaryString name="Tags"></BinaryString>
 							<UniqueId name="UniqueId">593474c7fc3a6599063f164600003d42</UniqueId>
+						</Properties>
+					</Item>
+					<Item class="Weld" referent="RBX5A9682603E804D309318FA566B79A41D">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>0</X>
+								<Y>0.384912252</Y>
+								<Z>0</Z>
+								<R00>1</R00>
+								<R01>7.86497356e-09</R01>
+								<R02>-3.25957957e-24</R02>
+								<R10>-7.86497356e-09</R10>
+								<R11>1</R11>
+								<R12>-4.14442527e-16</R12>
+								<R20>0</R20>
+								<R21>4.14442527e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>8.65851391e-09</X>
+								<Y>0.599999905</Y>
+								<Z>-0.000272244215</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBX4AC0FB315A0E4A1C9FEB30CC9A96FA93</Ref>
+							<Ref name="Part1">RBXE5FE1B551F9C46C1901D257A1090EDBF</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">2de51ae0589befaa063f39d100003d42</UniqueId>
+						</Properties>
+					</Item>
+					<Item class="Weld" referent="RBX98885FF68D774F8381A1AD81DB7F275F">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>0</X>
+								<Y>0.384912252</Y>
+								<Z>0</Z>
+								<R00>1</R00>
+								<R01>7.86497356e-09</R01>
+								<R02>-3.25957957e-24</R02>
+								<R10>-7.86497356e-09</R10>
+								<R11>1</R11>
+								<R12>-4.14442527e-16</R12>
+								<R20>0</R20>
+								<R21>4.14442527e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>8.65851391e-09</X>
+								<Y>0.599999905</Y>
+								<Z>-0.000272244215</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBX4AC0FB315A0E4A1C9FEB30CC9A96FA93</Ref>
+							<Ref name="Part1">RBXE5FE1B551F9C46C1901D257A1090EDBF</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00003d42</UniqueId>
 						</Properties>
 					</Item>
 				</Item>
@@ -7748,6 +7920,92 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 							<UniqueId name="UniqueId">593474c7fc3a6599063f164600003d44</UniqueId>
 						</Properties>
 					</Item>
+					<Item class="Weld" referent="RBX5D03541D1F4045CF8BFF2042D4F6691E">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>-0.000442504883</X>
+								<Y>-0.291984558</Y>
+								<Z>0.12121582</Z>
+								<R00>-1</R00>
+								<R01>-7.87137999e-09</R01>
+								<R02>-2.66453526e-15</R02>
+								<R10>-7.39667838e-09</R10>
+								<R11>0.939692736</R11>
+								<R12>0.342020124</R12>
+								<R20>-2.69216738e-09</R20>
+								<R21>0.342020124</R21>
+								<R22>-0.939692736</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>8.65851391e-09</X>
+								<Y>0.599999905</Y>
+								<Z>-0.000272244215</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBXE31E95903FA2423FBF4F2A6A38E102F7</Ref>
+							<Ref name="Part1">RBXE5FE1B551F9C46C1901D257A1090EDBF</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">2de51ae0589befaa063f39d100003d44</UniqueId>
+						</Properties>
+					</Item>
+					<Item class="Weld" referent="RBX94DFCA8BE7C243569771C90481AD1CFF">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>-0.000442504883</X>
+								<Y>-0.291984558</Y>
+								<Z>0.12121582</Z>
+								<R00>-1</R00>
+								<R01>-7.87137999e-09</R01>
+								<R02>-2.66453526e-15</R02>
+								<R10>-7.39667838e-09</R10>
+								<R11>0.939692736</R11>
+								<R12>0.342020124</R12>
+								<R20>-2.69216738e-09</R20>
+								<R21>0.342020124</R21>
+								<R22>-0.939692736</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>8.65851391e-09</X>
+								<Y>0.599999905</Y>
+								<Z>-0.000272244215</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBXE31E95903FA2423FBF4F2A6A38E102F7</Ref>
+							<Ref name="Part1">RBXE5FE1B551F9C46C1901D257A1090EDBF</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00003d44</UniqueId>
+						</Properties>
+					</Item>
 				</Item>
 			</Item>
 			<Item class="Accessory" referent="RBX7CBBC6C17F9B4D938B1E62CFC3F9CF8C">
@@ -8164,6 +8422,92 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 							<int64 name="SourceAssetId">-1</int64>
 							<BinaryString name="Tags"></BinaryString>
 							<UniqueId name="UniqueId">593474c7fc3a6599063f164600003d46</UniqueId>
+						</Properties>
+					</Item>
+					<Item class="Weld" referent="RBX7D46D9CD494B4285B7AE36CA3B7B2764">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>0.00514030457</X>
+								<Y>0.687205076</Y>
+								<Z>-0.111553513</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>8.65851391e-09</X>
+								<Y>0.599999905</Y>
+								<Z>-0.000272244215</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBX05CCFE648200408B9970F007C0464DBB</Ref>
+							<Ref name="Part1">RBXE5FE1B551F9C46C1901D257A1090EDBF</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">2de51ae0589befaa063f39d100003d46</UniqueId>
+						</Properties>
+					</Item>
+					<Item class="Weld" referent="RBX940CCAF41C98429B9B120A368BCBC532">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>0.00514030457</X>
+								<Y>0.687205076</Y>
+								<Z>-0.111553513</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>8.65851391e-09</X>
+								<Y>0.599999905</Y>
+								<Z>-0.000272244215</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBX05CCFE648200408B9970F007C0464DBB</Ref>
+							<Ref name="Part1">RBXE5FE1B551F9C46C1901D257A1090EDBF</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00003d46</UniqueId>
 						</Properties>
 					</Item>
 				</Item>
@@ -8584,6 +8928,92 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 							<UniqueId name="UniqueId">593474c7fc3a6599063f164600003d48</UniqueId>
 						</Properties>
 					</Item>
+					<Item class="Weld" referent="RBXF0D98CFEA3AC40F4938B0FB9840C2EFB">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>0</X>
+								<Y>0.199470997</Y>
+								<Z>0.62651062</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998169e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.14442633e-16</R12>
+								<R20>-3.02998169e-15</R20>
+								<R21>4.14442607e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>3.93568822e-09</X>
+								<Y>0</Y>
+								<Z>-0.000272244215</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBX0CDABB5A448B40AF8462A4A363AE029B</Ref>
+							<Ref name="Part1">RBXE5FE1B551F9C46C1901D257A1090EDBF</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">2de51ae0589befaa063f39d100003d48</UniqueId>
+						</Properties>
+					</Item>
+					<Item class="Weld" referent="RBX27BFC4E5C19D48D6B8D5097B809EBF23">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>0</X>
+								<Y>0.199470997</Y>
+								<Z>0.62651062</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998169e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.14442633e-16</R12>
+								<R20>-3.02998169e-15</R20>
+								<R21>4.14442607e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>3.93568822e-09</X>
+								<Y>0</Y>
+								<Z>-0.000272244215</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBX0CDABB5A448B40AF8462A4A363AE029B</Ref>
+							<Ref name="Part1">RBXE5FE1B551F9C46C1901D257A1090EDBF</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00003d48</UniqueId>
+						</Properties>
+					</Item>
 				</Item>
 			</Item>
 			<Item class="Accessory" referent="RBX5F5AB7323CE04470850C2698175F8680">
@@ -9000,6 +9430,92 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 							<int64 name="SourceAssetId">-1</int64>
 							<BinaryString name="Tags"></BinaryString>
 							<UniqueId name="UniqueId">593474c7fc3a6599063f164600003d4a</UniqueId>
+						</Properties>
+					</Item>
+					<Item class="Weld" referent="RBX76A581B742144CC5BDD9E826609A96F0">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>0.000411987305</X>
+								<Y>0</Y>
+								<Z>0</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>3.93568822e-09</X>
+								<Y>0</Y>
+								<Z>-0.000272244215</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBX969A356B9B9A46D9951E60B973A9B5B2</Ref>
+							<Ref name="Part1">RBXE5FE1B551F9C46C1901D257A1090EDBF</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">2de51ae0589befaa063f39d100003d4a</UniqueId>
+						</Properties>
+					</Item>
+					<Item class="Weld" referent="RBX5AF7B18B46FD43AC88ECEF304BCBCB72">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>0.000411987305</X>
+								<Y>0</Y>
+								<Z>0</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>3.93568822e-09</X>
+								<Y>0</Y>
+								<Z>-0.000272244215</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBX969A356B9B9A46D9951E60B973A9B5B2</Ref>
+							<Ref name="Part1">RBXE5FE1B551F9C46C1901D257A1090EDBF</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00003d4a</UniqueId>
 						</Properties>
 					</Item>
 				</Item>
@@ -9420,6 +9936,92 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 							<UniqueId name="UniqueId">593474c7fc3a6599063f164600003d4c</UniqueId>
 						</Properties>
 					</Item>
+					<Item class="Weld" referent="RBX16B772C9D3114139A2FB70A0C5DB6995">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>0</X>
+								<Y>-0.168453693</Y>
+								<Z>-0.0934925079</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>3.93568866e-09</X>
+								<Y>0</Y>
+								<Z>-0.600272298</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBX6F0D52C775FA4D3687BD7542D0E7F7BD</Ref>
+							<Ref name="Part1">RBXE5FE1B551F9C46C1901D257A1090EDBF</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">2de51ae0589befaa063f39d100003d4c</UniqueId>
+						</Properties>
+					</Item>
+					<Item class="Weld" referent="RBXB0828196F96641E9B13D6783C1B59734">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>0</X>
+								<Y>-0.168453693</Y>
+								<Z>-0.0934925079</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>3.93568866e-09</X>
+								<Y>0</Y>
+								<Z>-0.600272298</Z>
+								<R00>1</R00>
+								<R01>7.87137555e-09</R01>
+								<R02>3.02998127e-15</R02>
+								<R10>-7.87137555e-09</R10>
+								<R11>1</R11>
+								<R12>-4.1444258e-16</R12>
+								<R20>-3.02998127e-15</R20>
+								<R21>4.14442554e-16</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBX6F0D52C775FA4D3687BD7542D0E7F7BD</Ref>
+							<Ref name="Part1">RBXE5FE1B551F9C46C1901D257A1090EDBF</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00003d4c</UniqueId>
+						</Properties>
+					</Item>
 				</Item>
 			</Item>
 			<Item class="Accessory" referent="RBX6E60246032294A90B97C06FA387665EE">
@@ -9838,6 +10440,92 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 							<UniqueId name="UniqueId">593474c7fc3a6599063f164600003d4e</UniqueId>
 						</Properties>
 					</Item>
+					<Item class="Weld" referent="RBX0A37D4B80F1F44A382D0B0B0B0BC7269">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>-0.0100002289</X>
+								<Y>0.0169999599</Y>
+								<Z>-1.15899992</Z>
+								<R00>1</R00>
+								<R01>0</R01>
+								<R02>-8.74227766e-08</R02>
+								<R10>0</R10>
+								<R11>1</R11>
+								<R12>0</R12>
+								<R20>8.74227766e-08</R20>
+								<R21>0</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>-3.81469727e-06</X>
+								<Y>-0.128407657</Y>
+								<Z>-0.497149348</Z>
+								<R00>1</R00>
+								<R01>0</R01>
+								<R02>0</R02>
+								<R10>0</R10>
+								<R11>1</R11>
+								<R12>0</R12>
+								<R20>0</R20>
+								<R21>0</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBX2B2785EECA6B4E12A42B9E930168D716</Ref>
+							<Ref name="Part1">RBX87FD527EF2D84C33A586DF9A529FEE4D</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">2de51ae0589befaa063f39d100003d4e</UniqueId>
+						</Properties>
+					</Item>
+					<Item class="Weld" referent="RBXD43CEA788295428A9E3F2EC5B05EE4EB">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>-0.0100002289</X>
+								<Y>0.0169999599</Y>
+								<Z>-1.15899992</Z>
+								<R00>1</R00>
+								<R01>0</R01>
+								<R02>-8.74227766e-08</R02>
+								<R10>0</R10>
+								<R11>1</R11>
+								<R12>0</R12>
+								<R20>8.74227766e-08</R20>
+								<R21>0</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>-3.81469727e-06</X>
+								<Y>-0.128407657</Y>
+								<Z>-0.497149348</Z>
+								<R00>1</R00>
+								<R01>0</R01>
+								<R02>0</R02>
+								<R10>0</R10>
+								<R11>1</R11>
+								<R12>0</R12>
+								<R20>0</R20>
+								<R21>0</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBX2B2785EECA6B4E12A42B9E930168D716</Ref>
+							<Ref name="Part1">RBX87FD527EF2D84C33A586DF9A529FEE4D</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00003d4e</UniqueId>
+						</Properties>
+					</Item>
 				</Item>
 			</Item>
 			<Item class="Accessory" referent="RBX31673FFED131469EAFF074DDF00A913F">
@@ -10254,6 +10942,92 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 							<int64 name="SourceAssetId">-1</int64>
 							<BinaryString name="Tags"></BinaryString>
 							<UniqueId name="UniqueId">593474c7fc3a6599063f164600003d50</UniqueId>
+						</Properties>
+					</Item>
+					<Item class="Weld" referent="RBXC4337957A3C14F03BD4BAE5141B2E211">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>2.72039244e-08</X>
+								<Y>0.738000035</Y>
+								<Z>1.14499998</Z>
+								<R00>-1</R00>
+								<R01>0</R01>
+								<R02>0</R02>
+								<R10>0</R10>
+								<R11>1</R11>
+								<R12>0</R12>
+								<R20>0</R20>
+								<R21>0</R21>
+								<R22>-1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>-3.84190116e-06</X>
+								<Y>-0.297599018</Y>
+								<Z>0.502850533</Z>
+								<R00>1</R00>
+								<R01>0</R01>
+								<R02>0</R02>
+								<R10>0</R10>
+								<R11>1</R11>
+								<R12>0</R12>
+								<R20>0</R20>
+								<R21>0</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBXF8872AFFE8C247F888697F09CEB93722</Ref>
+							<Ref name="Part1">RBX3D8B08FB93E140EA8380629C0FB12DD3</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">2de51ae0589befaa063f39d100003d50</UniqueId>
+						</Properties>
+					</Item>
+					<Item class="Weld" referent="RBXA62E3A141ED64FB8AC5E9E7AF2E7AF1B">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>2.72039244e-08</X>
+								<Y>0.738000035</Y>
+								<Z>1.14499998</Z>
+								<R00>-1</R00>
+								<R01>0</R01>
+								<R02>0</R02>
+								<R10>0</R10>
+								<R11>1</R11>
+								<R12>0</R12>
+								<R20>0</R20>
+								<R21>0</R21>
+								<R22>-1</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>-3.84190116e-06</X>
+								<Y>-0.297599018</Y>
+								<Z>0.502850533</Z>
+								<R00>1</R00>
+								<R01>0</R01>
+								<R02>0</R02>
+								<R10>0</R10>
+								<R11>1</R11>
+								<R12>0</R12>
+								<R20>0</R20>
+								<R21>0</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">AccessoryWeld</string>
+							<Ref name="Part0">RBXF8872AFFE8C247F888697F09CEB93722</Ref>
+							<Ref name="Part1">RBX3D8B08FB93E140EA8380629C0FB12DD3</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00003d50</UniqueId>
 						</Properties>
 					</Item>
 				</Item>
@@ -11921,113 +12695,105 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Viewmodels = ReplicatedStorage.Pagfam12ReplicatedStorage.Viewmodels
+local Modules = ReplicatedStorage.Pugfam12RE.Modules
+local Viewmodels = ReplicatedStorage.Pugfam12RE.Viewmodels
+local Events = ReplicatedStorage.Pugfam12RE.RemoteEvents
 local RunService = game:GetService("RunService")
 local cam = workspace.CurrentCamera
 local ContextActionService = game:GetService("ContextActionService")
+
+local ClientShootType = require(Modules.ClientShootType)
 
 --in-scope variables
 local lastViewmodel = nil
 local ConnectionsToDisconnectOnUnequip = {}
 local LocalTransparencyModifierContainer = {}
 
-local function ChangeLocalTransparancyOfModelBasedOnFP(model)
-    for i, v in pairs(model:GetDescendants()) do
-        if v:IsA("BasePart") then
-            if character.Head.LocalTransparencyModifier == 1 then --fully transparent
-                v.LocalTransparencyModifier = 0 --Makes it visible while preserving base transparency
-            else
-               v.LocalTransparencyModifier = 1 
-            end
-        end
-    end
-end
-
-local function SetCharacterLocalTransparency()
+local function SetLocalTransparency()
 	for i, v in pairs(LocalTransparencyModifierContainer) do
 		v.LocalTransparencyModifier = 0
 	end
 end
 
 local function CreateModelViewmodel(viewmodel: Model, gunanim)
-    viewmodel.Parent = cam
-
-    local ViewmodelOffest = gunanim.ViewmodelOffest ~= nil and gunanim.ViewmodelOffest or CFrame.new(0,0,0)
-
-    local function RenderBeforeCamera(dt)
-		viewmodel.HumanoidRootPart.CFrame = cam.CFrame * ViewmodelOffest
-    end
-	
-	local FPVisibility
-	FPVisibility = character.Head:GetPropertyChangedSignal("LocalTransparencyModifier"):Connect(function() --check if player is in first person by seeing if the head becomes transparent
-        ChangeLocalTransparancyOfModelBasedOnFP(viewmodel)
-	end)
-	
-	--Collisions
-	for _, v:BasePart in pairs(viewmodel:GetDescendants()) do
-		if v:IsA("BasePart") then
-			v.CanCollide = false
-			v.CollisionGroup = "ViewmodelCollisions"
-		end
-	end
-
-	ChangeLocalTransparancyOfModelBasedOnFP(viewmodel)
-
-	table.insert(ConnectionsToDisconnectOnUnequip, RunService.RenderStepped:Connect(RenderBeforeCamera))
-	table.insert(ConnectionsToDisconnectOnUnequip, FPVisibility)
+    
 end
 
-
-local function onGunEquip(child:Model)
-    if not child:GetAttribute("PAGFAM12") then --Returns if it doesn't have PAGFAM12 property or if it's false
+local function onGunEquip(child:Tool)
+    if not child:GetAttribute("Pugfam12") then --Returns if it doesn't have PAGFAM12 property or if it's false
         return
-    end
-
-    local SavedCameraMode = player.CameraMode
-
-	local GunData = require(child.PagfamGunData)
-	local GunAnim = require(child.PagfamGunAnimations)
-	local GunActions = require(child.PagfamGunActions)
+	end
 	
-	local GunModelClient:Model = GunData.ClientGunModel:Clone()
-	local CharGunModel = character:WaitForChild(GunData.ServerGunModel.Name)
+	print("Added")
+
+	local Data = child.Data
+	local GunData = require(Data.PugfamData)
+	local GunAnim = require(Data.PugfamAnims)
+	local GunActions = require(Data.PugfamActs)
 	
-    --initialize data
+	--initialize data
+	local SavedCameraMode = player.CameraMode
     if GunData.CameraMode then
         player.CameraMode = GunData.CameraMode
 	end
 	
-	for _, v:Instance in pairs(character:GetChildren()) do --filters out all accessories
-		if v:IsA("Accessory") then
-			for _, vParts in pairs(v:GetChildren()) do
-				if vParts:IsA("BasePart") then
-					vParts.CanQuery = false
+	if GunData.FilterAccessories == true then  --filters out all accessories
+		for _, v:Instance in pairs(character:GetChildren()) do
+			if v:IsA("Accessory") then
+				for _, vParts in pairs(v:GetChildren()) do
+					if vParts:IsA("BasePart") then
+						vParts.CanQuery = false
+					end
 				end
 			end
 		end
 	end
+	
+	if GunData.FilterLocalChar then --filters the plrs char
+		for i, v:Instance in pairs(character:GetChildren()) do
+			if v:IsA("BasePart") then
+				v.CanQuery = false
+			end
+		end
+	end
+	
+	local ViewmodelGun:Model = GunData.ViewmodelGunModel:Clone()
 
     --create viewmodel
     local curViewmodel:Model = nil
     if GunData.ViewmodelEnabled == true then
-        if GunData.FPViewmodelType == "Viewmodel" then
-            curViewmodel = Viewmodels[GunData.ViewmodelName]:Clone()
-			CreateModelViewmodel(curViewmodel, GunAnim)
+		if GunData.FPViewmodelType == "Viewmodel" then
+			--Create Viewmodel
+			curViewmodel = Viewmodels[GunData.ViewmodelName]:Clone()
+			
+			curViewmodel.Parent = cam
+
+			local ViewmodelOffest = GunAnim.ViewmodelOffest or CFrame.new(0,0,0)
+
+			local function RenderBeforeCamera(dt)
+				curViewmodel.HumanoidRootPart.CFrame = cam.CFrame * ViewmodelOffest
+			end
+
+			--Collisions
+			for _, v:BasePart in pairs(curViewmodel:GetDescendants()) do
+				if v:IsA("BasePart") then
+					v.CanCollide = false
+					v.CollisionGroup = "ViewmodelCollisions"
+				end
+			end
+
+			table.insert(ConnectionsToDisconnectOnUnequip, RunService.RenderStepped:Connect(RenderBeforeCamera))
 			
 			--Attach gun to viewmodel
-			
 			local Motor6D:Motor6D = Instance.new("Motor6D")
-			Motor6D.Part0 = GunModelClient.PrimaryPart
+			Motor6D.Part0 = ViewmodelGun.PrimaryPart
 			Motor6D.Part1 = curViewmodel.PrimaryPart
-			Motor6D.Parent = GunModelClient.PrimaryPart
+			Motor6D.Parent = ViewmodelGun.PrimaryPart
 			
 			Motor6D.C1 = GunData.ClientGunModelHandleOffset
 			
-			GunModelClient.Parent = curViewmodel
-			
-			ChangeLocalTransparancyOfModelBasedOnFP(curViewmodel)
+			ViewmodelGun.Parent = curViewmodel
 
-			
 			if GunData.ApplyHumanoidDescriptionToViewmodel == true then --TODO: Rehaul this
 				local Humanoid:Humanoid = curViewmodel:FindFirstChild("Humanoid")
 				
@@ -12043,11 +12809,7 @@ local function onGunEquip(child:Model)
 			
 			
 		elseif GunData.FPViewmodelType == "Roblox" then
-			for i, v in pairs(CharGunModel:GetDescendants()) do
-				if v:IsA("BasePart") then
-					table.insert(LocalTransparencyModifierContainer, v)
-				end
-			end
+			
 			for i, v in pairs(character:GetChildren()) do
 				if v:IsA("BasePart") and table.find(GunData.BodyPartsToShowInFPS, v.Name) ~= nil then
 					table.insert(LocalTransparencyModifierContainer, v)
@@ -12056,7 +12818,7 @@ local function onGunEquip(child:Model)
 			
 			local ViewmodelShow
 			ViewmodelShow = RunService.RenderStepped:Connect(function(dt)
-				SetCharacterLocalTransparency()
+				SetLocalTransparency()
 			end)
 			
 			table.insert(ConnectionsToDisconnectOnUnequip, ViewmodelShow)
@@ -12078,9 +12840,8 @@ local function onGunEquip(child:Model)
 				ContextActionService:SetPosition(ActionValues.actionName, UDim2.new(table.unpack(MobileButtons.position)))
             end
         end
-    end
-
-
+	end
+	
     --Run additional functions
 	print(GunActions)
 	if GunActions.AdditionalFunctions ~= nil then
@@ -12091,7 +12852,9 @@ local function onGunEquip(child:Model)
 
     local removing
     removing = character.ChildRemoved:Connect(function(childremoved)
-        if child ~= childremoved then return end
+		if child ~= childremoved then return end
+		
+		print("Removed")
 
         player.CameraMode = SavedCameraMode
 
@@ -12106,7 +12869,9 @@ local function onGunEquip(child:Model)
         end
 		
         GunData = nil
-        GunAnim = nil
+		GunAnim = nil
+		GunActions = nil
+		
         if curViewmodel then
             if curViewmodel then
                 if lastViewmodel then
@@ -12115,12 +12880,27 @@ local function onGunEquip(child:Model)
                 lastViewmodel = curViewmodel:Clone()
                 curViewmodel:Destroy()
             end
-        end
+		end
+		
         removing:Disconnect()
     end)
 end
 
-character.ChildAdded:Connect(onGunEquip)]]></ProtectedString>
+local ToolAdded
+ToolAdded = character.ChildAdded:Connect(onGunEquip)
+
+player.CharacterAdded:Connect(function(character)
+	ToolAdded = character.ChildAdded:Connect(onGunEquip)
+end)
+
+
+player.CharacterRemoving:Connect(function(char)
+	ToolAdded:Disconnect()
+end)
+
+for i, v in pairs(ClientShootType.EventShoots) do
+	v() --set up events
+end]]></ProtectedString>
 					<int64 name="SourceAssetId">-1</int64>
 					<BinaryString name="Tags"></BinaryString>
 					<UniqueId name="UniqueId">653740404b5330d0062c674d00003ddc</UniqueId>
@@ -12153,7 +12933,7 @@ character.ChildAdded:Connect(onGunEquip)]]></ProtectedString>
 		</Properties>
 		<Item class="Tool" referent="RBX9006041713674EA3BCC6E1B3A7878546">
 			<Properties>
-				<BinaryString name="AttributesSerialize">AQAAAAgAAABQQUdGQU0xMgMB</BinaryString>
+				<BinaryString name="AttributesSerialize">AQAAAAgAAABQdWdmYW0xMgMB</BinaryString>
 				<bool name="CanBeDropped">false</bool>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 				<bool name="DefinesCapabilities">false</bool>
@@ -12225,7 +13005,7 @@ local Actions = {}
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
-local PlayerEvents = ReplicatedStorage.Pagfam12ReplicatedStorage.PlayerData[player.UserId].RemoteEvents
+local PlayerEvents = ReplicatedStorage.Pugfam12RE.PlayerData[player.UserId].RemoteEvents
 local Camera = workspace.CurrentCamera
 
 local Equipping = false
@@ -12274,7 +13054,7 @@ local function getMouse3dPos(inputObject: InputObject) --similar to mouse.hit.p 
 
 	local debugPart = Instance.new("Part")
 	debugPart.Size = Vector3.one
-	debugPart.Position = raycastResult
+	debugPart.Position = raycastResult.Position
 	debugPart.Anchored = true
 	debugPart.CanCollide = false
 	debugPart.CanQuery = false
@@ -12348,7 +13128,7 @@ local function Shoot(actionName, inputState, inputObject)
 		
 		local res = getMouse3dPos(inputObject)
 		
-        PlayerEvents.Action:FireServer(actionName, {["TargetPos"] = res.Position, ["RaycastResult"] = res}) --use remote function to yield?
+		PlayerEvents.Action:FireServer(actionName, {["StartPos"] = character[PagfamGunData.ServerGunModel.Name][PagfamGunData.BulletBase].Position , ["TargetPos"] = res.Position}) --use remote function to yield?
 
         task.spawn(function()
             task.wait(PagfamGunData.Firerate)
@@ -12544,7 +13324,7 @@ local Anim = {}
 
 local KeyframeSequenceProvider = game:GetService("KeyframeSequenceProvider")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local PugfamRep = ReplicatedStorage.Pagfam12ReplicatedStorage
+local PugfamRep = ReplicatedStorage.Pugfam12RE
 local AnimStorage = PugfamRep.Animations
 
 --REQUIRED VARIABLES
@@ -12713,11 +13493,11 @@ Data.AimToggle = true --if false then aim will need to be held down
 Data.AimDownSightTime = 0 --time it takes for player to be able to shoot after toggling aim
 
 --Model (if paths are nil then it'll attempt to use the gunname)
-Data.ServerGunModel = ReplicatedStorage.Pagfam12ReplicatedStorage.GunModels.TestGunModel
-Data.ClientGunModel = ReplicatedStorage.Pagfam12ReplicatedStorage.GunModels.TestGunModel
+Data.ServerGunModel = ReplicatedStorage.Pugfam12RE.GunModels.TestGunModel
+Data.ClientGunModel = ReplicatedStorage.Pugfam12RE.GunModels.TestGunModel
 Data.ClientGunModelHandleOffset = CFrame.new(1.5, -1, -1) --CFrame value
 Data.Actions = nil --Testing Note: might remove
-Data.Bullet = ReplicatedStorage.Pagfam12ReplicatedStorage.Bullets.RCLBullet --Path to bullet model, can be put in table for multiple different bullets
+Data.Bullet = ReplicatedStorage.Pugfam12RE.Bullets.RCLBullet --Path to bullet model, can be put in table for multiple different bullets
 Data.BulletBase = "BulletBase" --Name of the bullet base (uses ServerGunModel atm)
 Data.CharacterHandleAttachPart = {"UpperTorso"} --Part to attach to the tool
 
@@ -12775,6 +13555,1184 @@ return module
 					<BinaryString name="Tags"></BinaryString>
 					<UniqueId name="UniqueId">486370315a3b192d063ae8b90000480f</UniqueId>
 				</Properties>
+			</Item>
+		</Item>
+		<Item class="Tool" referent="RBXFF5CBF66BC9F4DE7AE760334744223D0">
+			<Properties>
+				<BinaryString name="AttributesSerialize">AQAAAAgAAABQdWdmYW0xMgMB</BinaryString>
+				<bool name="CanBeDropped">true</bool>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<bool name="Enabled">true</bool>
+				<CoordinateFrame name="Grip">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+					<R00>1</R00>
+					<R01>0</R01>
+					<R02>0</R02>
+					<R10>0</R10>
+					<R11>1</R11>
+					<R12>0</R12>
+					<R20>0</R20>
+					<R21>0</R21>
+					<R22>1</R22>
+				</CoordinateFrame>
+				<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+				<token name="LevelOfDetail">0</token>
+				<bool name="ManualActivationOnly">false</bool>
+				<CoordinateFrame name="ModelMeshCFrame">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+					<R00>1</R00>
+					<R01>0</R01>
+					<R02>0</R02>
+					<R10>0</R10>
+					<R11>1</R11>
+					<R12>0</R12>
+					<R20>0</R20>
+					<R21>0</R21>
+					<R22>1</R22>
+				</CoordinateFrame>
+				<SharedString name="ModelMeshData">yuZpQdnvvUBOTYh1jqZ2cA==</SharedString>
+				<Vector3 name="ModelMeshSize">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+				</Vector3>
+				<token name="ModelStreamingMode">0</token>
+				<string name="Name">PehqGunNeo</string>
+				<bool name="NeedsPivotMigration">false</bool>
+				<Ref name="PrimaryPart">null</Ref>
+				<bool name="RequiresHandle">false</bool>
+				<float name="ScaleFactor">1</float>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+				<Content name="TextureId"><null></null></Content>
+				<string name="ToolTip"></string>
+				<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00004d20</UniqueId>
+				<OptionalCoordinateFrame name="WorldPivotData"></OptionalCoordinateFrame>
+			</Properties>
+			<Item class="Part" referent="RBX489567A4064B43A2920A1740969E5B09">
+				<Properties>
+					<bool name="Anchored">false</bool>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<float name="BackParamA">-0.5</float>
+					<float name="BackParamB">0.5</float>
+					<token name="BackSurface">0</token>
+					<token name="BackSurfaceInput">0</token>
+					<float name="BottomParamA">-0.5</float>
+					<float name="BottomParamB">0.5</float>
+					<token name="BottomSurface">0</token>
+					<token name="BottomSurfaceInput">0</token>
+					<CoordinateFrame name="CFrame">
+						<X>-13.3862085</X>
+						<Y>13.4311295</Y>
+						<Z>-38.43993</Z>
+						<R00>1.00000095</R00>
+						<R01>2.01166003e-07</R01>
+						<R02>-8.04660317e-07</R02>
+						<R10>-2.30968197e-07</R10>
+						<R11>1.00000095</R11>
+						<R12>2.01165108e-07</R12>
+						<R20>9.23868981e-07</R20>
+						<R21>-2.3096699e-07</R21>
+						<R22>1</R22>
+					</CoordinateFrame>
+					<bool name="CanCollide">false</bool>
+					<bool name="CanQuery">false</bool>
+					<bool name="CanTouch">true</bool>
+					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+					<bool name="CastShadow">false</bool>
+					<string name="CollisionGroup">Default</string>
+					<int name="CollisionGroupId">0</int>
+					<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
+					<PhysicalProperties name="CustomPhysicalProperties">
+						<CustomPhysics>false</CustomPhysics>
+					</PhysicalProperties>
+					<bool name="DefinesCapabilities">false</bool>
+					<bool name="EnableFluidForces">true</bool>
+					<float name="FrontParamA">-0.5</float>
+					<float name="FrontParamB">0.5</float>
+					<token name="FrontSurface">0</token>
+					<token name="FrontSurfaceInput">0</token>
+					<UniqueId name="HistoryId">7e70e682e9185ea9062f2bdf00004f2b</UniqueId>
+					<float name="LeftParamA">-0.5</float>
+					<float name="LeftParamB">0.5</float>
+					<token name="LeftSurface">0</token>
+					<token name="LeftSurfaceInput">0</token>
+					<bool name="Locked">false</bool>
+					<bool name="Massless">false</bool>
+					<token name="Material">256</token>
+					<string name="MaterialVariantSerialized"></string>
+					<string name="Name">Handle</string>
+					<CoordinateFrame name="PivotOffset">
+						<X>0</X>
+						<Y>0</Y>
+						<Z>0</Z>
+						<R00>1</R00>
+						<R01>0</R01>
+						<R02>0</R02>
+						<R10>0</R10>
+						<R11>1</R11>
+						<R12>0</R12>
+						<R20>0</R20>
+						<R21>0</R21>
+						<R22>1</R22>
+					</CoordinateFrame>
+					<float name="Reflectance">0</float>
+					<float name="RightParamA">-0.5</float>
+					<float name="RightParamB">0.5</float>
+					<token name="RightSurface">0</token>
+					<token name="RightSurfaceInput">0</token>
+					<int name="RootPriority">0</int>
+					<Vector3 name="RotVelocity">
+						<X>0</X>
+						<Y>0</Y>
+						<Z>0</Z>
+					</Vector3>
+					<int64 name="SourceAssetId">-1</int64>
+					<BinaryString name="Tags"></BinaryString>
+					<float name="TopParamA">-0.5</float>
+					<float name="TopParamB">0.5</float>
+					<token name="TopSurface">0</token>
+					<token name="TopSurfaceInput">0</token>
+					<float name="Transparency">0</float>
+					<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00004d21</UniqueId>
+					<Vector3 name="Velocity">
+						<X>0</X>
+						<Y>0</Y>
+						<Z>0</Z>
+					</Vector3>
+					<token name="formFactorRaw">1</token>
+					<token name="shape">1</token>
+					<Vector3 name="size">
+						<X>1</X>
+						<Y>0.5</Y>
+						<Z>0.5</Z>
+					</Vector3>
+				</Properties>
+			</Item>
+			<Item class="Part" referent="RBX4B16F9CC1BDC479086DEC598D3911D3F">
+				<Properties>
+					<bool name="Anchored">false</bool>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<float name="BackParamA">-0.5</float>
+					<float name="BackParamB">0.5</float>
+					<token name="BackSurface">0</token>
+					<token name="BackSurfaceInput">0</token>
+					<float name="BottomParamA">-0.5</float>
+					<float name="BottomParamB">0.5</float>
+					<token name="BottomSurface">0</token>
+					<token name="BottomSurfaceInput">0</token>
+					<CoordinateFrame name="CFrame">
+						<X>-13.3862085</X>
+						<Y>13.9311018</Y>
+						<Z>-39.18993</Z>
+						<R00>1.00000095</R00>
+						<R01>1.11758858e-07</R01>
+						<R02>-4.47033216e-07</R02>
+						<R10>-1.41561173e-07</R10>
+						<R11>1.00000095</R11>
+						<R12>1.11758276e-07</R12>
+						<R20>5.66242136e-07</R20>
+						<R21>-1.41560406e-07</R21>
+						<R22>1</R22>
+					</CoordinateFrame>
+					<bool name="CanCollide">false</bool>
+					<bool name="CanQuery">false</bool>
+					<bool name="CanTouch">true</bool>
+					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+					<bool name="CastShadow">false</bool>
+					<string name="CollisionGroup">Default</string>
+					<int name="CollisionGroupId">0</int>
+					<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
+					<PhysicalProperties name="CustomPhysicalProperties">
+						<CustomPhysics>false</CustomPhysics>
+					</PhysicalProperties>
+					<bool name="DefinesCapabilities">false</bool>
+					<bool name="EnableFluidForces">true</bool>
+					<float name="FrontParamA">-0.5</float>
+					<float name="FrontParamB">0.5</float>
+					<token name="FrontSurface">0</token>
+					<token name="FrontSurfaceInput">0</token>
+					<UniqueId name="HistoryId">7e70e682e9185ea9062f2bdf00004f2b</UniqueId>
+					<float name="LeftParamA">-0.5</float>
+					<float name="LeftParamB">0.5</float>
+					<token name="LeftSurface">0</token>
+					<token name="LeftSurfaceInput">0</token>
+					<bool name="Locked">false</bool>
+					<bool name="Massless">false</bool>
+					<token name="Material">256</token>
+					<string name="MaterialVariantSerialized"></string>
+					<string name="Name">Part</string>
+					<CoordinateFrame name="PivotOffset">
+						<X>0</X>
+						<Y>0</Y>
+						<Z>0</Z>
+						<R00>1</R00>
+						<R01>0</R01>
+						<R02>0</R02>
+						<R10>0</R10>
+						<R11>1</R11>
+						<R12>0</R12>
+						<R20>0</R20>
+						<R21>0</R21>
+						<R22>1</R22>
+					</CoordinateFrame>
+					<float name="Reflectance">0</float>
+					<float name="RightParamA">-0.5</float>
+					<float name="RightParamB">0.5</float>
+					<token name="RightSurface">0</token>
+					<token name="RightSurfaceInput">0</token>
+					<int name="RootPriority">0</int>
+					<Vector3 name="RotVelocity">
+						<X>0</X>
+						<Y>0</Y>
+						<Z>0</Z>
+					</Vector3>
+					<int64 name="SourceAssetId">-1</int64>
+					<BinaryString name="Tags"></BinaryString>
+					<float name="TopParamA">-0.5</float>
+					<float name="TopParamB">0.5</float>
+					<token name="TopSurface">0</token>
+					<token name="TopSurfaceInput">0</token>
+					<float name="Transparency">0</float>
+					<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00004d22</UniqueId>
+					<Vector3 name="Velocity">
+						<X>0</X>
+						<Y>0</Y>
+						<Z>0</Z>
+					</Vector3>
+					<token name="formFactorRaw">1</token>
+					<token name="shape">1</token>
+					<Vector3 name="size">
+						<X>1</X>
+						<Y>0.5</Y>
+						<Z>2</Z>
+					</Vector3>
+				</Properties>
+			</Item>
+			<Item class="Part" referent="RBX43ED65E5FF5D4387A10485B3CC07B29F">
+				<Properties>
+					<bool name="Anchored">false</bool>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<float name="BackParamA">-0.5</float>
+					<float name="BackParamB">0.5</float>
+					<token name="BackSurface">0</token>
+					<token name="BackSurfaceInput">0</token>
+					<float name="BottomParamA">-0.5</float>
+					<float name="BottomParamB">0.5</float>
+					<token name="BottomSurface">0</token>
+					<token name="BottomSurfaceInput">0</token>
+					<CoordinateFrame name="CFrame">
+						<X>-13.3862085</X>
+						<Y>13.431097</Y>
+						<Z>-38.43993</Z>
+						<R00>1.00000095</R00>
+						<R01>-1.49011825e-08</R01>
+						<R02>5.96046732e-08</R02>
+						<R10>-1.49011754e-08</R10>
+						<R11>1.00000095</R11>
+						<R12>-1.49011541e-08</R12>
+						<R20>5.96047016e-08</R20>
+						<R21>-1.49011612e-08</R21>
+						<R22>1</R22>
+					</CoordinateFrame>
+					<bool name="CanCollide">false</bool>
+					<bool name="CanQuery">false</bool>
+					<bool name="CanTouch">true</bool>
+					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+					<bool name="CastShadow">true</bool>
+					<string name="CollisionGroup">Default</string>
+					<int name="CollisionGroupId">0</int>
+					<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
+					<PhysicalProperties name="CustomPhysicalProperties">
+						<CustomPhysics>false</CustomPhysics>
+					</PhysicalProperties>
+					<bool name="DefinesCapabilities">false</bool>
+					<bool name="EnableFluidForces">true</bool>
+					<float name="FrontParamA">-0.5</float>
+					<float name="FrontParamB">0.5</float>
+					<token name="FrontSurface">0</token>
+					<token name="FrontSurfaceInput">0</token>
+					<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+					<float name="LeftParamA">-0.5</float>
+					<float name="LeftParamB">0.5</float>
+					<token name="LeftSurface">0</token>
+					<token name="LeftSurfaceInput">0</token>
+					<bool name="Locked">false</bool>
+					<bool name="Massless">false</bool>
+					<token name="Material">256</token>
+					<string name="MaterialVariantSerialized"></string>
+					<string name="Name">RootPart</string>
+					<CoordinateFrame name="PivotOffset">
+						<X>0</X>
+						<Y>0</Y>
+						<Z>0</Z>
+						<R00>1</R00>
+						<R01>0</R01>
+						<R02>0</R02>
+						<R10>0</R10>
+						<R11>1</R11>
+						<R12>0</R12>
+						<R20>0</R20>
+						<R21>0</R21>
+						<R22>1</R22>
+					</CoordinateFrame>
+					<float name="Reflectance">0</float>
+					<float name="RightParamA">-0.5</float>
+					<float name="RightParamB">0.5</float>
+					<token name="RightSurface">0</token>
+					<token name="RightSurfaceInput">0</token>
+					<int name="RootPriority">0</int>
+					<Vector3 name="RotVelocity">
+						<X>0</X>
+						<Y>0</Y>
+						<Z>0</Z>
+					</Vector3>
+					<int64 name="SourceAssetId">-1</int64>
+					<BinaryString name="Tags"></BinaryString>
+					<float name="TopParamA">-0.5</float>
+					<float name="TopParamB">0.5</float>
+					<token name="TopSurface">0</token>
+					<token name="TopSurfaceInput">0</token>
+					<float name="Transparency">1</float>
+					<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00004d23</UniqueId>
+					<Vector3 name="Velocity">
+						<X>0</X>
+						<Y>0</Y>
+						<Z>0</Z>
+					</Vector3>
+					<token name="formFactorRaw">1</token>
+					<token name="shape">1</token>
+					<Vector3 name="size">
+						<X>1</X>
+						<Y>1</Y>
+						<Z>1</Z>
+					</Vector3>
+				</Properties>
+				<Item class="Motor6D" referent="RBX53BE909A60BA4F00BA77F917EA5BCF92">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<CoordinateFrame name="C0">
+							<X>0</X>
+							<Y>0.500003815</Y>
+							<Z>-0.75</Z>
+							<R00>1</R00>
+							<R01>1.26659927e-07</R01>
+							<R02>-5.06637434e-07</R02>
+							<R10>-1.2665987e-07</R10>
+							<R11>1</R11>
+							<R12>1.26659316e-07</R12>
+							<R20>5.06637434e-07</R20>
+							<R21>-1.26659245e-07</R21>
+							<R22>1</R22>
+						</CoordinateFrame>
+						<CoordinateFrame name="C1">
+							<X>0</X>
+							<Y>0</Y>
+							<Z>0</Z>
+							<R00>1</R00>
+							<R01>0</R01>
+							<R02>0</R02>
+							<R10>0</R10>
+							<R11>1</R11>
+							<R12>0</R12>
+							<R20>0</R20>
+							<R21>0</R21>
+							<R22>1</R22>
+						</CoordinateFrame>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<float name="DesiredAngle">0</float>
+						<bool name="Enabled">true</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<float name="MaxVelocity">0</float>
+						<string name="Name">Part</string>
+						<Ref name="Part0">RBX43ED65E5FF5D4387A10485B3CC07B29F</Ref>
+						<Ref name="Part1">RBX4B16F9CC1BDC479086DEC598D3911D3F</Ref>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00004d24</UniqueId>
+					</Properties>
+				</Item>
+				<Item class="Motor6D" referent="RBXFABD09A9F7E74A3F8F5B66FD8B168FAE">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<CoordinateFrame name="C0">
+							<X>0</X>
+							<Y>3.24249268e-05</Y>
+							<Z>0</Z>
+							<R00>1</R00>
+							<R01>2.16066994e-07</R01>
+							<R02>-8.64264223e-07</R02>
+							<R10>-2.16066809e-07</R10>
+							<R11>1</R11>
+							<R12>2.16066042e-07</R12>
+							<R20>8.6426428e-07</R20>
+							<R21>-2.16065843e-07</R21>
+							<R22>1</R22>
+						</CoordinateFrame>
+						<CoordinateFrame name="C1">
+							<X>0</X>
+							<Y>0</Y>
+							<Z>0</Z>
+							<R00>1</R00>
+							<R01>0</R01>
+							<R02>0</R02>
+							<R10>0</R10>
+							<R11>1</R11>
+							<R12>0</R12>
+							<R20>0</R20>
+							<R21>0</R21>
+							<R22>1</R22>
+						</CoordinateFrame>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<float name="DesiredAngle">0</float>
+						<bool name="Enabled">true</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<float name="MaxVelocity">0</float>
+						<string name="Name">Handle</string>
+						<Ref name="Part0">RBX43ED65E5FF5D4387A10485B3CC07B29F</Ref>
+						<Ref name="Part1">RBX489567A4064B43A2920A1740969E5B09</Ref>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00004d25</UniqueId>
+					</Properties>
+				</Item>
+				<Item class="Motor6D" referent="RBXE0DAD67DA16740CB8675073095FC837F">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<CoordinateFrame name="C0">
+							<X>0</X>
+							<Y>0.500009537</Y>
+							<Z>-2</Z>
+							<R00>1</R00>
+							<R01>3.65078819e-07</R01>
+							<R02>-1.46030766e-06</R02>
+							<R10>-3.65078279e-07</R10>
+							<R11>1</R11>
+							<R12>3.65076971e-07</R12>
+							<R20>1.46030777e-06</R20>
+							<R21>-3.6507646e-07</R21>
+							<R22>1</R22>
+						</CoordinateFrame>
+						<CoordinateFrame name="C1">
+							<X>0</X>
+							<Y>0</Y>
+							<Z>0</Z>
+							<R00>1</R00>
+							<R01>0</R01>
+							<R02>0</R02>
+							<R10>0</R10>
+							<R11>1</R11>
+							<R12>0</R12>
+							<R20>0</R20>
+							<R21>0</R21>
+							<R22>1</R22>
+						</CoordinateFrame>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<float name="DesiredAngle">0</float>
+						<bool name="Enabled">true</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<float name="MaxVelocity">0</float>
+						<string name="Name">BulletBase</string>
+						<Ref name="Part0">RBX43ED65E5FF5D4387A10485B3CC07B29F</Ref>
+						<Ref name="Part1">RBX989EADD6D92A48D6934B0AEC869DD792</Ref>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00004d26</UniqueId>
+					</Properties>
+				</Item>
+			</Item>
+			<Item class="Part" referent="RBX989EADD6D92A48D6934B0AEC869DD792">
+				<Properties>
+					<bool name="Anchored">false</bool>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<float name="BackParamA">-0.5</float>
+					<float name="BackParamB">0.5</float>
+					<token name="BackSurface">0</token>
+					<token name="BackSurfaceInput">0</token>
+					<float name="BottomParamA">-0.5</float>
+					<float name="BottomParamB">0.5</float>
+					<token name="BottomSurface">0</token>
+					<token name="BottomSurfaceInput">0</token>
+					<CoordinateFrame name="CFrame">
+						<X>-13.3862085</X>
+						<Y>13.9311066</Y>
+						<Z>-40.43993</Z>
+						<R00>1.00000095</R00>
+						<R01>3.50177942e-07</R01>
+						<R02>-1.40070438e-06</R02>
+						<R10>-3.79979809e-07</R10>
+						<R11>1.00000095</R11>
+						<R12>3.5017618e-07</R12>
+						<R20>1.51991253e-06</R20>
+						<R21>-3.79977593e-07</R21>
+						<R22>1</R22>
+					</CoordinateFrame>
+					<bool name="CanCollide">false</bool>
+					<bool name="CanQuery">false</bool>
+					<bool name="CanTouch">true</bool>
+					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+					<bool name="CastShadow">false</bool>
+					<string name="CollisionGroup">Default</string>
+					<int name="CollisionGroupId">0</int>
+					<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
+					<PhysicalProperties name="CustomPhysicalProperties">
+						<CustomPhysics>false</CustomPhysics>
+					</PhysicalProperties>
+					<bool name="DefinesCapabilities">false</bool>
+					<bool name="EnableFluidForces">true</bool>
+					<float name="FrontParamA">-0.5</float>
+					<float name="FrontParamB">0.5</float>
+					<token name="FrontSurface">0</token>
+					<token name="FrontSurfaceInput">0</token>
+					<UniqueId name="HistoryId">7e70e682e9185ea9062f2bdf00004f2b</UniqueId>
+					<float name="LeftParamA">-0.5</float>
+					<float name="LeftParamB">0.5</float>
+					<token name="LeftSurface">0</token>
+					<token name="LeftSurfaceInput">0</token>
+					<bool name="Locked">false</bool>
+					<bool name="Massless">false</bool>
+					<token name="Material">256</token>
+					<string name="MaterialVariantSerialized"></string>
+					<string name="Name">BulletBase</string>
+					<CoordinateFrame name="PivotOffset">
+						<X>0</X>
+						<Y>0</Y>
+						<Z>0</Z>
+						<R00>1</R00>
+						<R01>0</R01>
+						<R02>0</R02>
+						<R10>0</R10>
+						<R11>1</R11>
+						<R12>0</R12>
+						<R20>0</R20>
+						<R21>0</R21>
+						<R22>1</R22>
+					</CoordinateFrame>
+					<float name="Reflectance">0</float>
+					<float name="RightParamA">-0.5</float>
+					<float name="RightParamB">0.5</float>
+					<token name="RightSurface">0</token>
+					<token name="RightSurfaceInput">0</token>
+					<int name="RootPriority">0</int>
+					<Vector3 name="RotVelocity">
+						<X>0</X>
+						<Y>0</Y>
+						<Z>0</Z>
+					</Vector3>
+					<int64 name="SourceAssetId">-1</int64>
+					<BinaryString name="Tags"></BinaryString>
+					<float name="TopParamA">-0.5</float>
+					<float name="TopParamB">0.5</float>
+					<token name="TopSurface">0</token>
+					<token name="TopSurfaceInput">0</token>
+					<float name="Transparency">0</float>
+					<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00004d27</UniqueId>
+					<Vector3 name="Velocity">
+						<X>0</X>
+						<Y>0</Y>
+						<Z>0</Z>
+					</Vector3>
+					<token name="formFactorRaw">1</token>
+					<token name="shape">1</token>
+					<Vector3 name="size">
+						<X>0.199999988</X>
+						<Y>0.200000003</Y>
+						<Z>0.199999928</Z>
+					</Vector3>
+				</Properties>
+			</Item>
+			<Item class="Folder" referent="RBX3A06F1E3EBF74F22BAE60BFDB2A54024">
+				<Properties>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+					<bool name="DefinesCapabilities">false</bool>
+					<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+					<string name="Name">Data</string>
+					<int64 name="SourceAssetId">-1</int64>
+					<BinaryString name="Tags"></BinaryString>
+					<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00004d28</UniqueId>
+				</Properties>
+				<Item class="ModuleScript" referent="RBX8658F14CD27C45C6B86D99F88D0324B3">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">PugfamAnims</string>
+						<string name="ScriptGuid">{69E495A6-6B46-4480-A668-B1754E7F540E}</string>
+						<ProtectedString name="Source"><![CDATA[--Note: this simply stores the animation file and is meant to played on another script
+local Anim = {}
+
+local KeyframeSequenceProvider = game:GetService("KeyframeSequenceProvider")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local PugfamRep = ReplicatedStorage.Pugfam12RE
+local AnimStorage = PugfamRep.Animations
+
+--REQUIRED VARIABLES
+Anim.ViewmodelOffest = CFrame.new(0,0, -0.5) -- -0.5 is the distance between camera and player in fp mode
+
+Anim.ServerGunPartMotor6d = "BodyAttach" --the gun part you want to weld to 
+Anim.ServerCharGunWeldR15= "UpperTorso" --you could choose to only set up r15, it'll autofill the r6 one
+Anim.ServerCharGunWeldR6 = "Torso"
+
+--NOTE: animations aren't played here, they will be played on the client... This only lists the animations for the gun
+
+Anim.Actions = {
+    ["Equip"] = ""
+}
+
+--Client
+
+--Roblox Animation (must be dedicated to the viewmodel and gun)
+--Uses Anim.Actions to store animationIds
+
+function Anim.RobloxAnim(animcontroller, action) --humanoid will also work... THEY MUST HAVE AN ANIMATION TRACK
+    local anim = Instance.new("Animation")
+    anim.AnimationId = Anim.Animations[action]
+    
+    local AnimationTrack = animcontroller:LoadAnimation(anim)
+
+    return AnimationTrack
+end
+
+--Tween Anims (pain)
+--does not uses Anim.Actions (optional) (or maybe it does...)
+--Actions will be tied to name.
+--[[
+
+  Actions---> Equip
+          |-> Idle
+          |-> Aim
+          |-> Shoot
+          |-> Reload
+          |-> etc...
+
+    you can add your own in place of etc
+]]
+
+Anim.TweenAnims = {}
+local TweenAnims = Anim.TweenAnims
+
+function TweenAnims.Equip()
+
+end
+
+function TweenAnims.Idle()
+
+end
+
+function TweenAnims.Aim()
+
+end
+
+function TweenAnims.Shoot()
+
+end
+
+function TweenAnims.Reload()
+
+end
+
+
+function TweenAnims.Salute() --not inserted cause this ain't a larp gun engine... instead it's up to you!
+
+end
+
+--Moon anim: very exciting yet it causes LAG... only use for cinematic shots or very complex animations but try to minimize using this (like the nerf doominator, it's a 4 barreled gun with 6 ammon slots that's pump actioned. It has another trigger to switch barrels.)
+--Uses Anim.Animation to reference the Moon animation save file
+--Downsides are not being able to manipulate the speed, only one could be played at a time, and other stuff as well as being CLIENT ONLY... womp womp
+--Credits for Moonlite module: MaximumADHD, 
+
+function Anim.PlayMoonAnim()
+    --wip
+end
+
+--Joint anim (wip but idea is that parts revolves around joints and can)
+local newJoint = {} --uses oop... maybe...
+newJoint.__index = newJoint
+
+--Most stuff ^^^ up there ^^^ is documentation, here is where the real code begins
+
+Anim.AnimationFile = {
+    ["Shoot"] = {
+        ["Type"] = "Roblox",
+        ["Location"] = "rbxassetid://EXAMPLEID"
+    },
+    ["Idle"] = {
+        ["Type"] = "MoonAnim",
+        ["Location"] = nil, --script.MoonAnimSave
+    },
+    ["Reload"] = {
+        ["Type"] = "TweenAnim",
+        ["Location"] = TweenAnims.Reload
+    },
+    ["Aim"] = {
+        ["Type"] = "Joint",
+        ["Location"] = nil, --still thinking on this but it's similar to the roblox sword script animations
+    }
+}
+
+--AGAIN... IGNORE EVEYTHING UP THERE...
+
+--Anims are ran from the actions functions
+
+local AnimationList = {
+	["CharacterIdle"] = {
+		["Type"] = "Roblox",
+		["Location"] = KeyframeSequenceProvider:RegisterKeyframeSequence(AnimStorage.TestGunModel.idle)
+	}
+}
+
+Anim.AnimationFile.Shoot = function(Model:Model)
+	local animator = Model.Humanoid.Animator
+end
+
+Anim.AnimationFile.CharIdle = function(Model:Model)
+	local animator = Model.Humanoid.Animator
+	local animation = Instance.new("Animation")
+	animation.Name = "Ni hao"
+	animation.AnimationId = AnimationList.CharacterIdle.Location
+	local animTrack:AnimationTrack = animator:LoadAnimation(animation)
+	animTrack:Play()
+	
+	return animTrack
+end
+
+return Anim]]></ProtectedString>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00004d29</UniqueId>
+					</Properties>
+				</Item>
+				<Item class="ModuleScript" referent="RBX8B9727A440904F889DCBFDF6552E8B2B">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">PugfamData</string>
+						<string name="ScriptGuid">{5EBF9621-B16F-4228-9256-52FB9E9B3F4F}</string>
+						<ProtectedString name="Source"><![CDATA[local Data = {}
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+--Basic data (or unsorted)
+
+Data.GunName = "Pistol" --will use the gun name for default paths if the path isn't present
+Data.ShootType = "RCLServer" --Multiple shoot types, they are Step (the bullet Steps fowards), Hitscan (uses mouse.hit, good for rcl), Raycast (casts a ray and see what was hit)
+Data.FireType = "Single" --Multiple fire types, they are Single (shoot once when trigger is pulled), Constant (keep shooting when trigger is held down), and Multi (shoot an amount when trigger is pulled)
+Data.ShootOrigin = "Head" --from what part does the bullet spawn at. Will look for part in the character
+Data.CameraMode = Enum.CameraMode.Classic
+Data.Firerate = 0.1
+Data.FireTypeMultiFirerate = 0.1 --time between shots if fire type is multi
+Data.EquipTime = 1
+Data.ReloadTime = 3
+Data.OffHandReloading = false
+Data.AimEnabled = true
+Data.AimToggle = true --if false then aim will need to be held down
+Data.AimDownSightTime = 0 --time it takes for player to be able to shoot after toggling aim
+
+--Model (if paths are nil then it'll attempt to use the gunname)
+Data.ServerGunModel = ReplicatedStorage.Pugfam12RE.GunModels.TestGunModel
+Data.ClientGunModel = ReplicatedStorage.Pugfam12RE.GunModels.TestGunModel
+Data.ViewmodelGunModel = ReplicatedStorage.Pugfam12RE.GunModels.TestGunModel
+Data.ClientGunModelHandleOffset = CFrame.new(1.5, -1, -1) --CFrame value
+Data.Actions = nil --Testing Note: might remove
+Data.Bullet = ReplicatedStorage.Pugfam12RE.Bullets.RCLBullet --Path to bullet model, can be put in table for multiple different bullets
+Data.BulletBase = "BulletBase" --Name of the bullet base (uses ServerGunModel atm)
+Data.CharacterHandleAttachPart = {"UpperTorso"} --Part to attach to the tool
+Data.FilterAccessories = true
+Data.FilterLocalChar = true
+
+--Animation
+Data.ClientAnimationType = "Roblox" --Options include Roblox (Roblox animation from assetid), tweening (similar to acs, exists for acs port), MoonAnimator (Uses Moonlite), and Joint (Similar to how animations were done before animations were a thing)
+Data.ServerAnimationType = "Roblox" --Options include Roblox and Joint. (Some options were excluded since they are incapable of running on the server)
+
+--Viewmodel
+Data.ViewmodelEnabled = true 
+Data.FPViewmodelType = "Roblox" --Either a "Viewmodel" or the "Roblox"'s character. The custom Viewmodel requires it's own animation on the client while Roblox could let you reuse animations run on the  leave blank if you don't want a viewmodel
+Data.ViewmodelName = "Roblox" --custom Viewmodel to look for in ReplicatedStorage. Will only work if FPViewmodelType is "Viewmodel"
+Data.BodyPartsToShowInFPS = {"LeftHand", "LeftLowerArm", "LeftUpperArm", "RightHand", "RightLowerArm", "RightUpperArm", "LeftArm", "RightArm"} --Enter both R6 and R15 parts, will apply nevertheless
+Data.ApplyHumanoidDescriptionToViewmodel = true --Applies the player's avatar to the viewmodel
+
+--Mouse
+Data.CustomMouseIcon = false
+Data.MouseIconType = "Image" --Either an Image or Gui
+Data.MouseImageId = "rbxasset://SystemCursors/Cross" --If MouseIconType is an Image
+
+--Cross-Platform Support (PC support is the base that these platforms will be built on (obviously))
+Data.MobileSupport = false
+Data.ConsoleSupport = false
+Data.VRSupport = false
+
+--ShootTypes
+--|Step
+Data.BulletSpeed = 64 --In studs per second
+Data.BulletLifetime = 0.5 --How long will the bullet live for. (Speed = distance / time)
+--|Hitscan
+Data.BulletLifetime = 0.05 --How long will the bullet live for
+Data.RayLength = 1000 --Legth of the ray. 15000 is the max length (for comparison, two characters standing 700 studs away would be like 4 px in height on a FHD monitor (i think...))
+Data.RaycastPartFilter = {} --additional parts to filter (you could use "Pagfam Raycast Filter"...)
+Data.FilterWater = false
+
+return Data]]></ProtectedString>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00004d2a</UniqueId>
+					</Properties>
+				</Item>
+				<Item class="ModuleScript" referent="RBXAE8904316C4F42139A8920DFC0D49B90">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">PagfamServerActs</string>
+						<string name="ScriptGuid">{9D60E697-BF9E-4618-9233-2DF0582C5180}</string>
+						<ProtectedString name="Source"><![CDATA[local module = {}
+
+return module
+]]></ProtectedString>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00004d2b</UniqueId>
+					</Properties>
+				</Item>
+				<Item class="ModuleScript" referent="RBX0759C72A2D474485BE50B614E81AA577">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">PugfamActs</string>
+						<string name="ScriptGuid">{D7C02FBB-F02B-454B-9FCE-9531A354D0C6}</string>
+						<ProtectedString name="Source"><![CDATA[local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Tool = script.Parent.Parent
+local Actions = {}
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local PlayerEvents = ReplicatedStorage.Pugfam12RE.PlayerData[player.UserId].RemoteEvents
+local Camera = workspace.CurrentCamera
+
+local PugfamGunData = require(Tool.Data.PugfamData)
+local PugfamAnimData = require(Tool.Data.PugfamAnims)
+
+local Equipping = false
+local FireRateCoolDown = false
+local Reloading = false
+local isAiming = false
+local AimDownSights = false
+
+
+local function CheckConditions()
+    if Equipping == true or FireRateCoolDown == true or Reloading == true and AimDownSights == true then
+        return false
+	end
+	
+    return true
+end
+
+local function getMouse3dPos(inputObject: InputObject) --similar to mouse.hit.p but better
+    local mousepos = inputObject.Position
+	
+    local cameraRay = Camera:ScreenPointToRay(mousepos.X, mousepos.Y)
+---@diagnostic disable-next-line: redundant-parameter	
+		
+	
+	local RaycastParamsThing = RaycastParams.new()
+    local x = {character:GetDescendants(), Camera:GetDescendants()}
+    for value in pairs(PugfamGunData.RaycastPartFilter) do
+        table.insert(x, value)
+    end
+
+    RaycastParamsThing.FilterDescendantsInstances = x
+    RaycastParamsThing.FilterType = Enum.RaycastFilterType.Exclude
+    RaycastParamsThing.IgnoreWater = PugfamGunData.FilterWater
+
+    local raycastResult:RaycastResult = workspace:Raycast(cameraRay.Origin, cameraRay.Direction * PugfamGunData.RayLength, RaycastParamsThing)
+
+	--raycastResult = raycastResult ~= nil and raycastResult.Position or cameraRay.Origin + cameraRay.Direction * PugfamGunData.RayLength --if there wasn't any instance to hit then it will simply return the destination's position
+	if not raycastResult then --if not raycast result then return a value
+		raycastResult = {
+			["Distance"] = PugfamGunData.RayLength,
+			["Instance"] = nil,
+			["Material"] = nil,
+			["Position"] = cameraRay.Origin + cameraRay.Direction * PugfamGunData.RayLength,
+			["Normal"] = ((workspace.Camera.CFrame.LookVector.Unit) - Vector3.new(0.5)):Ceil() * -1, --Returns skybox (don't know why you'll need this...)
+		}
+	end
+
+	local debugPart = Instance.new("Part")
+	debugPart.Size = Vector3.one
+	debugPart.Position = raycastResult.Position
+	debugPart.Anchored = true
+	debugPart.CanCollide = false
+	debugPart.CanQuery = false
+	debugPart.CanTouch = false
+	debugPart.Transparency = 0.5
+	debugPart.Color = Color3.new(1, 0, 0)
+	debugPart.Material = Enum.Material.Neon
+	debugPart.Parent = workspace
+	task.delay(0.5, function()
+		debugPart:Destroy()
+	end)
+
+    return raycastResult
+end
+
+--[[
+    Each action should fire to the server using PlayerEvents.Action in this format: ActionName, ActionProperties
+      ActionName --> The string that is the Action Name
+      ActionProperties --> The table that houses each actions' properties
+
+    Any action that gets it's data updated would have to fire to PlayerEvents.Update in this format: ActionName, PropertyToUpdate
+        ActionName --> A string. Referencing which property to replace.
+        PropertiesToUpdate --> a table with the updated properties. It will only replace the properties that were listed rather than all properties.
+
+        (Note that tool isn't referenced here since tool is already referenced in the PlayerEvents.Action event)
+]]
+
+--functions called by the framework, they are called by name
+local ConnectionsToDisconnectOnUnequip = {}
+
+local idleAnim
+
+function Actions.Equip()
+    Equipping = true
+    task.wait(PugfamAnimData.EquipTime)
+	Equipping = false
+	
+	idleAnim = PugfamAnimData.AnimationFile.CharIdle(character)
+end
+
+function Actions.UnEquip()
+	idleAnim:Stop()
+    for _, v in pairs(ConnectionsToDisconnectOnUnequip) do
+        v:Disconnect()
+    end
+end
+
+--Additional functions that will run after contextactionservice finishes setting up keybinds, could be used for PlayerEvents
+Actions.AdditionalFunctions = {}
+
+function Actions.AdditionalFunctions.Onsit()
+    local sitConnection
+    sitConnection = character.Humanoid.Seated:Connect(function(active, currentSeatPart)
+
+    end)
+
+    table.insert(ConnectionsToDisconnectOnUnequip, sitConnection)
+end
+
+--Functions binded by keybinds using ContextActionService. These functions will be called through another script.
+local function Shoot(actionName, inputState, inputObject)
+	if actionName ~= "Shoot" or inputState == Enum.UserInputState.Cancel then
+        return
+	end
+	
+	print(inputState == Enum.UserInputState.Begin)
+
+    --Single (shoot once then let go)
+    if PugfamGunData.FireType == "Single" and inputState == Enum.UserInputState.Begin and CheckConditions() then
+		FireRateCoolDown = true
+		
+		local res = getMouse3dPos(inputObject)
+		
+		PlayerEvents.Action:FireServer(actionName, {["StartPos"] = script.Parent.Parent[PugfamGunData.BulletBase].Position , ["TargetPos"] = res.Position}) --use remote function to yield?
+
+        task.spawn(function()
+            task.wait(PugfamGunData.Firerate)
+            FireRateCoolDown = false
+        end)
+    end
+	--[[
+    --Constant (continous shooting)
+    if PugfamGunData.FireType == "Constant" and inputState == Enum.UserInputState.Begin and CheckConditions() then
+		print("Started")
+		
+		local res = getMouse3dPos(inputObject)
+		
+		PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Constant", ["ShootType"] = "Step", ["TargetPos"] = res.Position, ["RaycastResult"] = res, ["isHeld"] = true})
+    elseif inputState == Enum.UserInputState.End then
+		
+		print("Ended")
+
+        PlayerEvents.Action:FireServer(actionName, {"Constant", getMouse3dPos(inputObject).Position, ["isHeld"] = false})
+
+        FireRateCoolDown = true
+        task.spawn(function()
+            task.wait(PugfamGunData.Firerate)
+            FireRateCoolDown = false
+        end)
+    end
+
+	
+    --Multi (number of shots per trigger pulled)
+	if PugfamGunData.FireType == "Multi" and inputState == Enum.UserInputState.Begin and CheckConditions() then
+        FireRateCoolDown = true
+		PlayerEvents.Action:FireServer(actionName, {["FireType"] = "Multi", ["ShootType"] = "Step", ["TargetPos"] = getMouse3dPos(inputObject).Position, ["RaycastResult"] = getMouse3dPos(inputObject)}) --use remote function to yield?
+        task.spawn(function()
+            task.wait(PugfamGunData.Firerate)
+            FireRateCoolDown = false
+        end)
+    end
+	]]
+	return
+end
+
+local function UpdateMousePos(actionName, inputState, inputObject)
+    if actionName ~= "UpdateMousePos" or inputState == Enum.UserInputState.Cancel then
+        return
+    end
+
+	PlayerEvents.Update:FireServer({"TargetPos", getMouse3dPos(inputObject).Position})
+end
+
+local function Reload(actionName, inputState, inputObject)
+	if actionName ~= "Reload" or inputState == Enum.UserInputState.Cancel or inputState ~= Enum.UserInputState.Begin then
+        return
+	end
+
+    local unequippedgun = false
+    Reloading = true
+    --Play anim
+
+    local UnequipToolConnection
+    UnequipToolConnection = Tool.Unequipped:Connect(
+        function()
+            unequippedgun = true
+    end)
+
+    task.wait(PugfamGunData.ReloadTime)
+
+    UnequipToolConnection:Disconnect()
+
+    if PugfamGunData.OffHandReloading ~= true or unequippedgun then --check if gun was unequipped
+        return
+    end
+
+    --reload function
+end
+
+local function Aim(actionName, inputState, inputObject)
+	if actionName ~= "Aim" or inputState == Enum.UserInputState.Cancel then
+        return
+    end
+
+
+	return Enum.ContextActionResult.Pass --Mouse right click
+end
+
+local function Emote(actionName, inputState, inputObject)
+	if actionName ~= "Emote" or inputState == Enum.UserInputState.Cancel then
+        return
+    end
+
+end
+
+
+--Actions are done from the client
+Actions.ContextActions = {
+    {
+        ["actionName"] = "Shoot",
+        ["functionToBind"] = Shoot,
+        ["inputTypes"] = { --Multiple keybinds, you can add controller support here
+            Enum.UserInputType.MouseButton1,
+            Enum.KeyCode.ButtonR2,
+        },
+        ["priorityLevel"] = 2000,
+        ["MobileButtons"] = { --Mobile support, you can set this to nil if you don't want to implement mobile support
+            ["createTouchButton"] = true,
+            ["stackOrder"] = 1,
+            ["description"] = "Shoot the gun", --literally does nothing Rofl
+            ["title"] = "Shoot",
+            ["image"] = "", --rbxassetid//00000000
+			["position"] = {0, 0, 0, 0}, --shoot button position. Stored as Udim2.new(position) Set it to nil for the default position (idk what position, im scripting from vscode).
+        },
+    },
+    {
+        ["actionName"] = "UpdateMousePos",
+        ["functionToBind"] = UpdateMousePos,
+        ["inputTypes"] = {
+            Enum.UserInputType.MouseMovement,
+            Enum.KeyCode.Thumbstick2,
+            --Enum.UserInputType.Touch --idk how to implement this atm
+        },
+        ["priorityLevel"] = 2000,
+        ["MobileButtons"] = nil
+    },
+    {
+        ["actionName"] = "Reload",
+        ["functionToBind"] = Reload,
+        ["inputTypes"] = {
+            Enum.KeyCode.R,
+            Enum.KeyCode.ButtonX,
+        },
+        ["priorityLevel"] = 2000,
+        ["MobileButtons"] = {
+            ["createTouchButton"] = true,
+            ["stackOrder"] = 1,
+            ["description"] = "Reload the gun",
+            ["title"] = "Reload",
+            ["image"] = "",
+			["position"] = {0.2, 0, 0, 0},
+        }
+    },
+    {
+        ["actionName"] = "Aim",
+        ["functionToBind"] = Aim,
+        ["inputTypes"] = {
+            Enum.UserInputType.MouseButton2,
+            Enum.KeyCode.ButtonL2,
+        },
+        ["priorityLevel"] = 2000,
+        ["MobileButtons"] = {
+            ["createTouchButton"] = true,
+            ["stackOrder"] = 1,
+            ["description"] = "Aim the gun",
+            ["title"] = "Aim",
+            ["image"] = "",
+			["position"] = {0.4, 0, 0, 0},
+        }
+    },
+    {
+        ["actionName"] = "Emote",
+        ["functionToBind"] = Emote,
+        ["inputTypes"] = {
+            Enum.KeyCode.G,
+            Enum.KeyCode.ButtonR3,
+        },
+        ["priorityLevel"] = 2000,
+        ["MobileButtons"] = {
+            ["createTouchButton"] = true,
+            ["stackOrder"] = 1,
+            ["description"] = "Shoot the gun",
+            ["title"] = "Emote",
+            ["image"] = "",
+			["position"] = {0.6, 0, 0, 0},
+        }
+    },
+}
+
+return Actions]]></ProtectedString>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00004d2c</UniqueId>
+					</Properties>
+				</Item>
 			</Item>
 		</Item>
 	</Item>
@@ -13011,14 +14969,15 @@ local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 local ServerScriptService = game:GetService("ServerScriptService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Modules = ReplicatedStorage.Pagfam12ReplicatedStorage.Modules
+local Modules = ReplicatedStorage.Pugfam12RE.Modules
 local ServerModules = ServerScriptService.ServerModules
-local FireTypes = require(ServerModules.FireTypes)
-local ShootTypes = require(ServerModules.ShootTypes)
 local PhysicsService = game:GetService("PhysicsService")
 local KeyframeSequenceProvider = game:GetService("KeyframeSequenceProvider")
 local ServerStorage = game:GetService("ServerStorage")
 -- local ActionHandler --why does this exists? (I think it might have something to do with the ActionLog variable)
+
+local FireTypes = require(ServerModules.FireTypes)
+local ShootTypes = require(ServerModules.ShootTypes)
 
 PhysicsService:RegisterCollisionGroup("ViewmodelCollisions") --Test tsktsk
 
@@ -13049,7 +15008,7 @@ local function createPlrContainer(plr: Player) --Might store a template somewher
 	UpdateEvent.Parent = RemoteEventsContainer
 
 
-    container.Parent = ReplicatedStorage.Pagfam12ReplicatedStorage.PlayerData
+    container.Parent = ReplicatedStorage.Pugfam12RE.PlayerData
 
     return container
 end
@@ -13069,50 +15028,27 @@ local function PlrAdded(plr)
 			end
 		end
 		
+		print("hewo")
 		
 		--Gun equipped
 		local ToolEquipped
 		ToolEquipped = char.ChildAdded:Connect(function(child)
-			if not child:IsA("Tool") or not child:GetAttribute("PAGFAM12") then
+			if not child:GetAttribute("Pugfam12") then
 				return
 			end
 			
 			print("HEHEHEHAH")
 
-			local PlayerData = ReplicatedStorage.Pagfam12ReplicatedStorage.PlayerData[plr.UserId]
+			local PlayerData = ReplicatedStorage.Pugfam12RE.PlayerData[plr.UserId]
 
-			local GunData = require(child.PagfamGunData)
-			local GunAnim = require(child.PagfamGunAnimations)
+			local GunData = require(child.Data.PugfamData)
+			local GunAnim = require(child.Data.PugfamAnims)
 
 			for _, v in pairs(child:GetDescendants()) do --Unanchors all parts
 				if v:IsA("BasePart") then
 					v.Anchored = false
 				end
 			end
-
-			--TODO: Attach gun to character
-			local GunModel:Model = GunData.ServerGunModel:Clone()
-			
-			local BodyAttach:Motor6D = Instance.new("Motor6D")
-			BodyAttach.Name = "BodyAttach"
-			BodyAttach.Part1 = GunModel.PrimaryPart
-			
-			for i, v in pairs(GunData.CharacterHandleAttachPart) do --attach to bodypart, will cycle parts if it didn't find the target part
-				if not char:FindFirstChild(v) then
-					continue
-				end
-				
-				BodyAttach.Part0 = char[v]
-				
-				print(char[v])
-				
-				BodyAttach.Parent = char[v]
-				break
-			end
-			
-			
-
-			GunModel.Parent = char
 			
 			--animate (unless client repplication is a thing...)
 
@@ -13132,10 +15068,6 @@ local function PlrAdded(plr)
 					for i, v in pairs(actionProperties) do
 						ActionLog[i] = v
 					end	
-				end
-				
-				if actionName == "Constant" then
-					return --figure out later
 				end
 
 				if GunData.FireType and GunData.ShootType then
@@ -13160,9 +15092,6 @@ local function PlrAdded(plr)
 					return
 				end
 				
-				anim:Stop()
-				GunModel:Destroy()
-				BodyAttach:Destroy()
 				print("Removed")
 				ActionEvent:Disconnect()
 				UpdateEvent:Disconnect()
@@ -13211,8 +15140,8 @@ Players.PlayerAdded:Connect(PlrAdded)]]></ProtectedString>
 local FireType = {}
 local ServerScriptService = game:GetService("ServerScriptService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Modules = ReplicatedStorage.Pagfam12ReplicatedStorage.Modules
-local Events = ReplicatedStorage.Pagfam12ReplicatedStorage.RemoteEvents
+local Modules = ReplicatedStorage.Pugfam12RE.Modules
+local Events = ReplicatedStorage.Pugfam12RE.RemoteEvents
 local ServerModules = ServerScriptService.ServerModules
 local ShootTypes = require(ServerModules.ShootTypes)
 
@@ -13286,8 +15215,8 @@ local ShootTypes = {}
 local Players = game:GetService("Players") --haha
 local CollectionService = game:GetService("CollectionService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Modules = ReplicatedStorage.Pagfam12ReplicatedStorage.Modules
-local Events = ReplicatedStorage.Pagfam12ReplicatedStorage.RemoteEvents
+local Modules = ReplicatedStorage.Pugfam12RE.Modules
+local Events = ReplicatedStorage.Pugfam12RE.RemoteEvents
 local Debris = game:GetService("Debris")
 local RunService = game:GetService("RunService")
 local HttpService = game:GetService("HttpService")
@@ -13378,8 +15307,8 @@ function ShootTypes.Step(plr: Player, Tool, TargetPos:Vector3)
 end
 
 function ShootTypes.RCLServer(plr, Tool:Tool, Prop) --rcl, uses special bullets where it connects at two different positions but also will directly raycast at the target
-    local GunData = require(Tool.PagfamGunData)
-	local Start:Vector3 = plr.Character[GunData.ServerGunModel.Name][GunData.BulletBase].Position
+	local GunData = require(Tool.Data.PugfamData)
+	local Start:Vector3 = Prop.StartPos ~= nil and Prop.StartPos or plr.Character[GunData.ServerGunModel.Name][GunData.BulletBase].Position
 	local Target = Prop.TargetPos
 	
 	local RayLength = GunData.RayLength
@@ -13421,9 +15350,12 @@ function ShootTypes.RCLServer(plr, Tool:Tool, Prop) --rcl, uses special bullets 
 	Debris:AddItem(Bullet, GunData.BulletLifetime)
 end
 
-function ShootTypes.RCLClient(...) --Plr, tool, Prop
+function ShootTypes.RCLClient(plr, tool, prop) --Plr, tool, Prop
 	local event = Events.RclClient
-	event:FireAllClients(...)
+	
+	local GunData = require(tool.PagfamGunData)
+	
+	event:FireAllClients(plr, tool, prop)
 end
 
 function ShootTypes.Raycast(plr, Tool, Target) --Acs, bullet follows a ray
@@ -14307,7 +16239,7 @@ AAAAAAAAAAAAAAAAAACAPwAAAAAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAA=]]></BinaryString>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 				<bool name="DefinesCapabilities">false</bool>
 				<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-				<string name="Name">Pagfam12ReplicatedStorage</string>
+				<string name="Name">Pugfam12RE</string>
 				<int64 name="SourceAssetId">-1</int64>
 				<BinaryString name="Tags"></BinaryString>
 				<UniqueId name="UniqueId">653740404b5330d0062c674d00003dcc</UniqueId>
@@ -14335,18 +16267,18 @@ AAAAAAAAAAAAAAAAAACAPwAAAAAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAA=]]></BinaryString>
 						<ProtectedString name="Source"><![CDATA[local ShootType = {}
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local PugfamRS = ReplicatedStorage.Pagfam12ReplicatedStorage
+local PugfamRS = ReplicatedStorage.Pugfam12RE
 local Events = PugfamRS.RemoteEvents
 
 ShootType.EventShoots = {}
 local EventShoots = ShootType.EventShoots
 
-local function RCL(plr:Player, tool:Tool, prop:{["TargetPos"]:Vector3}) --plr: plr that fired, Tool: the tool used, Prop: properties
+local function RCL(plr:Player, tool:Tool, prop:{["Start"]:Vector3, ["Orientation"]:Vector3, ["Length"]:number}) --plr: plr that fired, Tool: the tool used, Prop: properties
 	
 end
 
-function EventShoots.RclClient()
-	Events.RclClient.OnClientEvent:Connect(RCL)
+function EventShoots.RCLClient()
+	Events.RCLClient.OnClientEvent:Connect(RCL)
 end
 
 
@@ -14386,7 +16318,7 @@ return ShootType]]></ProtectedString>
 						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 						<bool name="DefinesCapabilities">false</bool>
 						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-						<string name="Name">RclClient</string>
+						<string name="Name">RCLClient</string>
 						<int64 name="SourceAssetId">-1</int64>
 						<BinaryString name="Tags"></BinaryString>
 						<UniqueId name="UniqueId">593474c7fc3a6599063f164600004af4</UniqueId>
@@ -16005,6 +17937,18 @@ return ShootType]]></ProtectedString>
 							</Properties>
 						</Item>
 					</Item>
+				</Item>
+				<Item class="Folder" referent="RBX2EC4E7B17D324929B7A9F8BBBB1E0BC2">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<string name="Name">Viewmodel</string>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">6edc27f93b631bf1063f6e6c00004e32</UniqueId>
+					</Properties>
 				</Item>
 			</Item>
 			<Item class="Folder" referent="RBX128C15AA80CE46B2A9135459F5DC8CA9">

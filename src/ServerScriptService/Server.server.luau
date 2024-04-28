@@ -4,14 +4,15 @@ local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 local ServerScriptService = game:GetService("ServerScriptService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Modules = ReplicatedStorage.Pagfam12ReplicatedStorage.Modules
+local Modules = ReplicatedStorage.Pugfam12RE.Modules
 local ServerModules = ServerScriptService.ServerModules
-local FireTypes = require(ServerModules.FireTypes)
-local ShootTypes = require(ServerModules.ShootTypes)
 local PhysicsService = game:GetService("PhysicsService")
 local KeyframeSequenceProvider = game:GetService("KeyframeSequenceProvider")
 local ServerStorage = game:GetService("ServerStorage")
 -- local ActionHandler --why does this exists? (I think it might have something to do with the ActionLog variable)
+
+local FireTypes = require(ServerModules.FireTypes)
+local ShootTypes = require(ServerModules.ShootTypes)
 
 PhysicsService:RegisterCollisionGroup("ViewmodelCollisions") --Test tsktsk
 
@@ -42,7 +43,7 @@ local function createPlrContainer(plr: Player) --Might store a template somewher
 	UpdateEvent.Parent = RemoteEventsContainer
 
 
-    container.Parent = ReplicatedStorage.Pagfam12ReplicatedStorage.PlayerData
+    container.Parent = ReplicatedStorage.Pugfam12RE.PlayerData
 
     return container
 end
@@ -62,50 +63,27 @@ local function PlrAdded(plr)
 			end
 		end
 		
+		print("hewo")
 		
 		--Gun equipped
 		local ToolEquipped
 		ToolEquipped = char.ChildAdded:Connect(function(child)
-			if not child:IsA("Tool") or not child:GetAttribute("PAGFAM12") then
+			if not child:GetAttribute("Pugfam12") then
 				return
 			end
 			
 			print("HEHEHEHAH")
 
-			local PlayerData = ReplicatedStorage.Pagfam12ReplicatedStorage.PlayerData[plr.UserId]
+			local PlayerData = ReplicatedStorage.Pugfam12RE.PlayerData[plr.UserId]
 
-			local GunData = require(child.PagfamGunData)
-			local GunAnim = require(child.PagfamGunAnimations)
+			local GunData = require(child.Data.PugfamData)
+			local GunAnim = require(child.Data.PugfamAnims)
 
 			for _, v in pairs(child:GetDescendants()) do --Unanchors all parts
 				if v:IsA("BasePart") then
 					v.Anchored = false
 				end
 			end
-
-			--TODO: Attach gun to character
-			local GunModel:Model = GunData.ServerGunModel:Clone()
-			
-			local BodyAttach:Motor6D = Instance.new("Motor6D")
-			BodyAttach.Name = "BodyAttach"
-			BodyAttach.Part1 = GunModel.PrimaryPart
-			
-			for i, v in pairs(GunData.CharacterHandleAttachPart) do --attach to bodypart, will cycle parts if it didn't find the target part
-				if not char:FindFirstChild(v) then
-					continue
-				end
-				
-				BodyAttach.Part0 = char[v]
-				
-				print(char[v])
-				
-				BodyAttach.Parent = char[v]
-				break
-			end
-			
-			
-
-			GunModel.Parent = char
 			
 			--animate (unless client repplication is a thing...)
 
@@ -125,10 +103,6 @@ local function PlrAdded(plr)
 					for i, v in pairs(actionProperties) do
 						ActionLog[i] = v
 					end	
-				end
-				
-				if actionName == "Constant" then
-					return --figure out later
 				end
 
 				if GunData.FireType and GunData.ShootType then
@@ -153,9 +127,6 @@ local function PlrAdded(plr)
 					return
 				end
 				
-				anim:Stop()
-				GunModel:Destroy()
-				BodyAttach:Destroy()
 				print("Removed")
 				ActionEvent:Disconnect()
 				UpdateEvent:Disconnect()

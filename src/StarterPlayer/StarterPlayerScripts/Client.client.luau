@@ -2,113 +2,105 @@ local Players = game:GetService("Players") --HAHAHAW
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Viewmodels = ReplicatedStorage.Pagfam12ReplicatedStorage.Viewmodels
+local Modules = ReplicatedStorage.Pugfam12RE.Modules
+local Viewmodels = ReplicatedStorage.Pugfam12RE.Viewmodels
+local Events = ReplicatedStorage.Pugfam12RE.RemoteEvents
 local RunService = game:GetService("RunService")
 local cam = workspace.CurrentCamera
 local ContextActionService = game:GetService("ContextActionService")
+
+local ClientShootType = require(Modules.ClientShootType)
 
 --in-scope variables
 local lastViewmodel = nil
 local ConnectionsToDisconnectOnUnequip = {}
 local LocalTransparencyModifierContainer = {}
 
-local function ChangeLocalTransparancyOfModelBasedOnFP(model)
-    for i, v in pairs(model:GetDescendants()) do
-        if v:IsA("BasePart") then
-            if character.Head.LocalTransparencyModifier == 1 then --fully transparent
-                v.LocalTransparencyModifier = 0 --Makes it visible while preserving base transparency
-            else
-               v.LocalTransparencyModifier = 1 
-            end
-        end
-    end
-end
-
-local function SetCharacterLocalTransparency()
+local function SetLocalTransparency()
 	for i, v in pairs(LocalTransparencyModifierContainer) do
 		v.LocalTransparencyModifier = 0
 	end
 end
 
 local function CreateModelViewmodel(viewmodel: Model, gunanim)
-    viewmodel.Parent = cam
-
-    local ViewmodelOffest = gunanim.ViewmodelOffest ~= nil and gunanim.ViewmodelOffest or CFrame.new(0,0,0)
-
-    local function RenderBeforeCamera(dt)
-		viewmodel.HumanoidRootPart.CFrame = cam.CFrame * ViewmodelOffest
-    end
-	
-	local FPVisibility
-	FPVisibility = character.Head:GetPropertyChangedSignal("LocalTransparencyModifier"):Connect(function() --check if player is in first person by seeing if the head becomes transparent
-        ChangeLocalTransparancyOfModelBasedOnFP(viewmodel)
-	end)
-	
-	--Collisions
-	for _, v:BasePart in pairs(viewmodel:GetDescendants()) do
-		if v:IsA("BasePart") then
-			v.CanCollide = false
-			v.CollisionGroup = "ViewmodelCollisions"
-		end
-	end
-
-	ChangeLocalTransparancyOfModelBasedOnFP(viewmodel)
-
-	table.insert(ConnectionsToDisconnectOnUnequip, RunService.RenderStepped:Connect(RenderBeforeCamera))
-	table.insert(ConnectionsToDisconnectOnUnequip, FPVisibility)
+    
 end
 
-
-local function onGunEquip(child:Model)
-    if not child:GetAttribute("PAGFAM12") then --Returns if it doesn't have PAGFAM12 property or if it's false
+local function onGunEquip(child:Tool)
+    if not child:GetAttribute("Pugfam12") then --Returns if it doesn't have PAGFAM12 property or if it's false
         return
-    end
-
-    local SavedCameraMode = player.CameraMode
-
-	local GunData = require(child.PagfamGunData)
-	local GunAnim = require(child.PagfamGunAnimations)
-	local GunActions = require(child.PagfamGunActions)
+	end
 	
-	local GunModelClient:Model = GunData.ClientGunModel:Clone()
-	local CharGunModel = character:WaitForChild(GunData.ServerGunModel.Name)
+	print("Added")
+
+	local Data = child.Data
+	local GunData = require(Data.PugfamData)
+	local GunAnim = require(Data.PugfamAnims)
+	local GunActions = require(Data.PugfamActs)
 	
-    --initialize data
+	--initialize data
+	local SavedCameraMode = player.CameraMode
     if GunData.CameraMode then
         player.CameraMode = GunData.CameraMode
 	end
 	
-	for _, v:Instance in pairs(character:GetChildren()) do --filters out all accessories
-		if v:IsA("Accessory") then
-			for _, vParts in pairs(v:GetChildren()) do
-				if vParts:IsA("BasePart") then
-					vParts.CanQuery = false
+	if GunData.FilterAccessories == true then  --filters out all accessories
+		for _, v:Instance in pairs(character:GetChildren()) do
+			if v:IsA("Accessory") then
+				for _, vParts in pairs(v:GetChildren()) do
+					if vParts:IsA("BasePart") then
+						vParts.CanQuery = false
+					end
 				end
 			end
 		end
 	end
+	
+	if GunData.FilterLocalChar then --filters the plrs char
+		for i, v:Instance in pairs(character:GetChildren()) do
+			if v:IsA("BasePart") then
+				v.CanQuery = false
+			end
+		end
+	end
+	
+	local ViewmodelGun:Model = GunData.ViewmodelGunModel:Clone()
 
     --create viewmodel
     local curViewmodel:Model = nil
     if GunData.ViewmodelEnabled == true then
-        if GunData.FPViewmodelType == "Viewmodel" then
-            curViewmodel = Viewmodels[GunData.ViewmodelName]:Clone()
-			CreateModelViewmodel(curViewmodel, GunAnim)
+		if GunData.FPViewmodelType == "Viewmodel" then
+			--Create Viewmodel
+			curViewmodel = Viewmodels[GunData.ViewmodelName]:Clone()
+			
+			curViewmodel.Parent = cam
+
+			local ViewmodelOffest = GunAnim.ViewmodelOffest or CFrame.new(0,0,0)
+
+			local function RenderBeforeCamera(dt)
+				curViewmodel.HumanoidRootPart.CFrame = cam.CFrame * ViewmodelOffest
+			end
+
+			--Collisions
+			for _, v:BasePart in pairs(curViewmodel:GetDescendants()) do
+				if v:IsA("BasePart") then
+					v.CanCollide = false
+					v.CollisionGroup = "ViewmodelCollisions"
+				end
+			end
+
+			table.insert(ConnectionsToDisconnectOnUnequip, RunService.RenderStepped:Connect(RenderBeforeCamera))
 			
 			--Attach gun to viewmodel
-			
 			local Motor6D:Motor6D = Instance.new("Motor6D")
-			Motor6D.Part0 = GunModelClient.PrimaryPart
+			Motor6D.Part0 = ViewmodelGun.PrimaryPart
 			Motor6D.Part1 = curViewmodel.PrimaryPart
-			Motor6D.Parent = GunModelClient.PrimaryPart
+			Motor6D.Parent = ViewmodelGun.PrimaryPart
 			
 			Motor6D.C1 = GunData.ClientGunModelHandleOffset
 			
-			GunModelClient.Parent = curViewmodel
-			
-			ChangeLocalTransparancyOfModelBasedOnFP(curViewmodel)
+			ViewmodelGun.Parent = curViewmodel
 
-			
 			if GunData.ApplyHumanoidDescriptionToViewmodel == true then --TODO: Rehaul this
 				local Humanoid:Humanoid = curViewmodel:FindFirstChild("Humanoid")
 				
@@ -124,11 +116,7 @@ local function onGunEquip(child:Model)
 			
 			
 		elseif GunData.FPViewmodelType == "Roblox" then
-			for i, v in pairs(CharGunModel:GetDescendants()) do
-				if v:IsA("BasePart") then
-					table.insert(LocalTransparencyModifierContainer, v)
-				end
-			end
+			
 			for i, v in pairs(character:GetChildren()) do
 				if v:IsA("BasePart") and table.find(GunData.BodyPartsToShowInFPS, v.Name) ~= nil then
 					table.insert(LocalTransparencyModifierContainer, v)
@@ -137,7 +125,7 @@ local function onGunEquip(child:Model)
 			
 			local ViewmodelShow
 			ViewmodelShow = RunService.RenderStepped:Connect(function(dt)
-				SetCharacterLocalTransparency()
+				SetLocalTransparency()
 			end)
 			
 			table.insert(ConnectionsToDisconnectOnUnequip, ViewmodelShow)
@@ -159,9 +147,8 @@ local function onGunEquip(child:Model)
 				ContextActionService:SetPosition(ActionValues.actionName, UDim2.new(table.unpack(MobileButtons.position)))
             end
         end
-    end
-
-
+	end
+	
     --Run additional functions
 	print(GunActions)
 	if GunActions.AdditionalFunctions ~= nil then
@@ -172,7 +159,9 @@ local function onGunEquip(child:Model)
 
     local removing
     removing = character.ChildRemoved:Connect(function(childremoved)
-        if child ~= childremoved then return end
+		if child ~= childremoved then return end
+		
+		print("Removed")
 
         player.CameraMode = SavedCameraMode
 
@@ -187,7 +176,9 @@ local function onGunEquip(child:Model)
         end
 		
         GunData = nil
-        GunAnim = nil
+		GunAnim = nil
+		GunActions = nil
+		
         if curViewmodel then
             if curViewmodel then
                 if lastViewmodel then
@@ -196,9 +187,24 @@ local function onGunEquip(child:Model)
                 lastViewmodel = curViewmodel:Clone()
                 curViewmodel:Destroy()
             end
-        end
+		end
+		
         removing:Disconnect()
     end)
 end
 
-character.ChildAdded:Connect(onGunEquip)
+local ToolAdded
+ToolAdded = character.ChildAdded:Connect(onGunEquip)
+
+player.CharacterAdded:Connect(function(character)
+	ToolAdded = character.ChildAdded:Connect(onGunEquip)
+end)
+
+
+player.CharacterRemoving:Connect(function(char)
+	ToolAdded:Disconnect()
+end)
+
+for i, v in pairs(ClientShootType.EventShoots) do
+	v() --set up events
+end
